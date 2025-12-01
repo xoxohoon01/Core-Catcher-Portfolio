@@ -243,9 +243,15 @@ public class PlayerController : UnitController
     protected virtual void BasicAttack()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, 999f, LayerMask.GetMask("Ground")))
+        Plane plane = new Plane(Vector3.up, Vector3.up);
+
+
+        if (plane.Raycast(ray, out float distance))
         {
-            targetVector = (hitInfo.point + (Vector3.back * 0.5f)) - transform.position;
+            moveVector = Vector3.zero;
+
+            targetVector = ray.GetPoint(distance) - transform.position;
+            targetVector.y = 0;
 
             transform.rotation = Quaternion.LookRotation(targetVector);
 

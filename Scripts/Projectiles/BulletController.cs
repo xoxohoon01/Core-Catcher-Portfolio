@@ -103,8 +103,8 @@ public class BulletController : MonoBehaviour
         float bulletHeight = groundHeight + 2f; // 지면 위 2
 
         Vector3 newPos = targetVector;
-        prevPos.y = bulletHeight;
-        newPos.y = bulletHeight;
+        //prevPos.y = bulletHeight;
+        //newPos.y = bulletHeight;
 
         Vector3 dir = (newPos - prevPos).normalized;
         float distance = Vector3.Distance(prevPos, newPos);
@@ -114,7 +114,7 @@ public class BulletController : MonoBehaviour
         bulletRadius,
         dir,
         distance,
-        LayerMask.GetMask("Player", "Monster"),
+        LayerMask.GetMask("Player", "Monster", "Ground"),
         QueryTriggerInteraction.Ignore
         );
 
@@ -127,6 +127,15 @@ public class BulletController : MonoBehaviour
             {
                 if (hit.collider == null)
                     continue;
+
+                int layer = hit.collider.gameObject.layer;
+
+                // 1) Ground 레이어와 충돌 → 바로 사라짐
+                if (layer == LayerMask.NameToLayer("Ground"))
+                {
+                    ObjectPoolManager.Instance.Despawn(gameObject);
+                    return;
+                }
 
                 if (isPenetration)
                 {

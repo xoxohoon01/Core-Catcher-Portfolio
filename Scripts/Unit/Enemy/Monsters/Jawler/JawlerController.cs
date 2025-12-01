@@ -19,7 +19,7 @@ public class JawlerController : MonsterController
     public void AttackInitialize()
     {
         Quaternion startRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-        Vector3 startPos = transform.position;
+        Vector3 startPos = transform.position + Vector3.up;
         Vector3 forwardPos = startRotation * Vector3.forward;
 
         BulletController obj = ObjectPoolManager.Instance.Spawn("JawlerAttack", startPos, startRotation).GetComponent<BulletController>();
