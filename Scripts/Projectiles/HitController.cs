@@ -1,0 +1,149 @@
+using Microlight.MicroBar;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class HitController : MonoBehaviour
+{
+    protected bool isInitialized;
+
+    protected new Rigidbody rigidbody;
+    public GameObject particleObject;
+
+    protected float damage;
+    protected float moveSpeed;
+    protected float hitTime;
+    protected float startDelay;
+    protected float lifeTime;
+    protected float currentLifeTime;
+    protected float multiHitDelay;
+    protected Faction faction;
+
+    protected Dictionary<UnitController, HitInfo> hitInfoMap = new Dictionary<UnitController, HitInfo>();
+
+    protected class HitInfo
+    {
+        public int hitCount = 0; // 피격된 횟수
+        public bool canHit = true; // 타격 가능 여부
+    }
+
+    public virtual void Initialize(float damage, float moveSpeed, float hitTime, float startDelay, float lifeTime, float multiHitDelay, Faction senderFaction, Vector3 size)
+    {
+        //rigidbody = GetComponent<Rigidbody>();
+
+        this.damage = damage;
+        this.moveSpeed = moveSpeed;
+        this.hitTime = hitTime;
+        this.startDelay = startDelay;
+        this.lifeTime = lifeTime;
+        this.multiHitDelay = multiHitDelay;
+        faction = senderFaction;
+
+        transform.localScale = size;
+    }
+
+    protected virtual void CheckHit(UnitController target)
+    {
+        float remainDamage = damage;
+        if (target.status.shield > 0)
+        {
+            if (remainDamage <= target.status.shield)
+            {
+                target.status.shield -= remainDamage;
+                remainDamage = 0;
+            }
+            else
+            {
+                remainDamage -= target.status.shield;
+                target.status.shield = 0;
+            }
+        }
+        target.status.hp -= remainDamage;
+    }
+
+    protected virtual void AfterHit(UnitController target)
+    {
+        if (target.healthBar != null)
+        {
+            target.healthBar.UpdateBar(target.status.hp, false, UpdateAnim.Damage);
+        }
+    }
+
+    private IEnumerator CoRestoreMultiHit(UnitController target, float time)
+    {
+        yield return new WaitForSeconds(time);
+        hitInfoMap[target].canHit = true;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!isInitialized || (hitTime != 0 && currentLifeTime > hitTime) || startDelay > 0) return;
+
+        if (other.GetComponent<UnitController>() != null)
+        {
+            UnitController target = other.GetComponent<UnitController>();
+            if (target.faction != faction)
+            {
+                if (target.faction == Faction.Player)
+                {
+                    if (target.GetComponent<PlayerController>().dashSpan > 0)
+                        return;
+                }
+                if (!hitInfoMap.ContainsKey(target))
+                {
+                    HitInfo newHitInfo = new HitInfo();
+                    newHitInfo.canHit = false;
+                    hitInfoMap.Add(target, newHitInfo);
+                    CheckHit(target);
+                    AfterHit(target);
+                    if (multiHitDelay != 0)
+                        StartCoroutine(CoRestoreMultiHit(target, multiHitDelay));
+                }
+                else if (hitInfoMap[target].canHit)
+                {
+                    hitInfoMap[target].canHit = false;
+                    CheckHit(target);
+                    AfterHit(target);
+                    if (multiHitDelay != 0)
+                        StartCoroutine(CoRestoreMultiHit(target, multiHitDelay));
+                }
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        currentLifeTime = 0;
+        hitInfoMap.Clear();
+        isInitialized = false;
+    }
+
+    private void Update()
+    {
+        if (BattleManager.Instance.isStop) return;
+
+        if (startDelay > 0)
+        {
+            startDelay -= Time.deltaTime;
+        }
+
+        if (startDelay <= 0)
+        {
+            if (!isInitialized)
+            {
+                isInitialized = true;
+                if (particleObject != null)
+                    particleObject.SetActive(true);
+            }
+
+            if (currentLifeTime >= lifeTime)
+            {
+                ObjectPoolManager.Instance.Despawn(gameObject);
+            }
+
+            currentLifeTime += Time.deltaTime;
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        }
+    }
+}
