@@ -3,7 +3,7 @@ using UnityEngine;
 public class TileSpawner : MonoBehaviour
 {
     [Header("타일 설정")]
-    public GameObject tilePrefab;
+    public GameObject[] tilePrefabs;   // 여러 타일 프리팹
     public int width = 10;
     public int height = 10;
     public float tileSize = 1f;
@@ -12,8 +12,16 @@ public class TileSpawner : MonoBehaviour
     public GameObject[] objectPrefabs;
     public int objectCount = 20;
 
+    private Vector3 centerOffset;
+
     void Start()
     {
+        centerOffset = new Vector3(
+            (width - 1) * tileSize * 0.5f,
+            0,
+            (height - 1) * tileSize * 0.5f
+        );
+
         SpawnTiles();
         SpawnRandomObjects();
     }
@@ -24,7 +32,11 @@ public class TileSpawner : MonoBehaviour
         {
             for (int z = 0; z < height; z++)
             {
-                Vector3 pos = new Vector3(x * tileSize, 0, z * tileSize);
+                Vector3 pos = new Vector3(x * tileSize, 0, z * tileSize) - centerOffset;
+
+                // 타일 랜덤 선택
+                GameObject tilePrefab = tilePrefabs[Random.Range(0, tilePrefabs.Length)];
+
                 Instantiate(tilePrefab, pos, Quaternion.identity, transform);
             }
         }
@@ -37,16 +49,16 @@ public class TileSpawner : MonoBehaviour
             float randX = Random.Range(0, width) * tileSize;
             float randZ = Random.Range(0, height) * tileSize;
 
+            Vector3 spawnPos = new Vector3(randX, 0, randZ) - centerOffset;
+
+            // 오브젝트 랜덤 선택
             GameObject prefab = objectPrefabs[Random.Range(0, objectPrefabs.Length)];
 
-            // 4방향 회전: 0, 90, 180, 270
+            // 랜덤 회전
             int[] angles = { 0, 90, 180, 270 };
             int angle = angles[Random.Range(0, angles.Length)];
 
-            Quaternion rot = Quaternion.Euler(0, angle, 0);
-            Vector3 spawnPos = new Vector3(randX, 0.5f, randZ);
-
-            Instantiate(prefab, spawnPos, rot, transform);
+            Instantiate(prefab, spawnPos, Quaternion.Euler(0, angle, 0), transform);
         }
     }
 }
