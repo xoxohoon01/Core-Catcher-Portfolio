@@ -1,3 +1,4 @@
+using DamageNumbersPro;
 using Microlight.MicroBar;
 using System;
 using System.Collections;
@@ -8,6 +9,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 public class BulletController : MonoBehaviour
 {
+    protected DamageNumber healthHitPrefab;
+    protected DamageNumber shieldHitPrefab;
+
     protected bool isInitialized;
     protected bool isHit;
 
@@ -35,6 +39,8 @@ public class BulletController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         bulletRadius = GetComponent<CapsuleCollider>().radius;
+        healthHitPrefab = Resources.Load<DamageNumber>("Damage Number/HealthHit");
+        shieldHitPrefab = Resources.Load<DamageNumber>("Damage Number/ShieldHit");
 
         damage = startDamage * critDamage;
         moveSpeed = startSpeed;

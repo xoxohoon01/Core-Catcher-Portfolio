@@ -1,3 +1,4 @@
+using DamageNumbersPro;
 using Microlight.MicroBar;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,10 +7,12 @@ using UnityEngine;
 
 public class HitController : MonoBehaviour
 {
-    protected bool isInitialized;
-
-    protected new Rigidbody rigidbody;
+    protected DamageNumber healthHitPrefab;
+    protected DamageNumber shieldHitPrefab;
     public GameObject particleObject;
+
+    protected bool isInitialized;
+    protected new Rigidbody rigidbody;
 
     protected float damage;
     protected float moveSpeed;
@@ -31,6 +34,8 @@ public class HitController : MonoBehaviour
     public virtual void Initialize(float damage, float moveSpeed, float hitTime, float startDelay, float lifeTime, float multiHitDelay, Faction senderFaction, Vector3 size)
     {
         //rigidbody = GetComponent<Rigidbody>();
+        healthHitPrefab = Resources.Load<DamageNumber>("Damage Number/HealthHit");
+        shieldHitPrefab = Resources.Load<DamageNumber>("Damage Number/ShieldHit");
 
         this.damage = damage;
         this.moveSpeed = moveSpeed;
@@ -46,6 +51,7 @@ public class HitController : MonoBehaviour
     protected virtual void CheckHit(UnitController target)
     {
         float remainDamage = damage;
+        DamageNumber shieldDamageNumber = shieldHitPrefab.Spawn(target.transform.position, damage);
         if (target.status.shield > 0)
         {
             if (remainDamage <= target.status.shield)
@@ -60,6 +66,7 @@ public class HitController : MonoBehaviour
             }
         }
         target.status.hp -= remainDamage;
+        DamageNumber healthDamageNumber = healthHitPrefab.Spawn(target.transform.position, remainDamage);
     }
 
     protected virtual void AfterHit(UnitController target)
