@@ -51,22 +51,27 @@ public class HitController : MonoBehaviour
     protected virtual void CheckHit(UnitController target)
     {
         float remainDamage = damage;
-        DamageNumber shieldDamageNumber = shieldHitPrefab.Spawn(target.transform.position, damage);
+        
         if (target.status.shield > 0)
         {
             if (remainDamage <= target.status.shield)
             {
                 target.status.shield -= remainDamage;
+                DamageNumber shieldDamageNumber = shieldHitPrefab.Spawn(target.transform.position, remainDamage);
                 remainDamage = 0;
             }
             else
             {
                 remainDamage -= target.status.shield;
+                DamageNumber shieldDamageNumber = shieldHitPrefab.Spawn(target.transform.position, target.status.shield);
                 target.status.shield = 0;
             }
         }
-        target.status.hp -= remainDamage;
-        DamageNumber healthDamageNumber = healthHitPrefab.Spawn(target.transform.position, remainDamage);
+        if (remainDamage > 0)
+        {
+            target.status.hp -= remainDamage;
+            DamageNumber healthDamageNumber = healthHitPrefab.Spawn(target.transform.position, remainDamage);
+        }
     }
 
     protected virtual void AfterHit(UnitController target)
