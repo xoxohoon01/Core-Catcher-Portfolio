@@ -29,6 +29,7 @@ public class MonsterController : UnitController
         MonsterAppearance appearance = ObjectPoolManager.Instance.Spawn("MonsterAppearance", transform.position, Quaternion.identity).GetComponent<MonsterAppearance>();
         appearance.Initialize(3f);
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        collider.enabled = true;
         appearance.transform.localScale = new Vector3(collider.bounds.size.x, collider.bounds.size.y, collider.bounds.size.z);
 
         Status originalStatus = Resources.Load($"Enemies/{gameObject.name}").GetComponent<MonsterController>().status;
