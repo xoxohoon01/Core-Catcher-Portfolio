@@ -82,8 +82,15 @@ public class UnitController : MonoBehaviour
             healthBar.transform.forward = Camera.main.transform.forward;
         }
 
-        if (isDead || BattleManager.Instance.isStop)
+        if (BattleManager.Instance.isStop)
         {
+            return;
+        }
+
+        if (isDead)
+        {
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            rigidbody.velocity = Vector3.zero;
             return;
         }
 
@@ -138,7 +145,7 @@ public class UnitController : MonoBehaviour
             rigidbody.velocity = Vector3.zero;
             animator.speed = 0;
         }
-        else
+        else if (!isDead)
         {
             if (animator.speed != 0) lastAnimSpeed = animator.speed;
             if (rigidbody.velocity.magnitude != 0) lastVelocity = rigidbody.velocity;
@@ -149,7 +156,6 @@ public class UnitController : MonoBehaviour
                 isAirborne ? airborneVector.y : lastVelocity.y,
                 isKnockback ? knockbackVector.z : moveVector.z);
         }
-            
     }
 
     private void OnDrawGizmos()

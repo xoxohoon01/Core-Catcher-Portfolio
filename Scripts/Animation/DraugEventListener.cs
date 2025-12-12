@@ -23,4 +23,10 @@ public class DraugEventListener : MonoBehaviour
         DraugController controller = transform.parent.GetComponent<DraugController>();
         controller.isAttack = false;
     }
+
+    public void Death()
+    {
+        DraugController controller = transform.parent.GetComponent<DraugController>();
+
+    }
 }

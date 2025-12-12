@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum MonsterState { Chase, Attack, Die }
 
@@ -20,6 +21,10 @@ public class MonsterController : UnitController
 
     public LayerMask excludeMaskInAttack;
 
+    public GameObject modelObject;
+    Material material;
+    float dissapearAmount;
+
     public bool isAttack;
     public float attackDelay;
     public float attackRange;
@@ -32,6 +37,9 @@ public class MonsterController : UnitController
         appearance.transform.localScale = new Vector3(collider.bounds.size.x, collider.bounds.size.y, collider.bounds.size.z);
 
         Status originalStatus = Resources.Load($"Enemies/{gameObject.name}").GetComponent<MonsterController>().status;
+        material = new Material(modelObject.GetComponent<SkinnedMeshRenderer>().sharedMaterial);
+        modelObject.GetComponent<SkinnedMeshRenderer>().material = material;
+        dissapearAmount = 0;
 
         // 능력치 설정
         status.exp = originalStatus.exp;
@@ -70,11 +78,19 @@ public class MonsterController : UnitController
             isDead = true;
 
             PlayerManager.Instance.GetExp(status.exp);
-            ObjectPoolManager.Instance.Despawn(gameObject);
-            if (healthBar != null)
-            {
-                ObjectPoolManager.Instance.Despawn(healthBar.transform.parent.gameObject);
-            }
+            animator.Play($"{gameObject.name}Death");
+
+            GetComponent<Collider>().enabled = false;
+            StateMachine = null;
+        }
+    }
+
+    public void Despawn()
+    {
+        ObjectPoolManager.Instance.Despawn(gameObject);
+        if (healthBar != null)
+        {
+            ObjectPoolManager.Instance.Despawn(healthBar.transform.parent.gameObject);
         }
     }
 
@@ -120,17 +136,30 @@ public class MonsterController : UnitController
 
         CheckDeath();
 
-        attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
-        StateMachine.Update();
-        //MoveToTarget();
-
-        if (isAirborne || isKnockback || isAttack)
+        if (!isDead)
         {
-            GetComponent<CapsuleCollider>().excludeLayers = excludeMaskInAttack;
+            attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
+            StateMachine.Update();
+            //MoveToTarget();
+
+            if (isAirborne || isKnockback || isAttack)
+            {
+                GetComponent<CapsuleCollider>().excludeLayers = excludeMaskInAttack;
+            }
+            else
+            {
+                GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask();
+            }
         }
         else
         {
-            GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask();
+            dissapearAmount = Mathf.Min(dissapearAmount + Time.deltaTime, 1);
+            material.SetFloat("_Dissolve", dissapearAmount);
+
+            if (dissapearAmount >= 1)
+            {
+                Despawn();
+            }
         }
     }
 
