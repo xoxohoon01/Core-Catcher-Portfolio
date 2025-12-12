@@ -42,7 +42,7 @@ public class MultiBlurImage : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (targets == null || targets.Count == 0 || canvas == null)
             return;

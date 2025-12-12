@@ -14,6 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Raven
   skillNodes:
+  - name: Destroyer
+    id: 6
+    displayName: Destroyer
+    displayDescription: '"Peace Maker" will be changed. Skill range will affect width
+      more than length.'
+    sprite: {fileID: 21300000, guid: 9725fb87facc42a4984598500f76e0fb, type: 3}
+    position: {x: -200, y: 0}
+    needNodeId: -1
+  - name: Charge Shot
+    id: 7
+    displayName: Charge Shot
+    displayDescription: The "Piercing Shell" no longer grants an airbone, but grants
+      more knockbacks.
+    sprite: {fileID: 21300000, guid: 4029a9cfeb86f134c9c5af05993eaac8, type: 3}
+    position: {x: -200, y: -200}
+    needNodeId: -1
   - name: Damage_Up_1
     id: 0
     displayName: Damage Up 1
@@ -56,19 +72,3 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 5f4b3c9ebab20ca44b6e6de540b4067d, type: 3}
     position: {x: 200, y: -400}
     needNodeId: 4
-  - name: Destroyer
-    id: 6
-    displayName: Destroyer
-    displayDescription: '"Peace Maker" will be changed. Skill range will affect width
-      more than length.'
-    sprite: {fileID: 21300000, guid: 9725fb87facc42a4984598500f76e0fb, type: 3}
-    position: {x: 400, y: 0}
-    needNodeId: -1
-  - name: Charge Shot
-    id: 7
-    displayName: Charge Shot
-    displayDescription: The "Piercing Shell" no longer grants an airbone, but grants
-      more knockbacks.
-    sprite: {fileID: 21300000, guid: 4029a9cfeb86f134c9c5af05993eaac8, type: 3}
-    position: {x: 400, y: -200}
-    needNodeId: -1

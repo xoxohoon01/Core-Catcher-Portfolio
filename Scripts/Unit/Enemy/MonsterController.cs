@@ -1,11 +1,6 @@
 using Microlight.MicroBar;
-using System.Collections;
-using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Rendering.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public enum MonsterState { Chase, Attack, Die }
 
@@ -40,6 +35,7 @@ public class MonsterController : UnitController
         material = new Material(modelObject.GetComponent<SkinnedMeshRenderer>().sharedMaterial);
         modelObject.GetComponent<SkinnedMeshRenderer>().material = material;
         dissapearAmount = 0;
+        material.SetFloat("_Dissolve", dissapearAmount);
 
         // 능력치 설정
         status.exp = originalStatus.exp;
