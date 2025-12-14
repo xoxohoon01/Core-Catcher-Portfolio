@@ -12,8 +12,8 @@ public class Timer : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            minutes.text = (GameManager.Instance.time / 60).ToString(@"00");
-            seconds.text = (GameManager.Instance.time - ((int)(GameManager.Instance.time / 60) * 60)).ToString(@"00");
+            minutes.text = (BattleManager.Instance.entireTime / 60).ToString(@"00");
+            seconds.text = (BattleManager.Instance.entireTime - ((int)(BattleManager.Instance.entireTime / 60) * 60)).ToString(@"00");
         }
     }
 }

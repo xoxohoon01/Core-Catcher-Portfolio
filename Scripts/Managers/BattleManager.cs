@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 public class BattleManager : MonoSingleton<BattleManager>
 {
     public bool isStop;
-    private float entireTime;
-    private float time;
+    public float entireTime;
+    public float time;
 
     private StageData stageData;
     private List<SpawnData> spawnDatas = new List<SpawnData>();
