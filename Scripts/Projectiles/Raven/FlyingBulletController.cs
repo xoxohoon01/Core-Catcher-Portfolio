@@ -17,39 +17,49 @@ public class FlyingBulletController : BulletController
     {
         MonsterController nearest = FindNearestMonster();
 
-        // 1. 목표 방향 계산
+        Vector3 nowPosition = transform.position;
+
+        // 1. 목표 방향 계산 (Y 제거 → 수평 유도)
         Vector3 targetDirection;
-        Vector3 nowPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
         if (nearest != null)
         {
-            targetDirection = (nearest.transform.position - nowPosition).normalized;
+            targetDirection = nearest.transform.position - nowPosition;
+            targetDirection.y = 0f;                 // ★ Y축 제거
+            targetDirection.Normalize();
         }
         else
         {
             targetDirection = transform.forward;
+            targetDirection.y = 0f;
+            targetDirection.Normalize();
         }
 
-        // 2. 부드러운 회전 (RotateTowards)
-        rotateSpeed += 0.1f;  // 회전 속도 (필요에 따라 조절)
+        // 2. 현재 전방 방향도 Y 제거
+        Vector3 forward = transform.forward;
+        forward.y = 0f;
+        forward.Normalize();
 
+        rotateSpeed += 0.2f;
+
+        // 3. 수평 회전만 수행
         Vector3 smoothDirection = Vector3.RotateTowards(
-            transform.forward,
+            forward,
             targetDirection,
             rotateSpeed * Time.fixedDeltaTime,
             0f
         );
 
-        // 실제 회전 적용
-        transform.rotation = Quaternion.LookRotation(smoothDirection, Vector3.up);
+        // 4. Y축 회전만 적용
+        transform.rotation = Quaternion.LookRotation(smoothDirection);
 
-        // 3. "다음 위치" 계산
+        // 5. 이동 (Y 고정)
         Vector3 newPos = transform.position + smoothDirection * (moveSpeed * Time.fixedDeltaTime);
-        newPos.y = 2;
+        newPos.y = 2f;
 
-        // 4. HandleMove는 절대좌표를 넣어야 한다
         HandleMove(newPos);
     }
+
 
     private MonsterController FindNearestMonster()
     {
