@@ -64,7 +64,5 @@ public class CardManager : MonoSingleton<CardManager>
         {
             artifactEffectLevel.Add(card.effectName, 0);
         }
-
-        artifactEffectLevel["FlyingBullet"] = 1;
     }
 }
