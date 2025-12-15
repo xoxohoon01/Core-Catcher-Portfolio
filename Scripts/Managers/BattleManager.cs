@@ -80,8 +80,11 @@ public class BattleManager : MonoSingleton<BattleManager>
                     {
                         if (time >= wave.period)
                         {
-                            SpawnData newSpawnData = new SpawnData(wave);
-                            Spawn(newSpawnData);
+                            foreach(var monster in wave.monsters)
+                            {
+                                SpawnData newSpawnData = new SpawnData(monster.monsterName, wave.duringTime, monster.count, monster.radius);
+                                Spawn(newSpawnData);
+                            }
                             time -= wave.period;
                         }
                         break;
@@ -91,8 +94,11 @@ public class BattleManager : MonoSingleton<BattleManager>
                 {
                     if (time >= 2)
                     {
-                        SpawnData newSpawnData = new SpawnData(wave);
-                        Spawn(newSpawnData);
+                        foreach (var monster in wave.monsters)
+                        {
+                            SpawnData newSpawnData = new SpawnData(monster.monsterName, wave.duringTime, monster.count, monster.radius);
+                            Spawn(newSpawnData);
+                        }
                         time -= 2;
                     }
                 }

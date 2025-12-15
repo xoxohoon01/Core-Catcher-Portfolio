@@ -5,10 +5,16 @@ using UnityEngine;
 [System.Serializable]
 public class WaveData
 {
-    public string monsterName;
+    public List<WaveMonster> monsters;
     public float duringTime;
     public float period;
+    public bool isSpawned;
+}
+
+[System.Serializable]
+public struct WaveMonster
+{
+    public string monsterName;
     public int count;
     public float radius;
-    public bool isSpawned;
 }

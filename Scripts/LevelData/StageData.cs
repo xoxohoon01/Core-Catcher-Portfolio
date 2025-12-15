@@ -11,7 +11,6 @@ public class StageData : ScriptableObject
     public string stageDisplayName;
     public string stageDescription;
 
-    public List<GameObject> enemies;
     public List<WaveData> waveDatas;
     public List<SpawnData> spawnDatas;
 }

@@ -28,13 +28,4 @@ public class SpawnData
         this.radius = data.radius;
         isSpawned = false;
     }
-
-    public SpawnData(WaveData data)
-    {
-        this.monsterName = data.monsterName;
-        this.spawnTime = data.duringTime;
-        this.count = data.count;
-        this.radius = data.radius;
-        isSpawned = false;
-    }
 }
