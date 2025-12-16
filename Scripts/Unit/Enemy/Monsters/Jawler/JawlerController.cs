@@ -14,6 +14,7 @@ public class JawlerController : MonsterController
         AttackState = new IJawlerAttackState(this);
 
         StateMachine.ChangeState(ChaseState);
+        attackIndicator.gameObject.SetActive(false);
     }
 
     public void AttackInitialize()

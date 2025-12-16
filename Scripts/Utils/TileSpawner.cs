@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
+using UnityEngine;
 
 public class TileSpawner : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class TileSpawner : MonoBehaviour
 
     private Vector2Int centerTile;
 
+    public NavMeshSurface surface;
+
     void Start()
     {
         centerOffset = new Vector3(
@@ -37,6 +40,7 @@ public class TileSpawner : MonoBehaviour
 
         SpawnTiles();
         SpawnRandomObjects();
+        surface.BuildNavMesh();
     }
 
     void SpawnTiles()

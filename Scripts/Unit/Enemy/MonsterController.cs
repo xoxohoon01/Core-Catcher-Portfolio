@@ -1,6 +1,7 @@
 using Microlight.MicroBar;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum MonsterState { Chase, Attack, Die }
 
@@ -13,6 +14,7 @@ public class MonsterController : UnitController
     [HideInInspector] public MonsterStateMachine StateMachine;
     [HideInInspector] public IMonsterState ChaseState;
     [HideInInspector] public IMonsterState AttackState;
+    [HideInInspector] public NavMeshAgent agent;
 
     public LayerMask excludeMaskInAttack;
 
@@ -119,6 +121,8 @@ public class MonsterController : UnitController
     protected override void Awake()
     {
         base.Awake();
+
+        agent = GetComponent<NavMeshAgent>();
     }
 
     protected override void Update()
