@@ -1,9 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TileSpawner : MonoBehaviour
 {
     [Header("타일 설정")]
-    public GameObject[] tilePrefabs;   // 여러 타일 프리팹
+    public GameObject[] tilePrefabs;
     public int width = 10;
     public int height = 10;
     public float tileSize = 1f;
@@ -12,7 +13,14 @@ public class TileSpawner : MonoBehaviour
     public GameObject[] objectPrefabs;
     public int objectCount = 20;
 
+    [Header("중앙 비우기 (타일 단위)")]
+    public int centerEmptySizeX = 2; // 가로 반경
+    public int centerEmptySizeZ = 2; // 세로 반경
+
     private Vector3 centerOffset;
+    private HashSet<Vector2Int> occupiedTiles = new HashSet<Vector2Int>();
+
+    private Vector2Int centerTile;
 
     void Start()
     {
@@ -20,6 +28,11 @@ public class TileSpawner : MonoBehaviour
             (width - 1) * tileSize * 0.5f,
             0,
             (height - 1) * tileSize * 0.5f
+        );
+
+        centerTile = new Vector2Int(
+            width / 2,
+            height / 2
         );
 
         SpawnTiles();
@@ -33,10 +46,7 @@ public class TileSpawner : MonoBehaviour
             for (int z = 0; z < height; z++)
             {
                 Vector3 pos = new Vector3(x * tileSize, 0, z * tileSize) - centerOffset;
-
-                // 타일 랜덤 선택
                 GameObject tilePrefab = tilePrefabs[Random.Range(0, tilePrefabs.Length)];
-
                 Instantiate(tilePrefab, pos, Quaternion.identity, transform);
             }
         }
@@ -44,21 +54,52 @@ public class TileSpawner : MonoBehaviour
 
     void SpawnRandomObjects()
     {
+        int safety = 0;
+
         for (int i = 0; i < objectCount; i++)
         {
-            float randX = Random.Range(0, width) * tileSize;
-            float randZ = Random.Range(0, height) * tileSize;
+            if (safety++ > 1000)
+                break;
 
-            Vector3 spawnPos = new Vector3(randX, 0, randZ) - centerOffset;
+            int x = Random.Range(0, width);
+            int z = Random.Range(0, height);
 
-            // 오브젝트 랜덤 선택
+            Vector2Int tilePos = new Vector2Int(x, z);
+
+            // 중앙 비우기 영역 체크
+            if (IsInCenterEmptyArea(tilePos))
+            {
+                i--;
+                continue;
+            }
+
+            // 이미 점유된 타일 체크
+            if (occupiedTiles.Contains(tilePos))
+            {
+                i--;
+                continue;
+            }
+
+            occupiedTiles.Add(tilePos);
+
+            Vector3 spawnPos = new Vector3(
+                x * tileSize,
+                0,
+                z * tileSize
+            ) - centerOffset;
+
             GameObject prefab = objectPrefabs[Random.Range(0, objectPrefabs.Length)];
 
-            // 랜덤 회전
             int[] angles = { 0, 90, 180, 270 };
             int angle = angles[Random.Range(0, angles.Length)];
 
             Instantiate(prefab, spawnPos, Quaternion.Euler(0, angle, 0), transform);
         }
+    }
+
+    bool IsInCenterEmptyArea(Vector2Int tilePos)
+    {
+        return Mathf.Abs(tilePos.x - centerTile.x) <= centerEmptySizeX &&
+               Mathf.Abs(tilePos.y - centerTile.y) <= centerEmptySizeZ;
     }
 }
