@@ -28,12 +28,17 @@ public class MonsterController : UnitController
 
     public void Initialize()
     {
+        // NavMesh Agent 설정
+        agent.enabled = true;
+
+        // 생성 파티클
         MonsterAppearance appearance = ObjectPoolManager.Instance.Spawn("MonsterAppearance", transform.position, Quaternion.identity).GetComponent<MonsterAppearance>();
         appearance.Initialize(3f);
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
         collider.enabled = true;
         appearance.transform.localScale = new Vector3(collider.bounds.size.x, collider.bounds.size.y, collider.bounds.size.z);
 
+        // 디스폰 효과
         Status originalStatus = Resources.Load($"Enemies/{gameObject.name}").GetComponent<MonsterController>().status;
         material = new Material(modelObject.GetComponent<SkinnedMeshRenderer>().sharedMaterial);
         modelObject.GetComponent<SkinnedMeshRenderer>().material = material;
@@ -121,7 +126,6 @@ public class MonsterController : UnitController
     protected override void Awake()
     {
         base.Awake();
-
         agent = GetComponent<NavMeshAgent>();
     }
 
