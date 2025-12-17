@@ -53,18 +53,21 @@ public class SkillManager : MonoSingleton<SkillManager>
             }
             else
             {
-                List<SkillNode> skills = Resources.Load<SkillTreeData>($"SkillTreeSO/{character.characterName}").skillNodes;
+                List<SkillNode> skills = Resources.Load<SkillTreeData>($"SkillTreeSO/{character.characterName}")?.skillNodes;
                 List<Skill> createdSkills = new List<Skill>();
-                foreach (var skill in skills)
+                if (skills != null && skills.Count > 0)
                 {
-                    Skill createdSkill = new Skill();
-                    createdSkill.id = skill.id;
-                    createdSkill.isUnlocked = false;
+                    foreach (var skill in skills)
+                    {
+                        Skill createdSkill = new Skill();
+                        createdSkill.id = skill.id;
+                        createdSkill.isUnlocked = false;
 
-                    createdSkills.Add(createdSkill);
+                        createdSkills.Add(createdSkill);
+                    }
+                    Skill[character.characterName] = createdSkills;
+                    SaveSkill(character.characterName);
                 }
-                Skill[character.characterName] = createdSkills;
-                SaveSkill(character.characterName);
             }
         }
     }

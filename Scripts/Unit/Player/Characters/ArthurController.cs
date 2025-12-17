@@ -1,9 +1,7 @@
 using UnityEngine;
 
-public class RavenController : PlayerController
+public class ArthurController : PlayerController
 {
-    public GameObject DroneObject;
-
     public float barrierDelay;
 
     protected override void Update()
