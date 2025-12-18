@@ -143,6 +143,15 @@ public class MonsterController : UnitController
 
         if (!isDead)
         {
+            if (isAirborne || isAttack)
+            {
+                agent.enabled = false;
+            }
+            else
+            {
+                agent.enabled = true;
+            }
+
             attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
             StateMachine.Update();
             //MoveToTarget();
