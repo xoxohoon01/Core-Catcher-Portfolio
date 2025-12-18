@@ -76,9 +76,13 @@ public class PlayerController : UnitController
         {
             animator.SetBool("isMove", true);
 
-            if (isDash || isAttack || isSkill)
+            if (isDash)
             {
                 moveVector = dashVector;
+                return;
+            }
+            if (isAttack || isSkill)
+            {
                 return;
             }
 
@@ -91,9 +95,13 @@ public class PlayerController : UnitController
         {
             animator.SetBool("isMove", false);
 
-            if (isDash || isAttack || isSkill)
+            if (isDash)
             {
                 moveVector = dashVector;
+                return;
+            }
+            if (isAttack || isSkill)
+            {
                 return;
             }
 
@@ -199,7 +207,6 @@ public class PlayerController : UnitController
                 // 공격 콤보별 딜레이는 하위 클래스의 BasicAttack() 안에서 계산.
                 BasicAttack();
                 isAttack = true;
-                moveVector = Vector3.zero;
             }
         }
 
