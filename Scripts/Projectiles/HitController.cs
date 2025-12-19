@@ -131,7 +131,7 @@ public class HitController : MonoBehaviour
         isInitialized = false;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (BattleManager.Instance.isStop) return;
 

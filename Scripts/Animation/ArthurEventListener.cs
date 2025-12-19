@@ -56,4 +56,12 @@ public class ArthurEventListener : MonoBehaviour
         frictionTime = 1;
     }
 
+    public void Skill3Start()
+    {
+        isAttack = true;
+        span = 0;
+        targetSpeed = 40;
+        frictionTime = 0.5f;
+    }
+
 }

@@ -16,24 +16,24 @@ public class PlayerController : UnitController
     protected bool isSkill;
 
     private Vector3 dashVector;
-    public float dashDelay { get; private set; }
+    public float dashDelay { get; protected set; }
     public float dashSpan { get; private set; }
 
     protected Vector3 targetVector;
 
-    public float attackDelay { get; private set; }
+    public float attackDelay { get; protected set; }
     protected float attackSpan;
 
-    public float skill1Delay { get; private set; }
+    public float skill1Delay { get; protected set; }
     protected float skill1Span;
 
-    public float skill2Delay { get; private set; }
+    public float skill2Delay { get; protected set; }
     protected float skill2Span;
 
-    public float skill3Delay { get; private set; }
+    public float skill3Delay { get; protected set; }
     protected float skill3Span;
 
-    public float skill4Delay { get; private set; }
+    public float skill4Delay { get; protected set; }
     protected float skill4Span;
 
     protected virtual void Initialize()
