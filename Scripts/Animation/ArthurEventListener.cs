@@ -40,7 +40,6 @@ public class ArthurEventListener : MonoBehaviour
             transform.parent.GetComponent<ArthurController>().moveVector = transform.forward * factor;
             if (span >= frictionTime)
             {
-                transform.parent.GetComponent<CapsuleCollider>().enabled = true;
                 transform.parent.GetComponent<Rigidbody>().constraints =
                     RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 isSkill3 = false;
@@ -96,7 +95,6 @@ public class ArthurEventListener : MonoBehaviour
         span = 0;
         targetSpeed = 40;
         frictionTime = 0.5f;
-        transform.parent.GetComponent<CapsuleCollider>().enabled = false;
         transform.parent.GetComponent<Rigidbody>().constraints = 
             RigidbodyConstraints.FreezePositionY |
             RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
