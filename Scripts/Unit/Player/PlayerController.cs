@@ -210,7 +210,7 @@ public class PlayerController : UnitController
             }
         }
 
-        if (!isSkill)
+        if (!isSkill && !isDash)
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {

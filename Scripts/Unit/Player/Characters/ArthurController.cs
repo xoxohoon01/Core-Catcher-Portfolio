@@ -82,6 +82,8 @@ public class ArthurController : PlayerController
     {
         base.Skill1Initialize(number);
 
+        moveVector = Vector3.zero;
+
         Quaternion lookRotation = Quaternion.LookRotation(targetVector);
         Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
 
@@ -95,6 +97,8 @@ public class ArthurController : PlayerController
     public override void Skill2Initialize(int number)
     {
         base.Skill2Initialize(number);
+
+        moveVector = Vector3.zero;
 
         Quaternion lookRotation = Quaternion.LookRotation(targetVector);
         Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
@@ -110,6 +114,8 @@ public class ArthurController : PlayerController
     public override void Skill3Initialize(int number)
     {
         base.Skill3Initialize(number);
+
+        moveVector = Vector3.zero;
 
         Quaternion lookRotation = Quaternion.LookRotation(targetVector);
         Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
@@ -135,6 +141,8 @@ public class ArthurController : PlayerController
     public override void Skill4Initialize(int number)
     {
         base.Skill4Initialize(number);
+
+        moveVector = Vector3.zero;
 
         Quaternion lookRotation = Quaternion.LookRotation(targetVector);
         Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
