@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b287ba8f8ac3a1f40a869bb5e1bd8636, type: 3}
   m_Name: Arthur
   m_EditorClassIdentifier: 
-  characterName: Raven
+  characterName: Arthur
   skillNodes:
   - name: Damage_Up_1
     id: 0
