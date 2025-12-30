@@ -92,6 +92,9 @@ public class MonsterController : UnitController
         {
             isDead = true;
 
+            if (attackIndicator != null)
+                attackIndicator.gameObject.SetActive(false);
+
             PlayerManager.Instance.GetExp(status.exp);
             animator.Play($"{gameObject.name}Death");
 
@@ -101,6 +104,9 @@ public class MonsterController : UnitController
         else if (BattleManager.Instance.time >= BattleManager.Instance.stageData.bossTime && !isDead && !isBoss)
         {
             isDead = true;
+
+            if (attackIndicator != null)
+                attackIndicator.gameObject.SetActive(false);
 
             animator.Play($"{gameObject.name}Death");
 

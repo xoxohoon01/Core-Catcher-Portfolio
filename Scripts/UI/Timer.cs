@@ -12,7 +12,7 @@ public class Timer : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            float totalSeconds = BattleManager.Instance.time;
+            float totalSeconds = BattleManager.Instance.entireTime;
             System.TimeSpan t = System.TimeSpan.FromSeconds(totalSeconds);
 
             minutes.text = t.Minutes.ToString("00");
