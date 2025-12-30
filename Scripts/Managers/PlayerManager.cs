@@ -24,6 +24,9 @@ public class PlayerManager : MonoSingleton<PlayerManager>
 
     public void CheckLevelUp()
     {
+        if (currentPlayer == null)
+            return;
+
         if (currentPlayer.status.exp >= currentPlayer.status.maxExp)
         {
             currentPlayer.status.exp -= currentPlayer.status.maxExp;

@@ -13,7 +13,18 @@ public class ArtifactCardFrame : UIBase
     {
         base.Initialize();
 
-        ArtifactCardScriptableObject[] allCards = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
+        List<ArtifactCardScriptableObject> allCards = new List<ArtifactCardScriptableObject>();
+        ArtifactCardScriptableObject[] characterArtifactCards = Resources.LoadAll<ArtifactCardScriptableObject>($"Artifacts/{GameManager.Instance.characterName}");
+        foreach (ArtifactCardScriptableObject card in characterArtifactCards)
+        {
+            allCards.Add(card);
+        }
+
+        ArtifactCardScriptableObject[] commonArtifactCards = Resources.LoadAll<ArtifactCardScriptableObject>($"Artifacts/Common");
+        foreach (ArtifactCardScriptableObject card in commonArtifactCards)
+        {
+            allCards.Add(card);
+        }
 
         ShowCards();
 

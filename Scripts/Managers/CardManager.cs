@@ -59,8 +59,14 @@ public class CardManager : MonoSingleton<CardManager>
             levelUpEffectLevel.Add(card.effectName, 0);
         }
 
-        ArtifactCardScriptableObject[] artifactAllCards = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
-        foreach (ArtifactCardScriptableObject card in artifactAllCards)
+        ArtifactCardScriptableObject[] characterArtifactCards = Resources.LoadAll<ArtifactCardScriptableObject>($"Artifacts/{GameManager.Instance.characterName}");
+        foreach (ArtifactCardScriptableObject card in characterArtifactCards)
+        {
+            artifactEffectLevel.Add(card.effectName, 0);
+        }
+
+        ArtifactCardScriptableObject[] commonArtifactCards = Resources.LoadAll<ArtifactCardScriptableObject>($"Artifacts/Common");
+        foreach (ArtifactCardScriptableObject card in commonArtifactCards)
         {
             artifactEffectLevel.Add(card.effectName, 0);
         }

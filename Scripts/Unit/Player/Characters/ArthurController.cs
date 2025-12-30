@@ -42,11 +42,7 @@ public class ArthurController : PlayerController
 
     protected override void DashInitialize()
     {
-        if (CardManager.Instance.artifactEffectLevel["DecoyBomb"] > 0)
-        {
-            ObjectPoolManager.Instance.Spawn("DecoyBomb", transform.position, Quaternion.identity).GetComponent<DecoyBombController>()
-                .Initialize(status.damage, 0, 1f, 0.5f, 1.5f, 0, Faction.Player, Vector3.one * 5f);
-        }
+
     }
 
     public override void BasicAttackInitialize(int number)

@@ -69,9 +69,17 @@ public class GameManager : MonoSingleton<GameManager>
         foreach (GameObject characterObject in characterObjects)
         {
             if (characterObject.name == characterName)
+            {
                 characterObject.SetActive(true);
+                if (SceneManager.GetActiveScene().name == "MainScene")
+                {
+                    PlayerManager.Instance.SetPlayer(characterObject.GetComponent<PlayerController>());
+                }
+            }
             else
+            {
                 characterObject.SetActive(false);
+            }
         }
     }
 

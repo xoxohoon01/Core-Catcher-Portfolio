@@ -38,8 +38,6 @@ public class PlayerController : UnitController
 
     protected virtual void Initialize()
     {
-        PlayerManager.Instance.SetPlayer(this);
-
         PlayerAnimationHashTable.Initialize(animator.runtimeAnimatorController);
 
         status.maxExp = 100;
