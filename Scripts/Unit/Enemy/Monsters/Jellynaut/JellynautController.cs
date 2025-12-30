@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class JellynautController : MonsterController
 {
-    public Image attackIndicator;
 
     public override void InitializeStateMachine()
     {

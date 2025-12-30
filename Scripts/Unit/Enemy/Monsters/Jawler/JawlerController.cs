@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class JawlerController : MonsterController
 {
-    public Image attackIndicator;
-
     public override void InitializeStateMachine()
     {
         StateMachine = new MonsterStateMachine();
@@ -14,7 +12,6 @@ public class JawlerController : MonsterController
         AttackState = new IJawlerAttackState(this);
 
         StateMachine.ChangeState(ChaseState);
-        attackIndicator.gameObject.SetActive(false);
     }
 
     public void AttackInitialize()

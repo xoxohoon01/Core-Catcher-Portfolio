@@ -12,8 +12,11 @@ public class Timer : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            minutes.text = (BattleManager.Instance.entireTime / 60).ToString(@"00");
-            seconds.text = (BattleManager.Instance.entireTime - ((int)(BattleManager.Instance.entireTime / 60) * 60)).ToString(@"00");
+            float totalSeconds = BattleManager.Instance.time;
+            System.TimeSpan t = System.TimeSpan.FromSeconds(totalSeconds);
+
+            minutes.text = t.Minutes.ToString("00");
+            seconds.text = t.Seconds.ToString("00");
         }
     }
 }

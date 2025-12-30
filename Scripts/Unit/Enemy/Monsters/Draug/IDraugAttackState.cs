@@ -22,12 +22,17 @@ public class IDraugAttackState : IMonsterState
         }
 
         PlayerController target = PlayerManager.Instance.GetPlayer();
-        if (target == null && !target.isDead) return;
+        if (target == null || target.isDead) return;
         monster.Target = target.transform;
 
         if (Vector3.Distance(monster.transform.position, target.transform.position) <= monster.attackRange)
         {
-            monster.transform.rotation = Quaternion.Lerp(monster.transform.rotation, Quaternion.LookRotation(target.transform.position - monster.transform.position), Time.deltaTime * 20f);
+            // È¸Àü
+            Quaternion targetRot = Quaternion.LookRotation(target.transform.position - monster.transform.position);
+            Vector3 euler = targetRot.eulerAngles;
+            euler.x = 0;
+            euler.z = 0;
+            monster.transform.rotation = Quaternion.Euler(euler);
 
             if (monster.attackDelay <= 0)
             {

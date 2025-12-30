@@ -10,6 +10,7 @@ public class StageData : ScriptableObject
     public Sprite stageSprite;
     public string stageDisplayName;
     public string stageDescription;
+    public int bossTime;
 
     public List<WaveData> waveDatas;
     public List<SpawnData> spawnDatas;

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class MegadonController : MonsterController
 {
-    public Image attackIndicator;
     public bool isMoving = false;
 
     public override void InitializeStateMachine()

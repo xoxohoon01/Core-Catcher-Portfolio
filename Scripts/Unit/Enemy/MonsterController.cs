@@ -1,30 +1,33 @@
 using Microlight.MicroBar;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public enum MonsterState { Chase, Attack, Die }
 
 public class MonsterController : UnitController
 {
     [Header("References")]
-    [HideInInspector] public Transform Target; // 추적 대상 (Player)
+    public List<GameObject> modelObjects = new List<GameObject>();
+    public Image attackIndicator;
+    public LayerMask excludeMaskInAttack;
+    public bool isBoss;
 
     [Header("FSM")]
+    [HideInInspector] public Transform Target; // 추적 대상 (Player)
     [HideInInspector] public MonsterStateMachine StateMachine;
     [HideInInspector] public IMonsterState ChaseState;
     [HideInInspector] public IMonsterState AttackState;
     [HideInInspector] public NavMeshAgent agent;
 
-    public LayerMask excludeMaskInAttack;
+    private List<Material> materials = new List<Material>();
+    private float dissapearAmount;
 
-    public GameObject modelObject;
-    Material material;
-    float dissapearAmount;
-
-    public bool isAttack;
-    public float attackDelay;
-    public float attackRange;
+    [HideInInspector] public bool isAttack;
+    [HideInInspector] public float attackDelay;
+    [HideInInspector] public float attackRange;
 
     public void Initialize()
     {
@@ -40,10 +43,18 @@ public class MonsterController : UnitController
 
         // 디스폰 효과
         Status originalStatus = Resources.Load($"Enemies/{gameObject.name}").GetComponent<MonsterController>().status;
-        material = new Material(modelObject.GetComponent<SkinnedMeshRenderer>().sharedMaterial);
-        modelObject.GetComponent<SkinnedMeshRenderer>().material = material;
-        dissapearAmount = 0;
-        material.SetFloat("_Dissolve", dissapearAmount);
+        materials.Clear();
+        foreach (GameObject modelObject in modelObjects)
+        {
+            Material material = new Material(modelObject.GetComponent<SkinnedMeshRenderer>().sharedMaterial);
+            materials.Add(material);
+            modelObject.GetComponent<SkinnedMeshRenderer>().material = material;
+        }
+
+        foreach (Material material in materials)
+        {
+            material.SetFloat("_Dissolve", 0);
+        }
 
         // 능력치 설정
         status.exp = originalStatus.exp;
@@ -87,6 +98,15 @@ public class MonsterController : UnitController
             GetComponent<Collider>().enabled = false;
             StateMachine = null;
         }
+        else if (BattleManager.Instance.time >= BattleManager.Instance.stageData.bossTime && !isDead && !isBoss)
+        {
+            isDead = true;
+
+            animator.Play($"{gameObject.name}Death");
+
+            GetComponent<Collider>().enabled = false;
+            StateMachine = null;
+        }
     }
 
     public void Despawn()
@@ -95,6 +115,10 @@ public class MonsterController : UnitController
         if (healthBar != null)
         {
             ObjectPoolManager.Instance.Despawn(healthBar.transform.parent.gameObject);
+        }
+        if (attackIndicator != null)
+        {
+            attackIndicator.gameObject.SetActive(false);
         }
     }
 
@@ -153,7 +177,7 @@ public class MonsterController : UnitController
             }
 
             attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
-            StateMachine.Update();
+            StateMachine?.Update();
             //MoveToTarget();
 
             if (isAirborne || isKnockback || isAttack)
@@ -168,7 +192,10 @@ public class MonsterController : UnitController
         else
         {
             dissapearAmount = Mathf.Min(dissapearAmount + Time.deltaTime, 1);
-            material.SetFloat("_Dissolve", dissapearAmount);
+            foreach (Material material in materials)
+            {
+                material.SetFloat("_Dissolve", dissapearAmount);
+            }
 
             if (dissapearAmount >= 1)
             {

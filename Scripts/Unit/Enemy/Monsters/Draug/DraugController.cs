@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class DraugController : MonsterController
 {
-    public Image attackIndicator;
-
     public override void InitializeStateMachine()
     {
         StateMachine = new MonsterStateMachine();

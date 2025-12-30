@@ -8,12 +8,11 @@ using UnityEngine.SceneManagement;
 public class BattleManager : MonoSingleton<BattleManager>
 {
     public bool isStop;
-    public float entireTime;
     public float time;
 
     public List<GameObject> characters;
 
-    private StageData stageData;
+    public StageData stageData;
     private List<SpawnData> spawnDatas = new List<SpawnData>();
 
     [ContextMenu("Spawn")]
@@ -54,7 +53,6 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void Initialize(StageData targetStageData)
     {
-        entireTime = 0;
         time = 0;
         stageData = targetStageData;
         for (int i = 0; i < stageData.spawnDatas.Count; i++)
@@ -80,14 +78,13 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         if (!isStop && stageData != null)
         {
-            entireTime += Time.deltaTime;
             time += Time.deltaTime;
 
             foreach(var wave in stageData.waveDatas)
             {
                 if (wave != stageData.waveDatas.Last())
                 {
-                    if (entireTime <= wave.duringTime)
+                    if (time <= wave.duringTime)
                     {
                         if (time >= wave.period)
                         {
@@ -119,7 +116,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             {
                 if (!spawnData.isSpawned)
                 {
-                    if (entireTime > spawnData.spawnTime)
+                    if (time > spawnData.spawnTime)
                     {
                         Spawn(spawnData);
                         spawnData.isSpawned = true;
