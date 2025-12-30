@@ -51,9 +51,10 @@ public class MonsterController : UnitController
             modelObject.GetComponent<SkinnedMeshRenderer>().material = material;
         }
 
+        dissapearAmount = 0;
         foreach (Material material in materials)
         {
-            material.SetFloat("_Dissolve", 0);
+            material.SetFloat("_Dissolve", dissapearAmount);
         }
 
         // 능력치 설정
