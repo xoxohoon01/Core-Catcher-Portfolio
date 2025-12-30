@@ -59,6 +59,14 @@ public class MenuButtons : UIBase
     public void GoToMainMenu()
     {
         Hide();
-        SceneManager.LoadScene("LobbyScene");
+        GameManager.Instance.characterObjects.Clear();
+        SceneLoadManager.Instance.StartCoroutine(SceneLoadManager.Instance.LoadSceneWithCallback(
+            "LobbyScene",
+            null,
+            null,
+            () => {
+                GameManager.Instance.RefreshCharacter();
+            }
+            ));
     }
 }

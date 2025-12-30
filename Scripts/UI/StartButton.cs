@@ -10,6 +10,15 @@ public class StartButton : MonoBehaviour
         Debug.Log("´©¸§");
         StageData[] stageData = UIManager.Instance.Get<StagePanel>().stages;
         int stageNumber = UIManager.Instance.Get<StagePanel>().stagePage;
-        SceneLoadManager.Instance.StartCoroutine(SceneLoadManager.Instance.LoadSceneWithCallback("MainScene", null, null, () => BattleManager.Instance.Initialize(stageData[stageNumber])));
+        GameManager.Instance.characterObjects.Clear();
+        SceneLoadManager.Instance.StartCoroutine(SceneLoadManager.Instance.LoadSceneWithCallback(
+            "MainScene",
+            null,
+            null,
+            () => {
+                BattleManager.Instance.Initialize(stageData[stageNumber]);
+                GameManager.Instance.RefreshCharacter();
+                }
+            ));
     }
 }

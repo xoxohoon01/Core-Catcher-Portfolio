@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool isStop;
     public float entireTime;
     public float time;
+
+    public List<GameObject> characters;
 
     private StageData stageData;
     private List<SpawnData> spawnDatas = new List<SpawnData>();
@@ -57,6 +60,14 @@ public class BattleManager : MonoSingleton<BattleManager>
         for (int i = 0; i < stageData.spawnDatas.Count; i++)
         {
             spawnDatas.Add(new SpawnData(stageData.spawnDatas[i]));
+        }
+
+        foreach (GameObject character in characters)
+        {
+            character.SetActive(false);
+
+            if (character.name == GameManager.Instance.characterName)
+                character.SetActive(true);
         }
     }
 

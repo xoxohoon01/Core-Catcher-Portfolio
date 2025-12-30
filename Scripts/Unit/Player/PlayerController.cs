@@ -500,6 +500,8 @@ public class PlayerController : UnitController
     protected override void Awake()
     {
         base.Awake();
+
+        GameManager.Instance.AddCharacterObject(gameObject);
     }
 
     private void Start()

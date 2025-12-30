@@ -17,13 +17,13 @@ public class CharacterSelectCard : MonoBehaviour, IPointerClickHandler
     public void OnClick()
     {
         UIManager.Instance.Show<CharacterSelect>();
-        UIManager.Instance.Get<CharacterSelect>().RefreshText(character);
+        //UIManager.Instance.Get<CharacterSelect>().RefreshText(character);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         UIManager.Instance.Show<CharacterSelect>();
-        UIManager.Instance.Get<CharacterSelect>().RefreshText(character);
+        //UIManager.Instance.Get<CharacterSelect>().RefreshText(character);
         GameManager.Instance.characterName = character.characterName;
     }
 }

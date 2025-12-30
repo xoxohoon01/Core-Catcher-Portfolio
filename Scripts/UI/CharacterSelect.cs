@@ -13,11 +13,13 @@ public class CharacterSelect : UIBase
     {
         CharacterScriptableObject[] characters = Resources.LoadAll<CharacterScriptableObject>("CharacterSO");
 
-        RefreshText(characters[0]);
+        RefreshText("Raven");
     }
 
-    public void RefreshText(CharacterScriptableObject character)
+    public void RefreshText(string characterName)
     {
+        CharacterScriptableObject character = Resources.Load<CharacterScriptableObject>($"CharacterSO/{characterName}");
+
         characterDetailPanel.transform.GetChild(2).GetComponent<TMP_Text>().text = character.characterName;
         characterDetailPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = character.characterDescription;
         characterDetailPanel.transform.GetChild(4).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.dashName}") ?? Resources.Load<Sprite>($"Sprites/DefaultDashIcon");
