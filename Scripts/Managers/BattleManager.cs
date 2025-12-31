@@ -103,7 +103,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 }
                 else
                 {
-                    if (time >= 2)
+                    if (entireTime < stageData.bossTime && time >= 2)
                     {
                         foreach (var monster in wave.monsters)
                         {

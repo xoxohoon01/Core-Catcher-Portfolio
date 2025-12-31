@@ -102,7 +102,7 @@ public class MonsterController : UnitController
             GetComponent<Collider>().enabled = false;
             StateMachine = null;
         }
-        else if (BattleManager.Instance.time >= BattleManager.Instance.stageData.bossTime && !isDead && !isBoss)
+        else if (BattleManager.Instance.entireTime >= BattleManager.Instance.stageData.bossTime && !isDead && !isBoss)
         {
             isDead = true;
 
@@ -185,7 +185,6 @@ public class MonsterController : UnitController
 
             attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
             StateMachine?.Update();
-            //MoveToTarget();
 
             if (isAirborne || isKnockback || isAttack)
             {
