@@ -99,8 +99,8 @@ public class ArthurController : PlayerController
         Quaternion lookRotation = Quaternion.LookRotation(targetVector);
         Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
 
-        Vector3 originalSize = new Vector3(8 + ((status.skillRange - 1) * 1.0f), 1, 8 + ((status.skillRange - 1) * 1.0f));
-        ObjectPoolManager.Instance.Spawn("ArthurSkill1", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, -45))
+        Vector3 originalSize = new Vector3(10 + ((status.skillRange - 1) * 1.0f), 1, 10 + ((status.skillRange - 1) * 1.0f));
+        ObjectPoolManager.Instance.Spawn("ArthurSkill2", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 0))
             .GetComponent<HitController>()
             .Initialize(status.damage * 2f, 40f, 0.2f, 0f, 0.5f, 0, faction, originalSize);
 
@@ -131,7 +131,10 @@ public class ArthurController : PlayerController
             .Initialize(status.damage * 2f, 0f, 0.5f, 0f, activeTime, 0, faction, originalSize);
 
         ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/ChargeCrush", "Weapon", 1);
-        dashDelay = 1;
+        if (dashDelay <= 1)
+        {
+            dashDelay = 1;
+        }
     }
 
     public override void Skill4Initialize(int number)

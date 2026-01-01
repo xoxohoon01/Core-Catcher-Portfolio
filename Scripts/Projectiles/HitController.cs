@@ -46,6 +46,15 @@ public class HitController : MonoBehaviour
         faction = senderFaction;
 
         transform.localScale = size;
+        if (particleObject != null)
+        {
+            particleObject.transform.SetParent(null);
+            ParticleSystem[] allParticles = particleObject.GetComponentsInChildren<ParticleSystem>();
+            foreach (ParticleSystem ps in allParticles)
+            {
+                ps.Stop();
+            }
+        }
     }
 
     protected virtual void CheckHit(UnitController target)
@@ -146,11 +155,25 @@ public class HitController : MonoBehaviour
             {
                 isInitialized = true;
                 if (particleObject != null)
-                    particleObject.SetActive(true);
+                {
+                    ParticleSystem[] allParticles = particleObject.GetComponentsInChildren<ParticleSystem>();
+                    foreach (ParticleSystem ps in allParticles)
+                    {
+                        ps.Play();
+                    }
+                }
             }
 
             if (currentLifeTime >= lifeTime)
             {
+                if (particleObject != null)
+                {
+                    ParticleSystem[] allParticles = particleObject.GetComponentsInChildren<ParticleSystem>();
+                    foreach (ParticleSystem ps in allParticles)
+                    {
+                        ps.Stop();
+                    }
+                }
                 ObjectPoolManager.Instance.Despawn(gameObject);
             }
 
