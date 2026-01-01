@@ -5,28 +5,28 @@ using UnityEngine;
 
 public class PlayerAnimationEventListener : MonoBehaviour
 {
-    public void Attack(int number)
+    public void AttackEvent(int number)
     {
-        transform.parent.GetComponent<PlayerController>().BasicAttackInitialize(number);
+        GetComponent<PlayerController>().BasicAttackInitialize(number);
     }
 
-    public void Skiill1(int number)
+    public void Skill1Event(int number)
     {
-        transform.parent.GetComponent<PlayerController>().Skill1Initialize(number);
+        GetComponent<PlayerController>().Skill1Initialize(number);
     }
 
-    public void Skiill2(int number)
+    public void Skill2Event(int number)
     {
-        transform.parent.GetComponent<PlayerController>().Skill2Initialize(number);
+        GetComponent<PlayerController>().Skill2Initialize(number);
     }
 
-    public void Skiill3(int number)
+    public void Skill3Event(int number)
     {
-        transform.parent.GetComponent<PlayerController>().Skill3Initialize(number);
+        GetComponent<PlayerController>().Skill3Initialize(number);
     }
 
-    public void Skiill4(int number)
+    public void Skill4Event(int number)
     {
-        transform.parent.GetComponent<PlayerController>().Skill4Initialize(number);
+        GetComponent<PlayerController>().Skill4Initialize(number);
     }
 }

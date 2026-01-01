@@ -59,12 +59,12 @@ public class ArthurController : PlayerController
         }
         else if (number == 1)
         {
-            ObjectPoolManager.Instance.Spawn("ArthurAttack", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, -145)).GetComponent<HitController>().Initialize(status.damage * 1.3f, 0, 0.2f, 0, 0.5f, 0, faction, new Vector3(10, 5, 10));
+            ObjectPoolManager.Instance.Spawn("ArthurAttack", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, -175)).GetComponent<HitController>().Initialize(status.damage * 1.3f, 0, 0.2f, 0, 0.5f, 0, faction, new Vector3(10, 5, 10));
             ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/Slash/ArthurAttack2", "Weapon", 1);
         }
         else if (number == 2)
         {
-            ObjectPoolManager.Instance.Spawn("ArthurAttack", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 35)).GetComponent<HitController>().Initialize(status.damage * 2.5f, 0, 0.2f, 0, 0.5f, 0, faction, new Vector3(10, 5, 10));
+            ObjectPoolManager.Instance.Spawn("ArthurAttack", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, -35)).GetComponent<HitController>().Initialize(status.damage * 2.5f, 0, 0.2f, 0, 0.5f, 0, faction, new Vector3(10, 5, 10));
             ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/Slash/ArthurAttack3", "Weapon", 1);
         }
         else if (number == 3)
@@ -81,7 +81,7 @@ public class ArthurController : PlayerController
         moveVector = Vector3.zero;
 
         Quaternion lookRotation = Quaternion.LookRotation(targetVector);
-        Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
+        Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 180f);
 
         Vector3 originalSize = new Vector3(15 + ((status.skillRange - 1) * 5.0f), 1, 15 + ((status.skillRange - 1) * 5.0f));
         ObjectPoolManager.Instance.Spawn("ArthurSkill1", transform.position + (transform.forward) + (Vector3.up * 2), rotation)
@@ -146,25 +146,25 @@ public class ArthurController : PlayerController
         if (number == 0)
         {
             Vector3 originalSize = new Vector3(10 + ((status.skillRange - 1) * 2.0f), 3, 10 + ((status.skillRange - 1) * 2.0f));
-            ObjectPoolManager.Instance.Spawn("ArthurSkill4", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 0)).GetComponent<HitController>().Initialize(status.damage * 1.2f, 0, 0.2f, 0, 0.5f, 0, faction, originalSize);
+            ObjectPoolManager.Instance.Spawn("ArthurSkill4", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 330)).GetComponent<HitController>().Initialize(status.damage * 1.2f, 0, 0.2f, 0, 0.5f, 0, faction, originalSize);
             ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/Slash/ArthurAttack1", "Weapon", 1);
         }
         else if (number == 1)
         {
             Vector3 originalSize = new Vector3(10 + ((status.skillRange - 1) * 2.0f), 5, 10 + ((status.skillRange - 1) * 2.0f));
-            ObjectPoolManager.Instance.Spawn("ArthurSkill4", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, -145)).GetComponent<HitController>().Initialize(status.damage * 1.2f, 0, 0.2f, 0, 0.5f, 0, faction, originalSize);
+            ObjectPoolManager.Instance.Spawn("ArthurSkill4", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 210)).GetComponent<HitController>().Initialize(status.damage * 1.2f, 0, 0.2f, 0, 0.5f, 0, faction, originalSize);
             ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/Slash/ArthurAttack2", "Weapon", 1);
         }
         else if (number == 2)
         {
             Vector3 originalSize = new Vector3(10 + ((status.skillRange - 1) * 2.0f), 5, 10 + ((status.skillRange - 1) * 2.0f));
-            ObjectPoolManager.Instance.Spawn("ArthurSkill4", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 30)).GetComponent<HitController>().Initialize(status.damage * 1.2f, 0, 0.2f, 0, 0.5f, 0, faction, originalSize);
+            ObjectPoolManager.Instance.Spawn("ArthurSkill4", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 330)).GetComponent<HitController>().Initialize(status.damage * 1.2f, 0, 0.2f, 0, 0.5f, 0, faction, originalSize);
             ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/Slash/ArthurAttack3", "Weapon", 1);
         }
         else if (number == 3)
         {
             Vector3 originalSize = new Vector3(10 + ((status.skillRange - 1) * 2.0f), 3, 10 + ((status.skillRange - 1) * 2.0f));
-            ObjectPoolManager.Instance.Spawn("ArthurSkill4", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 180)).GetComponent<HitController>().Initialize(status.damage * 1.2f, 0, 0.2f, 0, 0.5f, 0, faction, originalSize);
+            ObjectPoolManager.Instance.Spawn("ArthurSkill4", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 210)).GetComponent<HitController>().Initialize(status.damage * 1.2f, 0, 0.2f, 0, 0.5f, 0, faction, originalSize);
             ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/Slash/ArthurAttack4", "Weapon", 1);
         }
     }

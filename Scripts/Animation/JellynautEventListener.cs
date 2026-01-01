@@ -6,21 +6,21 @@ public class JellynautEventListener : MonoBehaviour
 {
     public void StartAttack()
     {
-        JellynautController controller = transform.parent.GetComponent<JellynautController>();
+        JellynautController controller = GetComponent<JellynautController>();
 
         controller.attackIndicator.gameObject.SetActive(true);
     }
 
     public void Attack()
     {
-        JellynautController controller = transform.parent.GetComponent<JellynautController>();
+        JellynautController controller = GetComponent<JellynautController>();
         
         controller.AttackInitialize();
     }
 
     public void EndAttack()
     {
-        JellynautController controller = transform.root.GetComponent<JellynautController>();
+        JellynautController controller = GetComponent<JellynautController>();
         controller.isAttack = false;
         controller.attackIndicator.gameObject.SetActive(false);
     }

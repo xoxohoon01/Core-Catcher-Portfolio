@@ -72,7 +72,7 @@ public class UnitController : MonoBehaviour
     protected virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        animator = transform.GetChild(0).GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     protected virtual void Update()

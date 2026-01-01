@@ -6,13 +6,13 @@ public class DraugEventListener : MonoBehaviour
 {
     public void StartAttack()
     {
-        DraugController controller = transform.parent.GetComponent<DraugController>();
+        DraugController controller = GetComponent<DraugController>();
         controller.attackIndicator.gameObject.SetActive(true);
     }
 
     public void Attack()
     {
-        DraugController controller = transform.parent.GetComponent<DraugController>();
+        DraugController controller = GetComponent<DraugController>();
 
         controller.StartCoroutine(controller.AttackInitialize());
         controller.attackIndicator.gameObject.SetActive(false);
@@ -20,13 +20,13 @@ public class DraugEventListener : MonoBehaviour
 
     public void EndAttack()
     {
-        DraugController controller = transform.parent.GetComponent<DraugController>();
+        DraugController controller = GetComponent<DraugController>();
         controller.isAttack = false;
     }
 
     public void Death()
     {
-        DraugController controller = transform.parent.GetComponent<DraugController>();
+        DraugController controller = GetComponent<DraugController>();
 
     }
 }

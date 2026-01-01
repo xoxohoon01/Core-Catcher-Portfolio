@@ -5,6 +5,7 @@ using UnityEngine;
 public class ArthurEventListener : MonoBehaviour
 {
     bool isAttack = false;
+    bool isSkill1 = false;
     bool isSkill3 = false;
     float factor = 0;
     float span = 0;
@@ -13,9 +14,10 @@ public class ArthurEventListener : MonoBehaviour
 
     private void Update()
     {
-        if (transform.parent.GetComponent<ArthurController>().dashSpan > 0)
+        if (GetComponent<ArthurController>().dashSpan > 0)
         {
             isAttack = false;
+            isSkill1 = false;
             isSkill3 = false;
             return;
         }
@@ -24,10 +26,25 @@ public class ArthurEventListener : MonoBehaviour
         {
             span += Time.deltaTime;
             factor = Mathf.Lerp(targetSpeed, 0, span / frictionTime);
-            transform.parent.GetComponent<ArthurController>().moveVector = transform.forward * factor;
+            GetComponent<ArthurController>().moveVector = transform.forward * factor;
             if (span >= frictionTime)
             {
                 isAttack = false;
+                span = 0;
+                factor = 0;
+            }
+        }
+
+        if (isSkill1)
+        {
+            span += Time.deltaTime;
+            factor = Mathf.Lerp(targetSpeed, 0, span / frictionTime);
+            GetComponent<ArthurController>().moveVector = transform.forward * factor;
+            if (span >= frictionTime)
+            {
+                GetComponent<Rigidbody>().constraints =
+                    RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                isSkill1 = false;
                 span = 0;
                 factor = 0;
             }
@@ -37,10 +54,10 @@ public class ArthurEventListener : MonoBehaviour
         {
             span += Time.deltaTime;
             factor = Mathf.Lerp(targetSpeed, 0, span / frictionTime);
-            transform.parent.GetComponent<ArthurController>().moveVector = transform.forward * factor;
+            GetComponent<ArthurController>().moveVector = transform.forward * factor;
             if (span >= frictionTime)
             {
-                transform.parent.GetComponent<Rigidbody>().constraints =
+                GetComponent<Rigidbody>().constraints =
                     RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 isSkill3 = false;
                 span = 0;
@@ -52,6 +69,7 @@ public class ArthurEventListener : MonoBehaviour
     public void Attack1Start()
     {
         isAttack = true;
+        isSkill1 = false;
         isSkill3 = false;
         factor = 0;
         span = 0;
@@ -62,6 +80,7 @@ public class ArthurEventListener : MonoBehaviour
     public void Attack2Start()
     {
         isAttack = true;
+        isSkill1 = false;
         isSkill3 = false;
         factor = 0;
         span = 0;
@@ -71,6 +90,7 @@ public class ArthurEventListener : MonoBehaviour
     public void Attack3Start()
     {
         isAttack = true;
+        isSkill1 = false;
         isSkill3 = false;
         factor = 0;
         span = 0;
@@ -80,6 +100,7 @@ public class ArthurEventListener : MonoBehaviour
     public void Attack4Start()
     {
         isAttack = true;
+        isSkill1 = false;
         isSkill3 = false;
         factor = 0;
         span = 0;
@@ -87,15 +108,30 @@ public class ArthurEventListener : MonoBehaviour
         frictionTime = 1;
     }
 
+    public void Skill1Start()
+    {
+        isAttack = false;
+        isSkill1 = true;
+        isSkill3 = false;
+        factor = 0;
+        span = 0;
+        targetSpeed = 5;
+        frictionTime = 1f;
+        GetComponent<Rigidbody>().constraints =
+            RigidbodyConstraints.FreezePositionY |
+            RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+    }
+
     public void Skill3Start()
     {
         isAttack = false;
+        isSkill1 = false;
         isSkill3 = true;
         factor = 0;
         span = 0;
         targetSpeed = 40;
         frictionTime = 0.5f;
-        transform.parent.GetComponent<Rigidbody>().constraints = 
+        GetComponent<Rigidbody>().constraints = 
             RigidbodyConstraints.FreezePositionY |
             RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }

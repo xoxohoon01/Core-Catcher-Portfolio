@@ -6,13 +6,13 @@ public class JawlerEventListener : MonoBehaviour
 {
     public void StartAttack()
     {
-        JawlerController controller = transform.parent.GetComponent<JawlerController>();
+        JawlerController controller = GetComponent<JawlerController>();
         controller.attackIndicator.gameObject.SetActive(true);
     }
 
     public void Attack()
     {
-        JawlerController controller = transform.parent.GetComponent<JawlerController>();
+        JawlerController controller = GetComponent<JawlerController>();
         
         controller.AttackInitialize();
         controller.attackIndicator.gameObject.SetActive(false);
@@ -20,7 +20,7 @@ public class JawlerEventListener : MonoBehaviour
 
     public void EndAttack()
     {
-        JawlerController controller = transform.root.GetComponent<JawlerController>();
+        JawlerController controller = GetComponent<JawlerController>();
         controller.isAttack = false;
     }
 }
