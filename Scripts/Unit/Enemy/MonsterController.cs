@@ -129,17 +129,6 @@ public class MonsterController : UnitController
         }
     }
 
-    public void Attack(PlayerController player)
-    {
-        if (Vector3.Distance(transform.position, player.transform.position) <= attackRange)
-        {
-            if (player.dashSpan <= 0)
-            {
-                player.status.hp -= status.damage;
-            }
-        }
-    }
-
     private void OnDisable()
     {
         isDead = false;

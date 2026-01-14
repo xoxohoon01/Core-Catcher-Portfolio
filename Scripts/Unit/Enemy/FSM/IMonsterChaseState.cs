@@ -35,7 +35,6 @@ public class IMonsterChaseState : IMonsterState
             if (monster.attackDelay <= 0)
             {
                 monster.attackDelay = (1 / monster.status.attackSpeed);
-                monster.Attack(target);
             }
         }
     }

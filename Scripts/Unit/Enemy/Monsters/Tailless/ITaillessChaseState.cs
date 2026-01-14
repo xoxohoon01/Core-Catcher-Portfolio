@@ -110,6 +110,7 @@ public class ITaillessChaseState : IMonsterState
             monster.animator.SetBool("isMove", false);
             monster.moveVector = Vector3.zero;
             monster.transform.rotation = lastRotation;
+            monster.isMoving = false;
             hasDirection = false;
 
             monster.StateMachine.ChangeState(monster.AttackState);
