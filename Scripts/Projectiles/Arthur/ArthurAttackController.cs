@@ -12,6 +12,5 @@ public class ArthurAttackController : HitController
         target.status.hp -= damage;
         DamageNumber damageNumber = healthHitPrefab.Spawn(target.transform.position, damage);
         target.GetKnockback(transform.forward, 8, 0.25f);
-        target.GetAirBorne(4f);
     }
 }

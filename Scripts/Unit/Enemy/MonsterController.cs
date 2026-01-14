@@ -26,7 +26,7 @@ public class MonsterController : UnitController
     private float dissapearAmount;
 
     [HideInInspector] public bool isAttack;
-    [HideInInspector] public float attackDelay;
+    public float attackDelay;
     [HideInInspector] public float attackRange;
 
     public void Initialize()
@@ -129,6 +129,28 @@ public class MonsterController : UnitController
         }
     }
 
+    public override void GetKnockback(Vector3 directionVector, float knockbackForce, float knockbackTime)
+    {
+        base.GetKnockback(directionVector, knockbackForce, knockbackTime);
+
+        animator.Play($"{gameObject.name}Idle");
+
+        isAttack = false;
+        attackIndicator?.gameObject.SetActive(false);
+        StateMachine?.ChangeState(ChaseState);
+    }
+
+    public override void GetAirBorne(float airborneForce)
+    {
+        base.GetAirBorne(airborneForce);
+
+        animator.Play($"{gameObject.name}Idle");
+        
+        isAttack = false;
+        attackIndicator?.gameObject.SetActive(false);
+        StateMachine?.ChangeState(ChaseState);
+    }
+
     private void OnDisable()
     {
         isDead = false;
@@ -163,24 +185,17 @@ public class MonsterController : UnitController
 
         if (!isDead)
         {
-            if (isAirborne || isAttack)
-            {
-                agent.enabled = false;
-            }
-            else
-            {
-                agent.enabled = true;
-            }
-
             attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
             StateMachine?.Update();
 
             if (isAirborne || isKnockback || isAttack)
             {
+                agent.enabled = false;
                 GetComponent<CapsuleCollider>().excludeLayers = excludeMaskInAttack;
             }
             else
             {
+                agent.enabled = true;
                 GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask();
             }
         }

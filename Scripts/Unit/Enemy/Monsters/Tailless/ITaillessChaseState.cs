@@ -37,7 +37,15 @@ public class ITaillessChaseState : IMonsterState
 
         if (dist > monster.attackRange)
         {
-            monster.animator.SetBool("isMove", true);
+            if (!monster.isKnockback && !monster.isAirborne)
+            {
+                monster.animator.SetBool("isMove", true);
+            }
+            else
+            {
+                monster.animator.SetBool("isMove", false);
+                hasDirection = false;
+            }
 
             if (monster.isMoving)
             {
@@ -113,7 +121,10 @@ public class ITaillessChaseState : IMonsterState
             monster.isMoving = false;
             hasDirection = false;
 
-            monster.StateMachine.ChangeState(monster.AttackState);
+            if (monster.isKnockback == false && monster.isAirborne == false)
+            {
+                monster.StateMachine.ChangeState(monster.AttackState);
+            }
         }
     }
 

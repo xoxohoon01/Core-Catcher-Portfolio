@@ -21,7 +21,7 @@ public class IJawlerChaseState : IMonsterState
     public void OnUpdate()
     {
         PlayerController target = PlayerManager.Instance.GetPlayer();
-        if (target == null && !target.isDead) return;
+        if (target == null || target.isDead) return;
 
         monster.Target = target.transform;
 
@@ -29,7 +29,14 @@ public class IJawlerChaseState : IMonsterState
 
         if (dist > monster.attackRange)
         {
-            monster.animator.SetBool("isMove", true);
+            if (!monster.isKnockback && !monster.isAirborne)
+            {
+                monster.animator.SetBool("isMove", true);
+            }
+            else
+            {
+                monster.animator.SetBool("isMove", false);
+            }
 
             // NavMesh 경로 계산
             if (NavMesh.CalculatePath(
@@ -60,8 +67,11 @@ public class IJawlerChaseState : IMonsterState
         {
             monster.animator.SetBool("isMove", false);
             monster.moveVector = Vector3.zero;
-            
-            monster.StateMachine.ChangeState(monster.AttackState);
+
+            if (!monster.isKnockback && !monster.isAirborne)
+            {
+                monster.StateMachine.ChangeState(monster.AttackState);
+            }
         }
     }
 

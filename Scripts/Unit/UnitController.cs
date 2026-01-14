@@ -43,7 +43,7 @@ public class UnitController : MonoBehaviour
         return Physics.CheckBox(transform.position, boxSize, Quaternion.identity, LayerMask.GetMask("Ground"));
     }
 
-    public void GetKnockback(Vector3 directionVector, float knockbackForce, float knockbackTime)
+    public virtual void GetKnockback(Vector3 directionVector, float knockbackForce, float knockbackTime)
     {
         isKnockback = true;
         this.knockbackTime = knockbackTime;
@@ -53,9 +53,11 @@ public class UnitController : MonoBehaviour
         knockbackStartVector = directionVector.normalized * knockbackForce;
         knockbackStartVector.y = 0;
         knockbackVector = knockbackStartVector;
+
+        transform.rotation = Quaternion.LookRotation(transform.position - directionVector, Vector3.up);
     }
 
-    public void GetAirBorne(float airborneForce)
+    public virtual void GetAirBorne(float airborneForce)
     {
         isAirborne = true;
         airborneSpan = 0;
