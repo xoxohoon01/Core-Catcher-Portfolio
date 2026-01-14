@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -31,5 +32,23 @@ public class UpperBar : MonoBehaviour
         settingsButton.transform.GetChild(1).gameObject.SetActive(false);
         exitButton.transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(1, 1, 1, 0.1f);
         exitButton.transform.GetChild(1).gameObject.SetActive(false);
+    }
+
+    public void Hide()
+    {
+        RectTransform rect = transform.GetComponent<RectTransform>();
+        rect.pivot = new Vector2(0.5f, 1);
+        rect.anchoredPosition = new Vector2(0, 0);
+
+        rect.DOAnchorPosY(100, 0.5f, true);
+    }
+
+    public void Show()
+    {
+        RectTransform rect = transform.GetComponent<RectTransform>();
+        rect.pivot = new Vector2(0.5f, 1);
+        rect.anchoredPosition = new Vector2(100, 0);
+
+        rect.DOAnchorPosY(0, 0.5f, true);
     }
 }
