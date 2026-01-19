@@ -50,8 +50,11 @@ public class TileSpawner : MonoBehaviour
             for (int z = 0; z < height; z++)
             {
                 Vector3 pos = new Vector3(x * tileSize, 0, z * tileSize) - centerOffset;
-                GameObject tilePrefab = tilePrefabs[Random.Range(0, tilePrefabs.Length)];
-                Instantiate(tilePrefab, pos, Quaternion.identity, transform);
+                if (tilePrefabs.Length > 0)
+                {
+                    GameObject tilePrefab = tilePrefabs[Random.Range(0, tilePrefabs.Length)];
+                    Instantiate(tilePrefab, pos, Quaternion.identity, transform);
+                }
             }
         }
     }
