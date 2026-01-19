@@ -73,7 +73,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name != "MainScene")
+        if (SceneManager.GetActiveScene().name != "MainScene" && SceneManager.GetActiveScene().name != "MainLabScene")
         {
             return;
         }

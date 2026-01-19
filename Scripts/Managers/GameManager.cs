@@ -24,7 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         time += Time.deltaTime;
 
-        if (Input.GetButtonDown("Menu") && SceneManager.GetActiveScene().name == "MainScene")
+        if (Input.GetButtonDown("Menu") && (SceneManager.GetActiveScene().name == "MainScene" || SceneManager.GetActiveScene().name == "MainLabScene"))
         {
             MenuButtons buttons = UIManager.Instance.Get<MenuButtons>();
             if (buttons == null || (buttons != null && !buttons.gameObject.activeInHierarchy))
@@ -71,7 +71,7 @@ public class GameManager : MonoSingleton<GameManager>
             if (characterObject.name == characterName)
             {
                 characterObject.SetActive(true);
-                if (SceneManager.GetActiveScene().name == "MainScene")
+                if (SceneManager.GetActiveScene().name == "MainScene" || SceneManager.GetActiveScene().name == "MainLabScene")
                 {
                     PlayerManager.Instance.SetPlayer(characterObject.GetComponent<PlayerController>());
                 }

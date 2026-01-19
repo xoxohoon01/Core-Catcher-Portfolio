@@ -29,13 +29,13 @@ public class GameOver : UIBase
     public void GoToMainMenu()
     {
         GameManager.Instance.characterObjects.Clear();
-        SceneLoadManager.Instance.StartCoroutine(SceneLoadManager.Instance.LoadSceneWithCallback(
+        SceneLoadManager.Instance.LoadScene(
             "LobbyScene",
             null,
             null,
-            () => {
+            () =>
+            {
                 GameManager.Instance.RefreshCharacter();
-            }
-            ));
+            });
     }
 }

@@ -60,13 +60,13 @@ public class MenuButtons : UIBase
     {
         Hide();
         GameManager.Instance.characterObjects.Clear();
-        SceneLoadManager.Instance.StartCoroutine(SceneLoadManager.Instance.LoadSceneWithCallback(
+        SceneLoadManager.Instance.LoadScene(
             "LobbyScene",
             null,
             null,
             () => {
                 GameManager.Instance.RefreshCharacter();
             }
-            ));
+            );
     }
 }

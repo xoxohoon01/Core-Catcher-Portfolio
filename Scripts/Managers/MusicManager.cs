@@ -43,7 +43,7 @@ public class MusicManager : MonoSingleton<MusicManager>
         {
             source.clip = lobbyClips[Random.Range(0, lobbyClips.Length)];
         }
-        else if (sceneName == "MainScene")
+        else if (sceneName == "MainScene" || sceneName == "MainLabScene")
         {
             List<WeightedItem<AudioClip>> clipList = new List<WeightedItem<AudioClip>>();
             foreach(var clip in mainClips)

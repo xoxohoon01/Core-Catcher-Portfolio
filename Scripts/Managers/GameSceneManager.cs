@@ -15,7 +15,7 @@ public class GameSceneManager : MonoBehaviour
         AudioSource  source = GameManager.Instance.GetComponent<AudioSource>();
         MusicManager.Instance.Play(scene.name);
 
-        if (scene.name == "MainScene")
+        if (scene.name == "MainScene" || scene.name == "MainLabScene")
         {
             UIManager.Instance.CreateCanvas("Indicator", 0);
             UIManager.Instance.canvasDictionary["Indicator"].renderMode = RenderMode.WorldSpace;
