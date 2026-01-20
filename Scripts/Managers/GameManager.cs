@@ -73,6 +73,8 @@ public class GameManager : MonoSingleton<GameManager>
                 characterObject.SetActive(true);
                 if (SceneManager.GetActiveScene().name == "MainScene" || SceneManager.GetActiveScene().name == "MainLabScene")
                 {
+                    characterObject.transform.position = new Vector3(Random.Range(-5.0f, 5.0f), 0, Random.Range(-5.0f, 5.0f));
+                    Camera.main.transform.position = characterObject.transform.position + new Vector3(0, 14, -9.5f);
                     PlayerManager.Instance.SetPlayer(characterObject.GetComponent<PlayerController>());
                 }
             }

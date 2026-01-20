@@ -1,4 +1,5 @@
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
 
 [CustomEditor(typeof(DetailRandomizer))]
@@ -57,3 +58,4 @@ public class DetailRandomizerEditor : Editor
         }
     }
 }
+#endif
