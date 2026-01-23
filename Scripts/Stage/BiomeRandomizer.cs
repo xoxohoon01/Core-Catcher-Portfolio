@@ -1,12 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[System.Serializable]
-public struct LayerSettings
-{
-    public string layerName; // 구분을 위한 이름
-    [Range(0f, 1f)] public float threshold; // 이 레이어가 나타날 노이즈 기준점
-}
 
 public class BiomeRandomizer : MonoBehaviour
 {
@@ -18,7 +12,7 @@ public class BiomeRandomizer : MonoBehaviour
 
     [Header("Layer Weights")]
     [Tooltip("레이어 순서대로 기준점을 정하세요. (예: 0.2, 0.5, 0.8)")]
-    public List<LayerSettings> layerWeights = new List<LayerSettings>();
+    public List<BiomeSettings> layerWeights = new List<BiomeSettings>();
 
     [Header("Preview Settings")]
     public bool autoUpdate = false;
