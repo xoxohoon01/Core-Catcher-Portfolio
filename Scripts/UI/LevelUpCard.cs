@@ -1,5 +1,6 @@
 using System.Linq;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -32,9 +33,19 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         cardImage.sprite = currentCard.cardSprite ?? null;
         title.text = currentCard.displayName;
         if (CardManager.Instance.levelUpEffectLevel[effectName] == 4)
-            context.text = string.Format(currentCard.displayDescription, currentCard.amountByMaxLevel);
+        {
+            if (currentCard.effectName == "IncreaseMoveSpeed")
+                context.text = string.Format(currentCard.displayDescription, currentCard.amountByMaxLevel * 10);
+            else
+                context.text = string.Format(currentCard.displayDescription, currentCard.amountByMaxLevel);
+        }
         else
-            context.text = string.Format(currentCard.displayDescription, currentCard.amount);
+        {
+            if (currentCard.effectName == "IncreaseMoveSpeed")
+                context.text = string.Format(currentCard.displayDescription, currentCard.amount * 10);
+            else
+                context.text = string.Format(currentCard.displayDescription, currentCard.amount);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
