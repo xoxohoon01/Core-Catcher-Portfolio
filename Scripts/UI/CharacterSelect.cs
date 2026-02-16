@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CharacterSelect : UIBase
 {
+    private string currentCharacterName;
     public RawImage characterDetailPanel;
     public RawImage characterSkillPanel;
 
@@ -13,7 +15,8 @@ public class CharacterSelect : UIBase
     {
         CharacterScriptableObject[] characters = Resources.LoadAll<CharacterScriptableObject>("CharacterSO");
 
-        RefreshText("Raven");
+        currentCharacterName = GameManager.Instance.characterName;
+        RefreshText(currentCharacterName);
     }
 
     public void RefreshText(string characterName)
@@ -41,5 +44,29 @@ public class CharacterSelect : UIBase
         characterSkillPanel.transform.GetChild(11).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skill4Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
         characterSkillPanel.transform.GetChild(12).GetComponent<TMP_Text>().text = character.skill4DisplayName;
         characterSkillPanel.transform.GetChild(13).GetComponent<TMP_Text>().text = character.skill4Description;
+    }
+
+    public void NextCharacter()
+    {
+        if (currentCharacterName == "Raven")
+        {
+            currentCharacterName = "Arthur";
+            GameManager.Instance.SelectCharacter("Arthur");
+        }
+    }
+    public void PreviousCharacter()
+    {
+        if (currentCharacterName == "Arthur")
+        {
+            currentCharacterName = "Raven";
+            GameManager.Instance.SelectCharacter("Raven");
+        }
+    }
+
+    public void Select()
+    {
+        GameManager.Instance.characterName = currentCharacterName;
+        CharacterManager.Instance.characterData.lastSelectedCharacterId = currentCharacterName;
+        CharacterManager.Instance.Save();
     }
 }

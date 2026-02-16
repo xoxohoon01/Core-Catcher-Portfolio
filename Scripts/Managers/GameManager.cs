@@ -17,6 +17,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Start()
     {
+        characterName = CharacterManager.Instance.characterData.lastSelectedCharacterId;
         RefreshCharacter();
     }
 
@@ -48,8 +49,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void SelectCharacter(string characterName)
     {
-        this.characterName = characterName;
-
         if (SceneManager.GetActiveScene().name == "LobbyScene")
         {
             foreach (GameObject characterObject in characterObjects)
@@ -66,11 +65,14 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void RefreshCharacter()
     {
+        bool selected = false;
         foreach (GameObject characterObject in characterObjects)
         {
             if (characterObject.name == characterName)
             {
                 characterObject.SetActive(true);
+                selected = true;
+
                 if (SceneManager.GetActiveScene().name == "MainScene" || SceneManager.GetActiveScene().name == "MainLabScene")
                 {
                     characterObject.transform.position = new Vector3(Random.Range(-5.0f, 5.0f), 0, Random.Range(-5.0f, 5.0f));
@@ -82,6 +84,12 @@ public class GameManager : MonoSingleton<GameManager>
             {
                 characterObject.SetActive(false);
             }
+        }
+
+        if (selected == false)
+        {
+            characterName = "Raven";
+            RefreshCharacter();
         }
     }
 

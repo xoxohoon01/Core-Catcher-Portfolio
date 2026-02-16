@@ -38,14 +38,8 @@ public class SettingManager : MonoSingleton<SettingManager>
         {
             settingData = DataManager.Load<SettingData>("SettingData");
 
-            Debug.Log($"music {settingData.musicVolume}");
-            audioMixer.GetFloat("MusicVolume", out float musicVolume);
-            Debug.Log($"{musicVolume}");
-
             audioMixer.SetFloat("MusicVolume", SliderToDB(settingData.musicVolume));
             audioMixer.SetFloat("SFXVolume", SliderToDB(settingData.sfxVolume));
-            audioMixer.GetFloat("MusicVolume", out musicVolume);
-            Debug.Log($"{musicVolume}");
         }
         else
         {
