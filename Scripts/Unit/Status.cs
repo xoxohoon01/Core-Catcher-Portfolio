@@ -22,6 +22,9 @@ public class Status
 
     public float critChance;
     public float critDamage;
+    public float skillDamage;
+    public float drain;
+    public float dashCooldown;
 
     public Status()
     {

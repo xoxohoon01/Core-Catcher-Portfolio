@@ -14,14 +14,48 @@ public class RavenAttackController : BulletController
 
         PlayerController player = PlayerManager.Instance.GetPlayer();
 
-        if (CardManager.Instance.artifactEffectLevel["FlyingBullet"] > 0)
+        int flyingBulletLevel = CardManager.Instance.artifactEffectLevel["FlyingBullet"];
+        if (flyingBulletLevel > 0)
         {
             Quaternion startRotation = Quaternion.Euler(0, player.transform.eulerAngles.y, 0);
-            ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation).GetComponent<FlyingBulletController>().Initialize(player.status.damage, 1, 80f, 10f, false, Faction.Player, Vector3.one);
+            ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation).GetComponent<FlyingBulletController>()
+                .Initialize(
+                (player.status.damage * 0.15f) + ((player.status.damage * 0.5f) * CardManager.Instance.artifactEffectLevel["FlyingBullet"]),
+                1,
+                80f,
+                10f,
+                false,
+                Faction.Player,
+                Vector3.one);
+            if (flyingBulletLevel == 5)
+            {
+                ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation).GetComponent<FlyingBulletController>()
+                .Initialize(
+                (player.status.damage * 0.15f) + ((player.status.damage * 0.5f) * CardManager.Instance.artifactEffectLevel["FlyingBullet"]),
+                1,
+                80f,
+                10f,
+                false,
+                Faction.Player,
+                Vector3.one);
+            }
         }
         if (CardManager.Instance.artifactEffectLevel["Targeting"] > 0)
         {
-            ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity).GetComponent<TargetingController>().Initialize(player.status.damage/30, 0, 3f, 0.625f, 5f, 0.5f, Faction.Player, Vector3.one);
+            if (Random.Range(0.0f, 1.0f) > 0.8f)
+            {
+                int level = CardManager.Instance.artifactEffectLevel["Targeting"];
+                ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity).GetComponent<TargetingController>()
+                .Initialize(
+                (level == 5) ? (30) : (5 * level),
+                0,
+                3f,
+                0.625f,
+                5f,
+                0.5f,
+                Faction.Player,
+                Vector3.one);
+            }
         }
     }
 }

@@ -51,6 +51,11 @@ public class PlayerController : UnitController
         status.decreaseCooldown = 0;
         status.skillRange = 1;
         status.skillSpeed = 1;
+        status.critChance = 0;
+        status.critDamage = 2;
+        status.skillDamage = 1;
+        status.drain = 0;
+        status.dashCooldown = 0;
     }
 
     protected void StartAnimation(string animationName)

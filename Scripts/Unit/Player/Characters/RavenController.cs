@@ -84,7 +84,15 @@ public class RavenController : PlayerController
         Vector3 skillSize = new Vector3(1 + ((status.skillRange - 1) * 1.25f), status.skillRange, 1 + ((status.skillRange - 1) * 0.5f));
         ObjectPoolManager.Instance.Spawn("RavenSkill1", transform.position + (transform.forward) + (Vector3.up * 2), rotation)
             .GetComponent<HitController>()
-            .Initialize(status.damage * 2f, 0f, 0.2f, 0f, 0.5f, 0, faction, SkillManager.Instance.Skill["Raven"][6].isUnlocked ? skillSize : originalSize);
+            .Initialize(
+            (status.damage * 2f) * status.skillDamage,
+            0f,
+            0.2f,
+            0f,
+            0.5f,
+            0,
+            faction,
+            SkillManager.Instance.Skill["Raven"][6].isUnlocked ? skillSize : originalSize);
 
         ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Shotgun", "Weapon", 1);
     }
@@ -109,7 +117,15 @@ public class RavenController : PlayerController
         {
             ObjectPoolManager.Instance.Spawn("RavenSkill2Shotgun", transform.position + (transform.forward) + (Vector3.up * 2), rotation)
                 .GetComponent<HitController>()
-                .Initialize(status.damage * 2f, 0f, 0.2f, 0f, 0.5f, 0, faction, SkillManager.Instance.Skill["Raven"][6].isUnlocked ? skillSize : originalSize);
+                .Initialize(
+                (status.damage * 2f) * status.skillDamage,
+                0f,
+                0.2f,
+                0f,
+                0.5f,
+                0,
+                faction,
+                SkillManager.Instance.Skill["Raven"][6].isUnlocked ? skillSize : originalSize);
 
             ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Shotgun", "Weapon", 1);
         }
@@ -124,7 +140,14 @@ public class RavenController : PlayerController
 
         ObjectPoolManager.Instance.Spawn("RavenSkill3", transform.position + (transform.forward) + (Vector3.up * 2), rotation)
             .GetComponent<BulletController>()
-            .Initialize(status.damage * 2.75f, CheckCritical(), 100f, 2f, true, faction, new Vector3(status.skillRange, status.skillRange, status.skillRange));
+            .Initialize(
+            (status.damage * 2.75f) * status.skillDamage,
+            CheckCritical(),
+            100f,
+            2f,
+            true,
+            faction,
+            new Vector3(status.skillRange, status.skillRange, status.skillRange));
 
         ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("RisingShot", "Weapon", 1);
     }
@@ -137,7 +160,14 @@ public class RavenController : PlayerController
 
         ObjectPoolManager.Instance.Spawn("RavenSkill4", transform.position + (transform.forward) + (Vector3.up * 2), rotation)
             .GetComponent<BulletController>()
-            .Initialize(status.damage * 3.5f, CheckCritical(), 150f, 2f, true, faction, new Vector3(status.skillRange, status.skillRange, status.skillRange));
+            .Initialize(
+            (status.damage * 3.5f) * status.skillDamage,
+            CheckCritical(),
+            150f,
+            2f,
+            true,
+            faction,
+            new Vector3(status.skillRange, status.skillRange, status.skillRange));
 
         ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sniper", "Weapon", 1);
     }

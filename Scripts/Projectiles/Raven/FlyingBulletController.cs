@@ -13,6 +13,26 @@ public class FlyingBulletController : BulletController
 
         target.status.hp -= damage;
         DamageNumber damageNumber = healthHitPrefab.Spawn(target.transform.position, damage);
+
+        if (SkillManager.Instance.CheckSkillUnlocked("Raven", 8))
+        {
+            if (CardManager.Instance.artifactEffectLevel["Targeting"] > 0)
+            {
+                if (Random.Range(0.0f, 1.0f) > 0.8f)
+                {
+                    ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity).GetComponent<TargetingController>()
+                    .Initialize(
+                    (PlayerManager.Instance.GetPlayer().status.damage * 0.2f) * CardManager.Instance.artifactEffectLevel["Targeting"],
+                    0,
+                    3f,
+                    0.625f,
+                    5f,
+                    0.5f,
+                    Faction.Player,
+                    Vector3.one);
+                }
+            }
+        }
     }
 
     protected override void Move()
