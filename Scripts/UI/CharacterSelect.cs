@@ -10,6 +10,7 @@ public class CharacterSelect : UIBase
     private string currentCharacterName;
     public RawImage characterDetailPanel;
     public RawImage characterSkillPanel;
+    public GameObject participateButton;
 
     public override void Initialize()
     {
@@ -44,6 +45,11 @@ public class CharacterSelect : UIBase
         characterSkillPanel.transform.GetChild(11).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skill4Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
         characterSkillPanel.transform.GetChild(12).GetComponent<TMP_Text>().text = character.skill4DisplayName;
         characterSkillPanel.transform.GetChild(13).GetComponent<TMP_Text>().text = character.skill4Description;
+
+        if (currentCharacterName == GameManager.Instance.characterName)
+            participateButton.SetActive(false);
+        else
+            participateButton.SetActive(true);
     }
 
     public void NextCharacter()
@@ -68,5 +74,9 @@ public class CharacterSelect : UIBase
         GameManager.Instance.characterName = currentCharacterName;
         CharacterManager.Instance.characterData.lastSelectedCharacterId = currentCharacterName;
         CharacterManager.Instance.Save();
+        if (currentCharacterName == GameManager.Instance.characterName)
+            participateButton.SetActive(false);
+        else
+            participateButton.SetActive(true);
     }
 }
