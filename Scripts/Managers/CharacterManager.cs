@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharacterData
 {
     public List<string> unlockedCharacterIds = new List<string>(); // 해금된 캐릭터 ID 목록
-    public string lastSelectedCharacterId = "DefaultChar";        // 마지막 선택 캐릭터
+    public string lastSelectedCharacterId = "Raven";        // 마지막 선택 캐릭터
 }
 
 public class CharacterManager : MonoSingleton<CharacterManager>

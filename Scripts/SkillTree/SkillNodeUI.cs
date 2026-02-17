@@ -68,7 +68,7 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
 
     private bool CheckUnlock(int nodeDataId)
     {
-        bool unlocked = SkillManager.Instance.CheckSkillUnlocked("Raven", nodeDataId);
+        bool unlocked = SkillManager.Instance.CheckSkillUnlocked(currentCharacter, nodeDataId);
         return unlocked;
     }
 

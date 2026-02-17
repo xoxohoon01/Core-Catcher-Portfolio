@@ -28,6 +28,7 @@ public class SkillTree : UIBase
     {
         if (!isOpened)
         {
+            SkillManager.Instance.LoadSkill();
             LoadSkillTree(Resources.Load<SkillTreeData>($"SkillTreeSO/{GameManager.Instance.characterName}"));
 
             RectTransform rect = GetComponent<RectTransform>();
@@ -67,6 +68,7 @@ public class SkillTree : UIBase
         currentCharacter = treeData.characterName;
 
         // ÃÊ±âÈ­
+        skillValueChanged = null;
         if (nodeParent.transform.childCount > 0)
         {
             for (int i = 0; i < nodeParent.transform.childCount; i++)
