@@ -29,12 +29,12 @@ public class MainSceneUIManager : MonoSingleton<MainSceneUIManager>
 
         character = PlayerManager.Instance.GetPlayer();
 
-        skill1.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.character.characterName}/{character.character.skill1Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        skill2.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.character.characterName}/{character.character.skill2Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        skill3.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.character.characterName}/{character.character.skill3Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        skill4.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.character.characterName}/{character.character.skill4Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
+        skill1.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterData.characterName}/{character.characterData.skills[0].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
+        skill2.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterData.characterName}/{character.characterData.skills[1].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
+        skill3.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterData.characterName}/{character.characterData.skills[2].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
+        skill4.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterData.characterName}/{character.characterData.skills[3].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
 
-        dash.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.character.characterName}/{character.character.dashName}") ?? Resources.Load<Sprite>($"Sprites/DefaultDashIcon");
+        dash.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterData.characterName}/{character.characterData.dashName}") ?? Resources.Load<Sprite>($"Sprites/DefaultDashIcon");
     }
 
     private void Update()
@@ -48,12 +48,12 @@ public class MainSceneUIManager : MonoSingleton<MainSceneUIManager>
 
     private void UpdateIcon()
     {
-        skill1.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skill1Delay / (character.character.skill1Cooldown * (1 - character.status.decreaseCooldown));
-        skill2.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skill2Delay / (character.character.skill2Cooldown * (1 - character.status.decreaseCooldown));
-        skill3.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skill3Delay / (character.character.skill3Cooldown * (1 - character.status.decreaseCooldown));
-        skill4.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skill4Delay / (character.character.skill4Cooldown * (1 - character.status.decreaseCooldown));
+        skill1.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skillDelay[0] / (character.characterData.skills[0].baseCooldown * (1 - character.status.cooldownReduction));
+        skill2.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skillDelay[1] / (character.characterData.skills[1].baseCooldown * (1 - character.status.cooldownReduction));
+        skill3.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skillDelay[2] / (character.characterData.skills[2].baseCooldown * (1 - character.status.cooldownReduction));
+        skill4.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skillDelay[3] / (character.characterData.skills[3].baseCooldown * (1 - character.status.cooldownReduction));
 
-        dash.transform.GetChild(2).GetComponent<Image>().fillAmount = character.dashDelay / character.character.dashCooldown;
+        dash.transform.GetChild(2).GetComponent<Image>().fillAmount = character.dashDelay / character.characterData.dashCooldown;
     }
 
     public void UpdateGauge()

@@ -30,21 +30,21 @@ public class CharacterSelect : UIBase
         characterDetailPanel.transform.GetChild(5).GetComponent<TMP_Text>().text = character.dashDisplayName;
         characterDetailPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = character.dashDescription;
 
-        characterSkillPanel.transform.GetChild(2).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skill1Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        characterSkillPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = character.skill1DisplayName;
-        characterSkillPanel.transform.GetChild(4).GetComponent<TMP_Text>().text = character.skill1Description;
+        characterSkillPanel.transform.GetChild(2).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[0].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
+        characterSkillPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = character.skills[0].displayName;
+        characterSkillPanel.transform.GetChild(4).GetComponent<TMP_Text>().text = character.skills[0].description;
 
-        characterSkillPanel.transform.GetChild(5).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skill2Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        characterSkillPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = character.skill2DisplayName;
-        characterSkillPanel.transform.GetChild(7).GetComponent<TMP_Text>().text = character.skill2Description;
+        characterSkillPanel.transform.GetChild(5).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[1].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
+        characterSkillPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = character.skills[1].displayName;
+        characterSkillPanel.transform.GetChild(7).GetComponent<TMP_Text>().text = character.skills[1].description;
 
-        characterSkillPanel.transform.GetChild(8).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skill3Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        characterSkillPanel.transform.GetChild(9).GetComponent<TMP_Text>().text = character.skill3DisplayName;
-        characterSkillPanel.transform.GetChild(10).GetComponent<TMP_Text>().text = character.skill3Description;
+        characterSkillPanel.transform.GetChild(8).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[2].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
+        characterSkillPanel.transform.GetChild(9).GetComponent<TMP_Text>().text = character.skills[2].displayName;
+        characterSkillPanel.transform.GetChild(10).GetComponent<TMP_Text>().text = character.skills[2].description;
 
-        characterSkillPanel.transform.GetChild(11).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skill4Name}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        characterSkillPanel.transform.GetChild(12).GetComponent<TMP_Text>().text = character.skill4DisplayName;
-        characterSkillPanel.transform.GetChild(13).GetComponent<TMP_Text>().text = character.skill4Description;
+        characterSkillPanel.transform.GetChild(11).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[3].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
+        characterSkillPanel.transform.GetChild(12).GetComponent<TMP_Text>().text = character.skills[3].displayName;
+        characterSkillPanel.transform.GetChild(13).GetComponent<TMP_Text>().text = character.skills[3].description;
 
         if (currentCharacterName == GameManager.Instance.characterName)
             participateButton.SetActive(false);

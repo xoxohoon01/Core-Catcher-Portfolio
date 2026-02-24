@@ -42,7 +42,6 @@ public class MonsterController : UnitController
         appearance.transform.localScale = new Vector3(collider.bounds.size.x, collider.bounds.size.y, collider.bounds.size.z);
 
         // 디스폰 효과
-        Status originalStatus = Resources.Load($"Enemies/{gameObject.name}").GetComponent<MonsterController>().status;
         materials.Clear();
         foreach (GameObject modelObject in modelObjects)
         {
@@ -58,19 +57,16 @@ public class MonsterController : UnitController
         }
 
         // 능력치 설정
-        status.exp = originalStatus.exp;
-        status.hp = originalStatus.hp;
-        status.armor = originalStatus.armor;
-        status.damage = originalStatus.damage;
-        status.moveSpeed = originalStatus.moveSpeed;
-        status.attackSpeed = originalStatus.attackSpeed;
+        isDirty = true;
+        RecalculateStats();
+        status.hp = baseStatus.maxHP;
 
         // 상태 설정
         isAttack = false;
 
         InitializeStateMachine();
         healthBar = ObjectPoolManager.Instance.Spawn("HealthBar", transform.position, Quaternion.identity).transform.GetChild(0).GetComponent<MicroBar>();
-        healthBar.Initialize(originalStatus.hp);
+        healthBar.Initialize(status.hp);
     }
 
     public virtual void InitializeStateMachine()

@@ -39,7 +39,7 @@ public class StatusText : UIBase
         armor.text = status.armor.ToString();
         moveSpeed.text = (status.moveSpeed * 10f).ToString();
         attackSpeed.text = status.attackSpeed.ToString();
-        cooldown.text = $"{status.decreaseCooldown * 100}%";
+        cooldown.text = $"{status.cooldownReduction * 100}%";
         skillRange.text = $"{status.skillRange * 100}%";
         skillSpeed.text = $"{status.skillSpeed * 100}%";
 
@@ -47,6 +47,6 @@ public class StatusText : UIBase
         critDamage.text = $"x{status.critDamage:F2}%";
         skillDamage.text = $"{status.skillDamage * 100}%";
         drain.text = $"{status.drain * 100}%";
-        dashCooldown.text = $"{status.dashCooldown * 100}%";
+        dashCooldown.text = $"{status.dashCooldown:F2}";
     }
 }

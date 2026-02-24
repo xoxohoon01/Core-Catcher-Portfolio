@@ -1,7 +1,10 @@
 using Microlight.MicroBar;
+using PixPlays.ElementalVFX;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public enum Faction
 {
@@ -32,7 +35,10 @@ public class UnitController : MonoBehaviour
     protected Vector3 airborneVector;
 
     public Faction faction;
+    public BaseStatus baseStatus;
     public Status status = new Status();
+    protected List<StatModifier> modifiers = new List<StatModifier>();
+    protected bool isDirty = true;
 
     protected Vector3 lastVelocity;
     protected float lastAnimSpeed;
@@ -71,6 +77,70 @@ public class UnitController : MonoBehaviour
         status.hp = Mathf.Min(status.hp + healAmount, status.maxHP);
     }
 
+    public void AddModifier(StatModifier mod)
+    {
+        modifiers.Add(mod);
+        isDirty = true;
+    }
+
+    void UpdateModifiers()
+    {
+        for (int i = modifiers.Count - 1; i >= 0; i--)
+        {
+            if (modifiers[i].duration > 0)
+            {
+                modifiers[i].duration -= Time.deltaTime;
+                if (modifiers[i].duration <= 0)
+                {
+                    modifiers.RemoveAt(i);
+                    isDirty = true;
+                }
+            }
+        }
+    }
+
+    protected float CalculateStat(StatType type, float baseValue)
+    {
+        float add = 0f;
+        float mul = 0f;
+
+        foreach (var mod in modifiers)
+        {
+            if (mod.statType != type) continue;
+
+            if (mod.type == ModifierType.Add)
+                add += mod.value;
+            else
+                mul += mod.value;
+        }
+
+        return (baseValue + add) * (1f + mul);
+    }
+
+    protected void RecalculateStats()
+    {
+        if (!isDirty) return;
+
+        status.maxHP = CalculateStat(StatType.MaxHP, baseStatus.maxHP);
+        status.armor = CalculateStat(StatType.Armor, baseStatus.armor);
+        status.damage = CalculateStat(StatType.Damage, baseStatus.damage);
+        status.moveSpeed = CalculateStat(StatType.MoveSpeed, baseStatus.moveSpeed);
+        status.attackSpeed = CalculateStat(StatType.AttackSpeed, baseStatus.attackSpeed);
+        status.cooldownReduction = CalculateStat(StatType.CooldownReduction, baseStatus.cooldownReduction);
+        status.skillRange = CalculateStat(StatType.SkillRange, baseStatus.skillRange);
+        status.skillSpeed = CalculateStat(StatType.SkillSpeed, baseStatus.skillSpeed);
+
+        status.critChance = CalculateStat(StatType.CritChance, baseStatus.critChance);
+        status.critDamage = CalculateStat(StatType.CritDamage, baseStatus.critDamage);
+        status.skillDamage = CalculateStat(StatType.SkillDamage, baseStatus.skillDamage);
+        status.drain = CalculateStat(StatType.Drain, baseStatus.drain);
+        status.dashCooldown = CalculateStat(StatType.DashCooldown, baseStatus.dashCooldown);
+
+        status.hp = Mathf.Min(status.hp, status.maxHP);
+
+        isDirty = false;
+    }
+
     protected virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -88,6 +158,9 @@ public class UnitController : MonoBehaviour
         {
             return;
         }
+
+        UpdateModifiers();
+        RecalculateStats();
 
         if (isDead)
         {

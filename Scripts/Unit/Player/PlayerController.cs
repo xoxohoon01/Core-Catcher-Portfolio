@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PlayerController : UnitController
 {
-    public CharacterScriptableObject character;
+    public CharacterScriptableObject characterData;
     public GameObject shield;
 
     private bool isDash;
@@ -24,38 +24,38 @@ public class PlayerController : UnitController
     public float attackDelay { get; protected set; }
     protected float attackSpan;
 
-    public float skill1Delay { get; protected set; }
-    protected float skill1Span;
+    protected SkillData currentSkill;
+    protected int currentSkillIndex = -1;
 
-    public float skill2Delay { get; protected set; }
-    protected float skill2Span;
-
-    public float skill3Delay { get; protected set; }
-    protected float skill3Span;
-
-    public float skill4Delay { get; protected set; }
-    protected float skill4Span;
+    public float[] skillDelay;
+    protected float[] skillSpan;
 
     protected virtual void Initialize()
     {
         PlayerAnimationHashTable.Initialize(animator.runtimeAnimatorController);
 
+        baseStatus.damage = characterData.damage;
+        baseStatus.armor = characterData.armor;
+        baseStatus.moveSpeed = characterData.moveSpeed;
+        baseStatus.attackSpeed = characterData.attackSpeed;
+        baseStatus.maxHP = characterData.maxHP;
+        baseStatus.cooldownReduction = 0;
+        baseStatus.skillRange = 1;
+        baseStatus.skillSpeed = 1;
+        baseStatus.critChance = 0;
+        baseStatus.critDamage = 2;
+        baseStatus.skillDamage = 1;
+        baseStatus.drain = 0;
+        baseStatus.dashCooldown = characterData.dashCooldown;
+
+        isDirty = true;
+        RecalculateStats();
+
+        status.hp = status.maxHP;
         status.maxExp = 100;
 
-        status.damage = character.damage;
-        status.armor = character.armor;
-        status.moveSpeed = character.moveSpeed;
-        status.attackSpeed = character.attackSpeed;
-        status.maxHP = character.maxHP;
-        status.hp = status.maxHP;
-        status.decreaseCooldown = 0;
-        status.skillRange = 1;
-        status.skillSpeed = 1;
-        status.critChance = 0;
-        status.critDamage = 2;
-        status.skillDamage = 1;
-        status.drain = 0;
-        status.dashCooldown = 0;
+        skillDelay = new float[characterData.skills.Length];
+        skillSpan = new float[characterData.skills.Length];
     }
 
     protected void StartAnimation(string animationName)
@@ -67,7 +67,7 @@ public class PlayerController : UnitController
                .FirstOrDefault(c => c.name == animationName);
         if (clip != null)
         {
-            animator.speed = clip.length / character.dashDuration;
+            animator.speed = clip.length / characterData.dashDuration;
         }
     }
 
@@ -130,7 +130,7 @@ public class PlayerController : UnitController
 
         if (Input.GetButtonDown("Dash") && dashDelay <= 0)
         {
-            DashStart(character.dashClipName);
+            DashStart(characterData.dashClipName);
         }
     }
     
@@ -146,19 +146,19 @@ public class PlayerController : UnitController
 
         if (plane.Raycast(ray, out float distance))
         {
+            CancelBasicAttack();
+            CancelSkill();
+
             isDash = true;
-            isAttack = false;
-            isSkill = false;
             animator.SetBool("isDash", true);
+            animator.speed = 1f;
 
             Vector3 direction = ray.GetPoint(distance) - transform.position;
             direction.y = 0;
 
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
-            dashVector = direction.normalized * character.dashForce;
-            dashDelay = character.dashCooldown;
-            dashSpan = character.dashDuration;
+            dashVector = direction.normalized * characterData.dashForce;
+            dashDelay = status.dashCooldown;
+            dashSpan = characterData.dashDuration;
 
             transform.rotation = Quaternion.LookRotation(direction);
             GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask("Monster");
@@ -173,17 +173,6 @@ public class PlayerController : UnitController
         attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
 
         attackSpan = Mathf.Max(attackSpan - Time.deltaTime, 0);
-        if (skill1Span <= 0) skill1Delay = Mathf.Max(skill1Delay - Time.deltaTime, 0);
-        skill1Span = Mathf.Max(skill1Span - Time.deltaTime, 0);
-
-        if (skill2Span <= 0) skill2Delay = Mathf.Max(skill2Delay - Time.deltaTime, 0);
-        skill2Span = Mathf.Max(skill2Span - Time.deltaTime, 0);
-
-        if (skill3Span <= 0) skill3Delay = Mathf.Max(skill3Delay - Time.deltaTime, 0);
-        skill3Span = Mathf.Max(skill3Span - Time.deltaTime, 0);
-
-        if (skill4Span <= 0) skill4Delay = Mathf.Max(skill4Delay - Time.deltaTime, 0);
-        skill4Span = Mathf.Max(skill4Span - Time.deltaTime, 0);
 
         if (attackDelay <= 0)
         {
@@ -195,12 +184,6 @@ public class PlayerController : UnitController
         {
             isAttack = false;
             animator.SetBool("isAttack", false);
-        }
-
-        if (skill1Span <= 0 && skill2Span <= 0 && skill3Span <= 0 && skill4Span <= 0)
-        {
-            isSkill = false;
-            animator.SetBool("isSkill", false);
         }
 
         if (Input.GetMouseButton(0))
@@ -215,37 +198,10 @@ public class PlayerController : UnitController
 
         if (!isSkill && !isDash)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                if (skill1Delay <= 0)
-                {
-                    Skill1();
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (skill2Delay <= 0)
-                {
-                    Skill2();
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                if (skill3Delay <= 0)
-                {
-                    Skill3();
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                if (skill4Delay <= 0)
-                {
-                    Skill4();
-                }
-            }
+            if (Input.GetKeyDown(KeyCode.Q)) UseSkill(0);
+            if (Input.GetKeyDown(KeyCode.E)) UseSkill(1);
+            if (Input.GetKeyDown(KeyCode.F)) UseSkill(2);
+            if (Input.GetKeyDown(KeyCode.R)) UseSkill(3);
         }
 
     }
@@ -269,7 +225,7 @@ public class PlayerController : UnitController
             animator.SetBool("isAttack", true);
             int combo = animator.GetInteger("attackCombo");
 
-            combo = (combo + 1) > character.maxCombo - 1 ? 0 : combo + 1;
+            combo = (combo + 1) > characterData.maxCombo - 1 ? 0 : combo + 1;
             animator.SetInteger("attackCombo", combo);
 
             float delay;
@@ -279,27 +235,27 @@ public class PlayerController : UnitController
 
             if (combo == 0)
             {
-                clipName = character.attack1ClipName;
-                delay = (1 / status.attackSpeed) * character.attack1Time;
-                span = (1 / status.attackSpeed)* character.attack1Time;
+                clipName = characterData.attack1ClipName;
+                delay = (1 / status.attackSpeed) * characterData.attack1Time;
+                span = (1 / status.attackSpeed)* characterData.attack1Time;
             }
             else if (combo == 1)
             {
-                clipName = character.attack2ClipName;
-                delay = (1 / status.attackSpeed) * character.attack2Time;
-                span = (1 / status.attackSpeed) * character.attack2Time;
+                clipName = characterData.attack2ClipName;
+                delay = (1 / status.attackSpeed) * characterData.attack2Time;
+                span = (1 / status.attackSpeed) * characterData.attack2Time;
             }
             else if (combo == 2)
             {
-                clipName = character.attack3ClipName;
-                delay = (1 / status.attackSpeed) * character.attack3Time;
-                span = (1 / status.attackSpeed) * character.attack3Time;
+                clipName = characterData.attack3ClipName;
+                delay = (1 / status.attackSpeed) * characterData.attack3Time;
+                span = (1 / status.attackSpeed) * characterData.attack3Time;
             }
             else
             {
-                clipName = character.attack4ClipName;
-                delay = (1 / status.attackSpeed) * character.attack4Time;
-                span = (1 / status.attackSpeed) * character.attack4Time;
+                clipName = characterData.attack4ClipName;
+                delay = (1 / status.attackSpeed) * characterData.attack4Time;
+                span = (1 / status.attackSpeed) * characterData.attack4Time;
             }
 
             attackDelay = delay * 0.95f;
@@ -320,126 +276,235 @@ public class PlayerController : UnitController
     {
 
     }
+    protected void CancelBasicAttack()
+    {
+        if (!isAttack) return;
+
+        isAttack = false;
+        attackSpan = 0;
+        attackDelay = 0;
+
+        animator.SetBool("isAttack", false);
+        animator.SetInteger("attackCombo", -1);
+    }
+
+    protected void UseSkill(int index)
+    {
+        if (index < 0 || index >= characterData.skills.Length)
+            return;
+
+        if (skillDelay[index] > 0)
+            return;
+
+        if (isDash)
+            return;
+
+        if (isAttack)
+            CancelBasicAttack();
+
+        SkillData skill = characterData.skills[index];
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane plane = new Plane(Vector3.up, Vector3.up);
+
+        if (!plane.Raycast(ray, out float distance))
+            return;
+
+        isSkill = true;
+        currentSkill = skill;
+        currentSkillIndex = index;
+
+        moveVector = Vector3.zero;
+
+        targetVector = ray.GetPoint(distance) - transform.position;
+        targetVector.y = 0;
+
+        transform.rotation = Quaternion.LookRotation(targetVector);
+
+        animator.SetBool("isSkill", true);
+
+        float finalSpan =
+            (skill.baseSpan / (1 + ((status.attackSpeed / baseStatus.attackSpeed) * 0.1f)))
+            / status.skillSpeed;
+
+        float finalCooldown =
+            skill.baseCooldown * (1 - status.cooldownReduction);
+
+        skillSpan[index] = finalSpan;
+        skillDelay[index] = finalCooldown;
+
+        animator.Play(skill.animationClipName);
+
+        var clip = animator.runtimeAnimatorController
+               .animationClips
+               .FirstOrDefault(c => c.name == skill.animationClipName);
+
+        if (clip != null)
+        {
+            animator.speed = clip.length / finalSpan;
+        }
+
+        skill.OnSkillStart(this);
+    }
+    public void OnSkillAnimationEvent()
+    {
+        if (!isSkill) return;
+        if (currentSkill == null) return;
+
+        currentSkill.OnAnimationEvent(this);
+    }
+    protected void EndSkill()
+    {
+        if (currentSkill != null)
+        {
+            currentSkill.OnSkillEnd(this);
+        }
+
+        currentSkill = null;
+        currentSkillIndex = -1;
+        isSkill = false;
+        animator.SetBool("isSkill", false);
+    }
+    protected void CancelSkill()
+    {
+        if (!isSkill) return;
+
+        if (currentSkill != null)
+        {
+            currentSkill.OnSkillCancel(this);
+        }
+
+        if (currentSkillIndex >= 0)
+        {
+            skillSpan[currentSkillIndex] = 0;
+        }
+
+        currentSkill = null;
+        currentSkillIndex = -1;
+        isSkill = false;
+
+        animator.SetBool("isSkill", false);
+    }
 
     protected virtual void Skill1()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane plane = new Plane(Vector3.up, Vector3.up);
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Plane plane = new Plane(Vector3.up, Vector3.up);
 
-        if (plane.Raycast(ray, out float distance))
-        {
-            isSkill = true;
-            moveVector = Vector3.zero;
+        //if (plane.Raycast(ray, out float distance))
+        //{
+        //    isSkill = true;
+        //    moveVector = Vector3.zero;
 
-            targetVector = ray.GetPoint(distance) - transform.position;
-            targetVector.y = 0;
+        //    targetVector = ray.GetPoint(distance) - transform.position;
+        //    targetVector.y = 0;
 
-            transform.rotation = Quaternion.LookRotation(targetVector);
+        //    transform.rotation = Quaternion.LookRotation(targetVector);
 
-            animator.SetBool("isSkill", true);
-            skill1Span = (character.skill1Span / (1 + ((status.attackSpeed / character.attackSpeed) * 0.1f))) / status.skillSpeed;
-            skill1Delay = character.skill1Cooldown * (1 - status.decreaseCooldown);
+        //    animator.SetBool("isSkill", true);
+        //    skill1Span = (characterData.skill1Span / (1 + ((status.attackSpeed / characterData.attackSpeed) * 0.1f))) / status.skillSpeed;
+        //    skill1Delay = characterData.skill1Cooldown * (1 - status.cooldownReduction);
 
-            int stateHash = Animator.StringToHash(character.skill1ClipName);
-            animator.Play(stateHash);
-            var clip = animator.runtimeAnimatorController
-                   .animationClips
-                   .FirstOrDefault(c => c.name == character.skill1ClipName);
-            if (clip != null)
-            {
-                animator.speed = clip.length / (skill1Span);
-            }
-        }
+        //    int stateHash = Animator.StringToHash(characterData.skill1ClipName);
+        //    animator.Play(stateHash);
+        //    var clip = animator.runtimeAnimatorController
+        //           .animationClips
+        //           .FirstOrDefault(c => c.name == characterData.skill1ClipName);
+        //    if (clip != null)
+        //    {
+        //        animator.speed = clip.length / (skill1Span);
+        //    }
+        //}
     }
     protected virtual void Skill2()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane plane = new Plane(Vector3.up, Vector3.up);
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Plane plane = new Plane(Vector3.up, Vector3.up);
 
-        if (plane.Raycast(ray, out float distance))
-        {
-            isSkill = true;
-            moveVector = Vector3.zero;
+        //if (plane.Raycast(ray, out float distance))
+        //{
+        //    isSkill = true;
+        //    moveVector = Vector3.zero;
 
-            targetVector = ray.GetPoint(distance) - transform.position;
-            targetVector.y = 0;
+        //    targetVector = ray.GetPoint(distance) - transform.position;
+        //    targetVector.y = 0;
 
-            transform.rotation = Quaternion.LookRotation(targetVector);
+        //    transform.rotation = Quaternion.LookRotation(targetVector);
 
-            animator.SetBool("isSkill", true);
-            skill2Span = (character.skill2Span / (1 + ((status.attackSpeed / character.attackSpeed) * 0.1f))) / status.skillSpeed;
-            skill2Delay = character.skill2Cooldown * (1 - status.decreaseCooldown);
+        //    animator.SetBool("isSkill", true);
+        //    skill2Span = (characterData.skill2Span / (1 + ((status.attackSpeed / characterData.attackSpeed) * 0.1f))) / status.skillSpeed;
+        //    skill2Delay = characterData.skill2Cooldown * (1 - status.cooldownReduction);
 
-            int stateHash = Animator.StringToHash(character.skill2ClipName);
-            animator.Play(stateHash);
-            var clip = animator.runtimeAnimatorController
-                   .animationClips
-                   .FirstOrDefault(c => c.name == character.skill2ClipName);
-            if (clip != null)
-            {
-                animator.speed = clip.length / (skill2Span);
-            }
-        }
+        //    int stateHash = Animator.StringToHash(characterData.skill2ClipName);
+        //    animator.Play(stateHash);
+        //    var clip = animator.runtimeAnimatorController
+        //           .animationClips
+        //           .FirstOrDefault(c => c.name == characterData.skill2ClipName);
+        //    if (clip != null)
+        //    {
+        //        animator.speed = clip.length / (skill2Span);
+        //    }
+        //}
     }
     protected virtual void Skill3()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane plane = new Plane(Vector3.up, Vector3.up);
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Plane plane = new Plane(Vector3.up, Vector3.up);
 
-        if (plane.Raycast(ray, out float distance))
-        {
-            isSkill = true;
-            moveVector = Vector3.zero;
+        //if (plane.Raycast(ray, out float distance))
+        //{
+        //    isSkill = true;
+        //    moveVector = Vector3.zero;
 
-            targetVector = ray.GetPoint(distance) - transform.position;
-            targetVector.y = 0;
+        //    targetVector = ray.GetPoint(distance) - transform.position;
+        //    targetVector.y = 0;
 
-            transform.rotation = Quaternion.LookRotation(targetVector);
+        //    transform.rotation = Quaternion.LookRotation(targetVector);
 
-            animator.SetBool("isSkill", true);
-            skill3Span = (character.skill3Span / (1 + ((status.attackSpeed / character.attackSpeed) * 0.1f))) / status.skillSpeed;
-            skill3Delay = character.skill3Cooldown * (1 - status.decreaseCooldown);
+        //    animator.SetBool("isSkill", true);
+        //    skill3Span = (characterData.skill3Span / (1 + ((status.attackSpeed / characterData.attackSpeed) * 0.1f))) / status.skillSpeed;
+        //    skill3Delay = characterData.skill3Cooldown * (1 - status.cooldownReduction);
 
-            int stateHash = Animator.StringToHash(character.skill3ClipName);
-            animator.Play(stateHash);
-            var clip = animator.runtimeAnimatorController
-                   .animationClips
-                   .FirstOrDefault(c => c.name == character.skill3ClipName);
-            if (clip != null)
-            {
-                animator.speed = clip.length / (skill3Span);
-            }
-        }
+        //    int stateHash = Animator.StringToHash(characterData.skill3ClipName);
+        //    animator.Play(stateHash);
+        //    var clip = animator.runtimeAnimatorController
+        //           .animationClips
+        //           .FirstOrDefault(c => c.name == characterData.skill3ClipName);
+        //    if (clip != null)
+        //    {
+        //        animator.speed = clip.length / (skill3Span);
+        //    }
+        //}
     }
     protected virtual void Skill4()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane plane = new Plane(Vector3.up, Vector3.up);
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Plane plane = new Plane(Vector3.up, Vector3.up);
 
-        if (plane.Raycast(ray, out float distance))
-        {
-            isSkill = true;
-            moveVector = Vector3.zero;
+        //if (plane.Raycast(ray, out float distance))
+        //{
+        //    isSkill = true;
+        //    moveVector = Vector3.zero;
 
-            targetVector = ray.GetPoint(distance) - transform.position;
-            targetVector.y = 0;
+        //    targetVector = ray.GetPoint(distance) - transform.position;
+        //    targetVector.y = 0;
 
-            transform.rotation = Quaternion.LookRotation(targetVector);
+        //    transform.rotation = Quaternion.LookRotation(targetVector);
 
-            animator.SetBool("isSkill", true);
-            skill4Span = (character.skill4Span / (1 + ((status.attackSpeed / character.attackSpeed) * 0.1f))) / status.skillSpeed;
-            skill4Delay = character.skill4Cooldown * (1 - status.decreaseCooldown);
+        //    animator.SetBool("isSkill", true);
+        //    skill4Span = (characterData.skill4Span / (1 + ((status.attackSpeed / characterData.attackSpeed) * 0.1f))) / status.skillSpeed;
+        //    skill4Delay = characterData.skill4Cooldown * (1 - status.cooldownReduction);
 
-            int stateHash = Animator.StringToHash(character.skill4ClipName);
-            animator.Play(stateHash);
-            var clip = animator.runtimeAnimatorController
-                   .animationClips
-                   .FirstOrDefault(c => c.name == character.skill4ClipName);
-            if (clip != null)
-            {
-                animator.speed = clip.length / (skill4Span);
-            }
-        }
+        //    int stateHash = Animator.StringToHash(characterData.skill4ClipName);
+        //    animator.Play(stateHash);
+        //    var clip = animator.runtimeAnimatorController
+        //           .animationClips
+        //           .FirstOrDefault(c => c.name == characterData.skill4ClipName);
+        //    if (clip != null)
+        //    {
+        //        animator.speed = clip.length / (skill4Span);
+        //    }
+        //}
     }
 
     public virtual void Skill1Initialize(int number)
@@ -465,7 +530,7 @@ public class PlayerController : UnitController
             isDead = true;
             moveVector = Vector3.zero;
 
-            animator.Play($"{character.characterName}Death");
+            animator.Play($"{characterData.characterName}Death");
             UIManager.Instance.Show<GameOver>().Initialize();
         }
     }
@@ -534,6 +599,22 @@ public class PlayerController : UnitController
             Move();
             Dash();
             Attack();
+
+            // ÄðÅ¸ÀÓ °è»ê
+            for (int i = 0; i < characterData.skills.Length; i++)
+            {
+                if (skillSpan[i] <= 0)
+                    skillDelay[i] = Mathf.Max(skillDelay[i] - Time.deltaTime, 0);
+
+                skillSpan[i] = Mathf.Max(skillSpan[i] - Time.deltaTime, 0);
+                if (isSkill && currentSkillIndex >= 0)
+                {
+                    if (skillSpan[currentSkillIndex] <= 0)
+                    {
+                        EndSkill();
+                    }
+                }
+            }
         }
     }
 

@@ -5,6 +5,7 @@ public class RavenController : PlayerController
     public GameObject DroneObject;
 
     public float barrierDelay;
+    public float dodgeSpan;
 
     protected override void Update()
     {
@@ -26,16 +27,16 @@ public class RavenController : PlayerController
     {
         base.Initialize();
 
-        status.damage = character.damage +
-            (SkillManager.Instance.Skill["Raven"][0].isUnlocked ? character.damage * 0.1f : 0) +
-            (SkillManager.Instance.Skill["Raven"][1].isUnlocked ? character.damage * 0.1f : 0) +
-            (SkillManager.Instance.Skill["Raven"][2].isUnlocked ? character.damage * 0.1f : 0)
+        status.damage = characterData.damage +
+            (SkillManager.Instance.Skill["Raven"][0].isUnlocked ? characterData.damage * 0.1f : 0) +
+            (SkillManager.Instance.Skill["Raven"][1].isUnlocked ? characterData.damage * 0.1f : 0) +
+            (SkillManager.Instance.Skill["Raven"][2].isUnlocked ? characterData.damage * 0.1f : 0)
             ;
 
-        status.maxHP = character.maxHP +
-            (SkillManager.Instance.Skill["Raven"][3].isUnlocked ? character.maxHP * 0.1f : 0) +
-            (SkillManager.Instance.Skill["Raven"][4].isUnlocked ? character.maxHP * 0.1f : 0) +
-            (SkillManager.Instance.Skill["Raven"][5].isUnlocked ? character.maxHP * 0.1f : 0);
+        status.maxHP = characterData.maxHP +
+            (SkillManager.Instance.Skill["Raven"][3].isUnlocked ? characterData.maxHP * 0.1f : 0) +
+            (SkillManager.Instance.Skill["Raven"][4].isUnlocked ? characterData.maxHP * 0.1f : 0) +
+            (SkillManager.Instance.Skill["Raven"][5].isUnlocked ? characterData.maxHP * 0.1f : 0);
 
         status.hp = status.maxHP;
     }
@@ -46,6 +47,11 @@ public class RavenController : PlayerController
         {
             ObjectPoolManager.Instance.Spawn("DecoyBomb", transform.position, Quaternion.identity).GetComponent<DecoyBombController>()
                 .Initialize(status.damage, 0, 1f, 0.5f, 1.5f, 0, Faction.Player, Vector3.one * 5f);
+        }
+
+        if (CardManager.Instance.artifactEffectLevel["TacticalDodge"] > 0)
+        {
+            status.critChance += 0.05f;
         }
     }
 
@@ -171,4 +177,5 @@ public class RavenController : PlayerController
 
         ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sniper", "Weapon", 1);
     }
+
 }
