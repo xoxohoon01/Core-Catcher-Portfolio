@@ -9,7 +9,9 @@ using UnityEngine;
 public class PlayerController : UnitController
 {
     public CharacterScriptableObject characterData;
+
     public GameObject shield;
+    public float barrierDelay;
 
     private bool isDash;
     protected bool isAttack;
@@ -613,6 +615,18 @@ public class PlayerController : UnitController
                     {
                         EndSkill();
                     }
+                }
+            }
+
+            // 배리어 계산
+            if (CardManager.Instance.artifactEffectLevel["Barrier"] > 0)
+            {
+                barrierDelay = Mathf.Max(barrierDelay - Time.deltaTime, 0);
+
+                if (barrierDelay <= 0)
+                {
+                    status.shield = 30;
+                    barrierDelay = 20;
                 }
             }
         }

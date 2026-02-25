@@ -4,23 +4,11 @@ public class RavenController : PlayerController
 {
     public GameObject DroneObject;
 
-    public float barrierDelay;
     public float dodgeSpan;
 
     protected override void Update()
     {
         base.Update();
-
-        if (CardManager.Instance.artifactEffectLevel["Barrier"] > 0)
-        {
-            barrierDelay = Mathf.Max(barrierDelay - Time.deltaTime, 0);
-
-            if (barrierDelay <= 0)
-            {
-                status.shield = 30;
-                barrierDelay = 20;
-            }
-        }
     }
 
     protected override void Initialize()

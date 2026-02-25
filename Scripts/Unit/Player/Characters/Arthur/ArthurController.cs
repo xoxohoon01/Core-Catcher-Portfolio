@@ -3,23 +3,11 @@ using UnityEngine;
 
 public class ArthurController : PlayerController
 {
-    public float barrierDelay;
     public bool isSkill3;
 
     protected override void Update()
     {
         base.Update();
-
-        if (CardManager.Instance.artifactEffectLevel["Barrier"] > 0)
-        {
-            barrierDelay = Mathf.Max(barrierDelay - Time.deltaTime, 0);
-
-            if (barrierDelay <= 0)
-            {
-                status.shield = 30;
-                barrierDelay = 20;
-            }
-        }
     }
 
     protected override void Initialize()
