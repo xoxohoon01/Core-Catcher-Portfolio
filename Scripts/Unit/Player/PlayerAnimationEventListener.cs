@@ -10,6 +10,11 @@ public class PlayerAnimationEventListener : MonoBehaviour
         GetComponent<PlayerController>().BasicAttackInitialize(number);
     }
 
+    public void SkillEvent(int number)
+    {
+        GetComponent<PlayerController>().OnSkillAnimationEvent(number);
+    }
+
     public void Skill1Event(int number)
     {
         GetComponent<PlayerController>().Skill1Initialize(number);

@@ -124,40 +124,40 @@ public class ArthurController : PlayerController
 
     public override void Skill3Initialize(int number)
     {
-        //base.Skill3Initialize(number);
+        base.Skill3Initialize(number);
 
-        //moveVector = Vector3.zero;
+        moveVector = Vector3.zero;
 
-        //Quaternion lookRotation = Quaternion.LookRotation(targetVector);
-        //Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
+        Quaternion lookRotation = Quaternion.LookRotation(targetVector);
+        Quaternion rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
 
-        //Vector3 originalSize = new Vector3(8 + ((status.skillRange - 1) * 1.0f), 8 + ((status.skillRange - 1) * 0.5f), 8 + ((status.skillRange - 1) * 1.0f));
-        //var clip = animator.runtimeAnimatorController
-        //           .animationClips
-        //           .FirstOrDefault(c => c.name == characterData.skill3ClipName);
-        //float totalTime =
-        //    (characterData.skill3Span /
-        //    (1 + ((status.attackSpeed / characterData.attackSpeed) * 0.1f)))
-        //    / status.skillSpeed;
+        Vector3 originalSize = new Vector3(8 + ((status.skillRange - 1) * 1.0f), 8 + ((status.skillRange - 1) * 0.5f), 8 + ((status.skillRange - 1) * 1.0f));
+        var clip = animator.runtimeAnimatorController
+                   .animationClips
+                   .FirstOrDefault(c => c.name == characterData.skills[2].animationClipName);
+        float totalTime =
+            (characterData.skills[2].baseSpan /
+            (1 + ((status.attackSpeed / characterData.attackSpeed) * 0.1f)))
+            / status.skillSpeed;
 
-        //float activeTime = totalTime * 0.5f;
-        //ObjectPoolManager.Instance.Spawn("ArthurSkill3", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 0))
-        //    .GetComponent<HitController>()
-        //    .Initialize(
-        //    (status.damage * 2f) * status.skillDamage,
-        //    0f,
-        //    0.5f,
-        //    0f,
-        //    activeTime,
-        //    0,
-        //    faction,
-        //    originalSize);
+        float activeTime = totalTime * 0.5f;
+        ObjectPoolManager.Instance.Spawn("ArthurSkill3", transform.position + (transform.forward) + (Vector3.up * 2), Quaternion.Euler(0, rotation.eulerAngles.y, 0))
+            .GetComponent<HitController>()
+            .Initialize(
+            (status.damage * 2f) * status.skillDamage,
+            0f,
+            0.5f,
+            0f,
+            activeTime,
+            0,
+            faction,
+            originalSize);
 
-        //ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/ChargeCrush", "Weapon", 1);
-        //if (dashDelay <= 1)
-        //{
-        //    dashDelay = 1;
-        //}
+        ObjectPoolManager.Instance.Spawn("AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("Sword/ChargeCrush", "Weapon", 1);
+        if (dashDelay <= 1)
+        {
+            dashDelay = 1;
+        }
     }
 
     public override void Skill4Initialize(int number)

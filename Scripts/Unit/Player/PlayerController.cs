@@ -16,7 +16,7 @@ public class PlayerController : UnitController
     protected bool isSkill;
 
     private Vector3 dashVector;
-    public float dashDelay { get; protected set; }
+    public float dashDelay;
     public float dashSpan { get; private set; }
 
     protected Vector3 targetVector;
@@ -346,12 +346,12 @@ public class PlayerController : UnitController
 
         skill.OnSkillStart(this);
     }
-    public void OnSkillAnimationEvent()
+    public void OnSkillAnimationEvent(int number)
     {
         if (!isSkill) return;
         if (currentSkill == null) return;
 
-        currentSkill.OnAnimationEvent(this);
+        currentSkill.OnAnimationEvent(this, number);
     }
     protected void EndSkill()
     {

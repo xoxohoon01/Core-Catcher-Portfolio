@@ -16,6 +16,6 @@ public abstract class SkillData : ScriptableObject
 
     public virtual void OnSkillStart(UnitController user) { }
     public virtual void OnSkillCancel(UnitController user) { }
-    public virtual void OnAnimationEvent(UnitController user) { }
+    public virtual void OnAnimationEvent(UnitController user, int number = 0) { }
     public virtual void OnSkillEnd(UnitController user) { }
 }

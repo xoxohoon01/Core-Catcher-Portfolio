@@ -15,6 +15,6 @@ MonoBehaviour:
   skillID: PierceShot
   animationClipName: RavenSkill3
   displayName: "Pierce Shot\t"
-  description: 
+  description: Fires a piercing pistol round.
   baseCooldown: 6
   baseSpan: 1

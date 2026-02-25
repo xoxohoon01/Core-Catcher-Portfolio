@@ -15,6 +15,6 @@ MonoBehaviour:
   skillID: BullsEye
   animationClipName: RavenSkill4
   displayName: Bull's Eye
-  description: 
+  description: Fires a piercing sniper round.
   baseCooldown: 9
   baseSpan: 1.25

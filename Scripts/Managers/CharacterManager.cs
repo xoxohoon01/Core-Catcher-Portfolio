@@ -13,7 +13,7 @@ public class CharacterManager : MonoSingleton<CharacterManager>
 {
     public CharacterData characterData;
 
-    void Start()
+    void Awake()
     {
         Load();
     }

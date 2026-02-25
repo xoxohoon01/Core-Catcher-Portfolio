@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Raven/WeaponCombination")]
 public class WeaponCombination : SkillData
 {
-    public override void OnAnimationEvent(UnitController user)
+    public override void OnAnimationEvent(UnitController user, int number)
     {
         RavenController raven = user as RavenController;
         if (raven == null) return;
@@ -23,7 +23,7 @@ public class WeaponCombination : SkillData
             1 + ((raven.status.skillRange - 1) * 0.5f)
         );
 
-        if (animationClipName.Contains("WeaponCombination"))
+        if (number == 0)
         {
             ObjectPoolManager.Instance
                 .Spawn("RavenSkill2Bullet", spawnPos, rotation)

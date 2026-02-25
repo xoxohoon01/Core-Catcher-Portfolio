@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Raven/PierceShot")]
 public class PierceShot : SkillData
 {
-    public override void OnAnimationEvent(UnitController user)
+    public override void OnAnimationEvent(UnitController user, int number)
     {
         RavenController raven = user as RavenController;
         if (raven == null) return;

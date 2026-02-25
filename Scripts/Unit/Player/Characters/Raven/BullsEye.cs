@@ -1,9 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Skill/Raven/Sniping")]
-public class Sniping : SkillData
+[CreateAssetMenu(menuName = "Skill/Raven/BullsEye")]
+public class BullsEye : SkillData
 {
-    public override void OnAnimationEvent(UnitController user)
+    public override void OnAnimationEvent(UnitController user, int number)
     {
         RavenController raven = user as RavenController;
         if (raven == null) return;

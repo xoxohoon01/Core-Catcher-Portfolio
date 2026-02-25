@@ -15,6 +15,6 @@ MonoBehaviour:
   skillID: WeaponCombination
   animationClipName: RavenSkill2
   displayName: Weapon Combination
-  description: 
+  description: Alternates between a shotgun and a pistol.
   baseCooldown: 6
   baseSpan: 1.5
