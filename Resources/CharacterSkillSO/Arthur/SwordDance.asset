@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillID: SwordDance
   animationClipName: ArthurSkill4
-  displayName: 
-  description: 
-  baseCooldown: 1
-  baseSpan: 1
+  displayName: Sword Dance
+  description: Unleash a rapid sequence of four swift strikes.
+  baseCooldown: 9
+  baseSpan: 1.5

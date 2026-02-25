@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillID: ChargeCrush
   animationClipName: ArthurSkill3
-  displayName: 
-  description: 
-  baseCooldown: 1
+  displayName: Charge Crush
+  description: Dash forward and Blow away enemies upon impact.
+  baseCooldown: 6
   baseSpan: 1

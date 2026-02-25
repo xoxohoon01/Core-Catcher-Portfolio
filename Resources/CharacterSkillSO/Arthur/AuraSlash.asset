@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillID: AuraSlash
   animationClipName: ArthurSkill2
-  displayName: 
-  description: 
-  baseCooldown: 1
+  displayName: Aura Slash
+  description: Release a blade aura that travels forward, Blowing away enemies it
+    hits.
+  baseCooldown: 5
   baseSpan: 1

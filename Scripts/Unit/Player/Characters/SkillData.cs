@@ -6,9 +6,9 @@ public abstract class SkillData : ScriptableObject
     public string skillID;          // 내부 식별용 (ex: "raven_peacemaker")
     public string animationClipName;// 클립 이름
 
-    [TextArea]
+    [Header("Text")]
     public string displayName;      // UI 표시 이름
-    public string description;      // 설명
+    [TextArea] public string description;      // 설명
 
     [Header("Stats")]
     public float baseCooldown;

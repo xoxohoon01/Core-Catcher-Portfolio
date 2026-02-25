@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillID: QuickDraw
   animationClipName: ArthurSkill1
-  displayName: 
-  description: 
-  baseCooldown: 1
+  displayName: Quick Draw
+  description: Swiftly slash your blade, dealing damage to enemies in a wide area.
+  baseCooldown: 7
   baseSpan: 1
