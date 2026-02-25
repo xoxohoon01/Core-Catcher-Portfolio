@@ -30,7 +30,7 @@ public class ArthurController : PlayerController
 
     protected override void DashInitialize()
     {
-
+        base.DashInitialize();
     }
 
     public override void BasicAttackInitialize(int number)

@@ -141,7 +141,7 @@ public class PlayerController : UnitController
         if (CardManager.Instance.artifactEffectLevel["DecoyBomb"] > 0)
         {
             ObjectPoolManager.Instance.Spawn("DecoyBomb", transform.position, Quaternion.identity).GetComponent<DecoyBombController>()
-                .Initialize(status.damage, 0, 1f, 0.5f, 1.5f, 0, this, Faction.Player, Vector3.one * 5f);
+                .Initialize(status.damage, 0, 0.2f, 0.5f, 1.5f, 0, this, Faction.Player, Vector3.one * 5f);
         }
     }
 

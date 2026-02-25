@@ -31,6 +31,8 @@ public class RavenController : PlayerController
 
     protected override void DashInitialize()
     {
+        base.DashInitialize();
+
         if (CardManager.Instance.artifactEffectLevel["TacticalDodge"] > 0)
         {
             StatModifier tacticalDodge = new StatModifier

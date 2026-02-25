@@ -9,6 +9,7 @@ public class HitController : MonoBehaviour
 {
     protected DamageNumber damageNumberPrefab;
     public GameObject particleObject;
+    public GameObject audioObject;
 
     protected bool isInitialized;
     protected new Rigidbody rigidbody;
@@ -51,6 +52,14 @@ public class HitController : MonoBehaviour
             foreach (ParticleSystem ps in allParticles)
             {
                 ps.Stop();
+            }
+        }
+        if (audioObject != null)
+        {
+            AudioSource[] allAudios = audioObject.GetComponentsInChildren<AudioSource>();
+            foreach (AudioSource audio in allAudios)
+            {
+                audio.Pause();
             }
         }
     }
@@ -199,6 +208,14 @@ public class HitController : MonoBehaviour
                         ps.Play();
                     }
                 }
+                if (audioObject != null)
+                {
+                    AudioSource[] allAudios = audioObject.GetComponentsInChildren<AudioSource>();
+                    foreach (AudioSource audio in allAudios)
+                    {
+                        audio.Play();
+                    }
+                }
             }
 
             if (currentLifeTime >= lifeTime)
@@ -209,6 +226,14 @@ public class HitController : MonoBehaviour
                     foreach (ParticleSystem ps in allParticles)
                     {
                         ps.Stop();
+                    }
+                }
+                if (audioObject != null)
+                {
+                    AudioSource[] allAudios = audioObject.GetComponentsInChildren<AudioSource>();
+                    foreach (AudioSource audio in allAudios)
+                    {
+                        audio.Stop();
                     }
                 }
                 ObjectPoolManager.Instance.Despawn(gameObject);
