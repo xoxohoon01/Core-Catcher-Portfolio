@@ -24,6 +24,7 @@ public class AuraSlash : SkillData
                 0f,
                 0.5f,
                 0,
+                arthur,
                 arthur.faction,
                 size
             );

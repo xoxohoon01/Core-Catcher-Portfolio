@@ -21,7 +21,7 @@ public class GhoulController : MonsterController
         Vector3 startPos = transform.position;
         Vector3 forwardPos = startRotation * Vector3.forward;
         HitController obj1 = ObjectPoolManager.Instance.Spawn("GhoulAttack", startPos, startRotation).GetComponent<HitController>();
-        obj1.Initialize(status.damage, 0f, 0.2f, 0f, 1f, 0f, Faction.Monster, new Vector3(2, 2, 2));
+        obj1.Initialize(status.damage, 0f, 0.2f, 0f, 1f, 0f, this, Faction.Monster, new Vector3(2, 2, 2));
         ObjectPoolManager.Instance.Spawn("AudioObject", obj1.transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("GhoulAttack", "MonsterWeapon");
     }
 }

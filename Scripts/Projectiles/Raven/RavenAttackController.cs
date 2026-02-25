@@ -7,10 +7,9 @@ public class RavenAttackController : BulletController
 {
     protected override void CheckHit(UnitController target)
     {
-        ObjectPoolManager.Instance.Spawn($"AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio($"Hit{Random.Range(1, 3)}", "Hit");
+        base.CheckHit(target);
 
-        target.status.hp -= damage;
-        DamageNumber damageNumber = healthHitPrefab.Spawn(target.transform.position, damage);
+        ObjectPoolManager.Instance.Spawn($"AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio($"Hit{Random.Range(1, 3)}", "Hit");
 
         PlayerController player = PlayerManager.Instance.GetPlayer();
 
@@ -25,6 +24,7 @@ public class RavenAttackController : BulletController
                 80f,
                 10f,
                 false,
+                sender,
                 Faction.Player,
                 Vector3.one);
             if (flyingBulletLevel == 5)
@@ -36,6 +36,7 @@ public class RavenAttackController : BulletController
                 80f,
                 10f,
                 false,
+                sender,
                 Faction.Player,
                 Vector3.one);
             }
@@ -53,6 +54,7 @@ public class RavenAttackController : BulletController
                 0.625f,
                 5f,
                 0.5f,
+                sender,
                 Faction.Player,
                 Vector3.one);
             }

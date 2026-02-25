@@ -7,8 +7,7 @@ using UnityEngine;
 
 public class HitController : MonoBehaviour
 {
-    protected DamageNumber healthHitPrefab;
-    protected DamageNumber shieldHitPrefab;
+    protected DamageNumber damageNumberPrefab;
     public GameObject particleObject;
 
     protected bool isInitialized;
@@ -21,6 +20,7 @@ public class HitController : MonoBehaviour
     protected float lifeTime;
     protected float currentLifeTime;
     protected float multiHitDelay;
+    protected UnitController sender;
     protected Faction faction;
 
     protected Dictionary<UnitController, HitInfo> hitInfoMap = new Dictionary<UnitController, HitInfo>();
@@ -31,13 +31,11 @@ public class HitController : MonoBehaviour
         public bool canHit = true; // 타격 가능 여부
     }
 
-    public virtual void Initialize(float damage, float moveSpeed, float hitTime, float startDelay, float lifeTime, float multiHitDelay, Faction senderFaction, Vector3 size)
+    public virtual void Initialize(float baseDamage, float moveSpeed, float hitTime, float startDelay, float lifeTime, float multiHitDelay, UnitController sender, Faction senderFaction, Vector3 size)
     {
-        //rigidbody = GetComponent<Rigidbody>();
-        healthHitPrefab = Resources.Load<DamageNumber>("Damage Number/HealthHit");
-        shieldHitPrefab = Resources.Load<DamageNumber>("Damage Number/ShieldHit");
+        this.sender = sender;
 
-        this.damage = damage;
+        this.damage = baseDamage;
         this.moveSpeed = moveSpeed;
         this.hitTime = hitTime;
         this.startDelay = startDelay;
@@ -59,27 +57,35 @@ public class HitController : MonoBehaviour
 
     protected virtual void CheckHit(UnitController target)
     {
-        float remainDamage = damage;
-        
+        CritResult critResult = CriticalCalculator.Calculate(sender);
+
+        float finalDamage = damage * critResult.multiplier;
+        float remainDamage = finalDamage;
+
         if (target.status.shield > 0)
         {
             if (remainDamage <= target.status.shield)
             {
                 target.status.shield -= remainDamage;
-                DamageNumber shieldDamageNumber = shieldHitPrefab.Spawn(target.transform.position, remainDamage);
+                DamageNumberManager.Instance.shieldHitPrefab.Spawn(target.transform.position, remainDamage);
                 remainDamage = 0;
             }
             else
             {
-                remainDamage -= target.status.shield;
-                DamageNumber shieldDamageNumber = shieldHitPrefab.Spawn(target.transform.position, target.status.shield);
+                float shieldDamage = target.status.shield;
+
                 target.status.shield = 0;
+
+                DamageNumberManager.Instance.shieldHitPrefab
+                    .Spawn(target.transform.position, shieldDamage);
+
+                remainDamage -= shieldDamage;
             }
         }
         if (remainDamage > 0)
         {
             target.status.hp -= remainDamage;
-            DamageNumber healthDamageNumber = healthHitPrefab.Spawn(target.transform.position, remainDamage);
+            critResult.damageNumber.Spawn(target.transform.position, remainDamage);
         }
     }
 
@@ -89,6 +95,37 @@ public class HitController : MonoBehaviour
         {
             target.healthBar.UpdateBar(target.status.hp, false, UpdateAnim.Damage);
         }
+    }
+
+    public int CheckCritical(UnitController sender)
+    {
+        float crit = sender.status.critChance * 100;
+
+        bool normalCrit = Random.Range(0f, 100f) < Mathf.Min(crit, 100f);
+        crit -= 100f;
+
+        bool superCrit = false;
+        if (crit > 0)
+        {
+            superCrit = Random.Range(0f, 100f) < Mathf.Min(crit, 100f);
+            crit -= 100f;
+        }
+
+        bool ultraCrit = false;
+        if (crit > 0)
+        {
+            ultraCrit = Random.Range(0f, 100f) < Mathf.Min(crit, 100f);
+            crit -= 100f;
+        }
+
+        if (ultraCrit)
+            return 4;
+        else if (superCrit)
+            return 3;
+        else if (normalCrit)
+            return 2;
+        else
+            return 1;
     }
 
     private IEnumerator CoRestoreMultiHit(UnitController target, float time)

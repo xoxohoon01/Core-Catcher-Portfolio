@@ -9,10 +9,8 @@ public class FlyingBulletController : BulletController
 
     protected override void CheckHit(UnitController target)
     {
+        base.CheckHit(target);
         ObjectPoolManager.Instance.Spawn($"AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio($"Hit{Random.Range(1, 3)}", "Hit");
-
-        target.status.hp -= damage;
-        DamageNumber damageNumber = healthHitPrefab.Spawn(target.transform.position, damage);
 
         if (SkillManager.Instance.CheckSkillUnlocked("Raven", 8))
         {
@@ -28,6 +26,7 @@ public class FlyingBulletController : BulletController
                     0.625f,
                     5f,
                     0.5f,
+                    sender,
                     Faction.Player,
                     Vector3.one);
                 }

@@ -9,8 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 public class BulletController : MonoBehaviour
 {
-    protected DamageNumber healthHitPrefab;
-    protected DamageNumber shieldHitPrefab;
+    protected DamageNumber damageNumberPrefab;
 
     protected bool isInitialized;
     protected bool isHit;
@@ -20,12 +19,13 @@ public class BulletController : MonoBehaviour
     protected float bulletRadius;
 
     protected float damage;
-    protected Faction faction;
     protected float moveSpeed;
     protected float hitTime;
     protected float lifeTime;
     protected bool isPenetration;
     protected float currentLifeTime;
+    protected UnitController sender;
+    protected Faction faction;
 
     protected Dictionary<UnitController, HitInfo> hitInfoMap = new Dictionary<UnitController, HitInfo>();
 
@@ -35,14 +35,18 @@ public class BulletController : MonoBehaviour
         public bool canHit = true; // 타격 가능 여부
     }
 
-    public virtual void Initialize(float startDamage, float critDamage, float startSpeed, float startLifeTime, bool isStartPenetration, Faction senderFaction, Vector3 size)
+    public virtual void Initialize(float baseDamage, int critLevel, float startSpeed, float startLifeTime, bool isStartPenetration, UnitController sender, Faction senderFaction, Vector3 size)
     {
+        this.sender = sender;
+
         rigidbody = GetComponent<Rigidbody>();
         bulletRadius = GetComponent<CapsuleCollider>().radius;
-        healthHitPrefab = Resources.Load<DamageNumber>("Damage Number/HealthHit");
-        shieldHitPrefab = Resources.Load<DamageNumber>("Damage Number/ShieldHit");
 
-        damage = startDamage * critDamage;
+        CritResult critResult = CriticalCalculator.Calculate(sender);
+
+        damageNumberPrefab = critResult.damageNumber;
+
+        damage = baseDamage * critResult.multiplier;
         moveSpeed = startSpeed;
         lifeTime = startLifeTime;
         isPenetration = isStartPenetration;
@@ -57,6 +61,35 @@ public class BulletController : MonoBehaviour
 
     protected virtual void CheckHit(UnitController target)
     {
+        float crit = target.status.critChance;
+
+        float remainDamage = damage;
+
+        if (target.status.shield > 0)
+        {
+            if (remainDamage <= target.status.shield)
+            {
+                target.status.shield -= remainDamage;
+                DamageNumberManager.Instance.shieldHitPrefab.Spawn(target.transform.position, remainDamage);
+                remainDamage = 0;
+            }
+            else
+            {
+                float shieldDamage = target.status.shield;
+
+                target.status.shield = 0;
+
+                DamageNumberManager.Instance.shieldHitPrefab
+                    .Spawn(target.transform.position, shieldDamage);
+
+                remainDamage -= shieldDamage;
+            }
+        }
+        if (remainDamage > 0)
+        {
+            target.status.hp -= remainDamage;
+            damageNumberPrefab.Spawn(target.transform.position, remainDamage);
+        }
     }
 
     protected virtual void AfterHit(UnitController target)

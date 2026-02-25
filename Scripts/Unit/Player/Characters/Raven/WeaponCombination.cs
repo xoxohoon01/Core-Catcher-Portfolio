@@ -34,6 +34,7 @@ public class WeaponCombination : SkillData
                     100f,
                     1f,
                     false,
+                    raven,
                     raven.faction,
                     new Vector3(
                         raven.status.skillRange,
@@ -62,6 +63,7 @@ public class WeaponCombination : SkillData
                     0f,
                     0.5f,
                     0,
+                    raven,
                     raven.faction,
                     finalSize
                 );

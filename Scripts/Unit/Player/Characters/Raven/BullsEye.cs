@@ -20,6 +20,7 @@ public class BullsEye : SkillData
                 150f,
                 2f,
                 true,
+                raven,
                 raven.faction,
                 new Vector3(
                     raven.status.skillRange,

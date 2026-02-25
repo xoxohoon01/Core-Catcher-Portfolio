@@ -20,6 +20,7 @@ public class PierceShot : SkillData
                 100f,
                 2f,
                 true,
+                raven,
                 raven.faction,
                 new Vector3(
                     raven.status.skillRange,

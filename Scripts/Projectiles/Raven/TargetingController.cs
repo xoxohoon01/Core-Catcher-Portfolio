@@ -10,9 +10,9 @@ public class TargetingController : HitController
     public ParticleSystem appearVFX4;
     public ParticleSystem coreVFX;
 
-    public override void Initialize(float startDamage, float startSpeed, float targetHitTime, float startDelayTime, float startLifeTime, float multiHitDelay, Faction senderFaction, Vector3 size)
+    public override void Initialize(float startDamage, float startSpeed, float targetHitTime, float startDelayTime, float startLifeTime, float multiHitDelay, UnitController sender, Faction senderFaction, Vector3 size)
     {
-        base.Initialize(startDamage, startSpeed, targetHitTime, startDelayTime, startLifeTime, multiHitDelay, senderFaction, size);
+        base.Initialize(startDamage, startSpeed, targetHitTime, startDelayTime, startLifeTime, multiHitDelay, sender, senderFaction, size);
 
         appearVFX1.Stop();
         appearVFX2.Stop();

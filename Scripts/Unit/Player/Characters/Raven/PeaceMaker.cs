@@ -36,6 +36,7 @@ public class PeaceMaker : SkillData
                 0f,
                 0.5f,
                 0,
+                raven,
                 raven.faction,
                 finalSize
             );

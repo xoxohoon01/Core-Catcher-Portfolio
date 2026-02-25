@@ -30,7 +30,7 @@ public class MegadonController : MonsterController
         attackDelay = (1 / status.attackSpeed) + clip.length;
 
         HitController obj = ObjectPoolManager.Instance.Spawn("MegadonAttack", startPos, startRotation).GetComponent<HitController>();
-        obj.Initialize(status.damage, 0, 0, 0, 0.5f, 0.5f, Faction.Monster, Vector3.one);
+        obj.Initialize(status.damage, 0, 0, 0, 0.5f, 0.5f, this, Faction.Monster, Vector3.one);
         obj.transform.SetParent(transform);
     }
 }

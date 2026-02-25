@@ -10,16 +10,17 @@ public class ArthurSkill3Controller : HitController
     }
 
     public override void Initialize(
-        float damage,
+        float baseDamage,
         float moveSpeed,
         float hitTime,
         float startDelay,
         float lifeTime,
         float multiHitDelay,
+        UnitController sender,
         Faction senderFaction,
         Vector3 size)
     {
-        base.Initialize(damage, moveSpeed, hitTime, startDelay, lifeTime, multiHitDelay, senderFaction, size);
+        base.Initialize(baseDamage, moveSpeed, hitTime, startDelay, lifeTime, multiHitDelay, sender, senderFaction, size);
     }
 
     protected override void Update()
@@ -34,13 +35,12 @@ public class ArthurSkill3Controller : HitController
 
     protected override void CheckHit(UnitController target)
     {
+        base.CheckHit(target);
+
         ObjectPoolManager.Instance
             .Spawn("AudioObject", transform.position, Quaternion.identity)
             .GetComponent<AudioObject>()
             .PlayAudio($"Hit{Random.Range(1, 3)}", "Hit");
-
-        target.status.hp -= damage;
-        healthHitPrefab.Spawn(target.transform.position, damage);
 
         target.GetAirBorne(8f);
     }

@@ -42,6 +42,7 @@ public class ChargeCrush : SkillData
             0f,
             activeTime,
             0,
+            arthur,
             arthur.faction,
             size
         );

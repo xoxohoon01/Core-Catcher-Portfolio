@@ -22,7 +22,7 @@ public class JellynautController : MonsterController
         Vector3 forwardPos = startRotation * Vector3.forward;
 
         HitController obj = ObjectPoolManager.Instance.Spawn("JellynautAttack", startPos, startRotation).GetComponent<HitController>();
-        obj.Initialize(status.damage, 0, 3, 0, 3, 0.5f, Faction.Monster, Vector3.one);
+        obj.Initialize(status.damage, 0, 3, 0, 3, 0.5f, this, Faction.Monster, Vector3.one);
         ObjectPoolManager.Instance.Spawn("AudioObject", obj.transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("JawlerAttack", "MonsterWeapon");
     }
 }

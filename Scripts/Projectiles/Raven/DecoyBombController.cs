@@ -8,9 +8,9 @@ public class DecoyBombController : HitController
     public ParticleSystem particle;
     public GameObject bombObject;
 
-    public override void Initialize(float startDamage, float startSpeed, float targetHitTime, float startDelayTime, float startLifeTime, float multiHitDelay, Faction senderFaction, Vector3 size)
+    public override void Initialize(float baseDamage, float startSpeed, float targetHitTime, float startDelayTime, float startLifeTime, float multiHitDelay, UnitController sender, Faction senderFaction, Vector3 size)
     {
-        base.Initialize(startDamage, startSpeed, targetHitTime, startDelayTime, startLifeTime, multiHitDelay, senderFaction, size);
+        base.Initialize(baseDamage, startSpeed, targetHitTime, startDelayTime, startLifeTime, multiHitDelay, sender, senderFaction, size);
 
         var shape = particle.shape;
         shape.radius = size.x * 0.75f;

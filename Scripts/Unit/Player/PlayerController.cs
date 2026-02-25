@@ -138,7 +138,11 @@ public class PlayerController : UnitController
     
     protected virtual void DashInitialize()
     {
-
+        if (CardManager.Instance.artifactEffectLevel["DecoyBomb"] > 0)
+        {
+            ObjectPoolManager.Instance.Spawn("DecoyBomb", transform.position, Quaternion.identity).GetComponent<DecoyBombController>()
+                .Initialize(status.damage, 0, 1f, 0.5f, 1.5f, 0, this, Faction.Player, Vector3.one * 5f);
+        }
     }
 
     protected void DashStart(string dashAnimationName)
@@ -536,9 +540,9 @@ public class PlayerController : UnitController
             UIManager.Instance.Show<GameOver>().Initialize();
         }
     }
-    public float CheckCritical()
+    public int CheckCritical()
     {
-        float crit = status.critChance;
+        float crit = status.critChance * 100;
 
         bool normalCrit = Random.Range(0f, 100f) < Mathf.Min(crit, 100f);
         crit -= 100f;

@@ -48,6 +48,7 @@ public class NapalmBulletController : MonoBehaviour
             0f,
             3f,
             1f,
+            PlayerManager.Instance.GetPlayer(),
             Faction.Player,
             new Vector3(1 + (CardManager.Instance.artifactEffectLevel["NapalmDrone"] * 0.2f), 1, 1 + (CardManager.Instance.artifactEffectLevel["NapalmDrone"] * 0.2f)));
         ObjectPoolManager.Instance.Despawn(gameObject);
