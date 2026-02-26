@@ -42,7 +42,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             Vector3 spawnPos = player.transform.position + offset;
 
             // 프리팹 생성 (필요시 parent 설정)
-            ObjectPoolManager.Instance.Spawn(spawnData.monsterName, spawnPos, Quaternion.identity).GetComponent<MonsterController>().Initialize();
+            ObjectPoolManager.Instance.Spawn(spawnData.monsterName, spawnPos, Quaternion.identity).GetComponent<MonsterController>().Initialize((int)(entireTime / 100) + 1);
 
             // 생성된 오브젝트를 이 스크립트 오브젝트의 자식으로 두고 싶다면
             // go.transform.SetParent(transform, true);

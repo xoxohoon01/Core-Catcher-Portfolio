@@ -29,7 +29,16 @@ public class MonsterController : UnitController
     public float attackDelay;
     [HideInInspector] public float attackRange;
 
-    public void Initialize()
+    protected void SetupStatus(int level)
+    {
+        status.level = level;
+        status.maxHP = status.maxHP * (1.0f + ((status.level - 1) * 0.25f));
+        status.hp = status.maxHP;
+        status.damage = status.damage * (1.0f + ((status.level - 1) * 0.25f));
+        status.armor = status.armor * (1.0f + ((status.level - 1) * 0.25f));
+    }
+
+    public void Initialize(int level)
     {
         // NavMesh Agent 설정
         agent.enabled = true;
@@ -59,7 +68,7 @@ public class MonsterController : UnitController
         // 능력치 설정
         isDirty = true;
         RecalculateStats();
-        status.hp = baseStatus.maxHP;
+        SetupStatus(level);
 
         // 상태 설정
         isAttack = false;

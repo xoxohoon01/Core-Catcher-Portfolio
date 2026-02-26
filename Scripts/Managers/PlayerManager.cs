@@ -31,7 +31,8 @@ public class PlayerManager : MonoSingleton<PlayerManager>
         {
             currentPlayer.status.exp -= currentPlayer.status.maxExp;
             currentPlayer.status.level += 1;
-            currentPlayer.status.maxExp = Mathf.Min(currentPlayer.status.maxExp *= 1.1f, 500);
+            //currentPlayer.status.maxExp = Mathf.Min(currentPlayer.status.maxExp *= 1.075f, 750);
+            currentPlayer.status.maxExp = currentPlayer.status.maxExp *= 1.075f;
             BattleManager.Instance.isStop = true;
             Time.timeScale = 0;
             UIManager.Instance.Show<LevelUpCardFrame>("FloatingUI").Initialize();
@@ -41,5 +42,10 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     private void Update()
     {
         CheckLevelUp();
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            GetExp(currentPlayer.status.maxExp - currentPlayer.status.exp);
+        }
     }
 }

@@ -14,7 +14,7 @@ public class RavenAttackController : BulletController
         PlayerController player = PlayerManager.Instance.GetPlayer();
 
         int flyingBulletLevel = CardManager.Instance.artifactEffectLevel["FlyingBullet"];
-        if (flyingBulletLevel > 0)
+        if (flyingBulletLevel > 0 && flyingBulletLevel < 3)
         {
             Quaternion startRotation = Quaternion.Euler(0, player.transform.eulerAngles.y, 0);
             ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation).GetComponent<FlyingBulletController>()
@@ -27,9 +27,11 @@ public class RavenAttackController : BulletController
                 sender,
                 Faction.Player,
                 Vector3.one);
-            if (flyingBulletLevel == 5)
-            {
-                ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation).GetComponent<FlyingBulletController>()
+        }
+        else if (flyingBulletLevel >= 3 && flyingBulletLevel < 5)
+        {
+            Quaternion startRotation = Quaternion.Euler(0, player.transform.eulerAngles.y, 0);
+            ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation * Quaternion.Euler(0, -45, 0)).GetComponent<FlyingBulletController>()
                 .Initialize(
                 (player.status.damage * 0.15f) + ((player.status.damage * 0.5f) * CardManager.Instance.artifactEffectLevel["FlyingBullet"]),
                 1,
@@ -39,8 +41,55 @@ public class RavenAttackController : BulletController
                 sender,
                 Faction.Player,
                 Vector3.one);
-            }
+
+            ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation * Quaternion.Euler(0, 45, 0)).GetComponent<FlyingBulletController>()
+                .Initialize(
+                (player.status.damage * 0.15f) + ((player.status.damage * 0.5f) * CardManager.Instance.artifactEffectLevel["FlyingBullet"]),
+                1,
+                80f,
+                10f,
+                false,
+                sender,
+                Faction.Player,
+                Vector3.one);
         }
+        else if (flyingBulletLevel == 5)
+        {
+            Quaternion startRotation = Quaternion.Euler(0, player.transform.eulerAngles.y, 0);
+            ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation).GetComponent<FlyingBulletController>()
+                .Initialize(
+                (player.status.damage * 0.15f) + ((player.status.damage * 0.5f) * CardManager.Instance.artifactEffectLevel["FlyingBullet"]),
+                1,
+                80f,
+                10f,
+                false,
+                sender,
+                Faction.Player,
+                Vector3.one);
+
+            ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation * Quaternion.Euler(0, -45, 0)).GetComponent<FlyingBulletController>()
+                .Initialize(
+                (player.status.damage * 0.15f) + ((player.status.damage * 0.5f) * CardManager.Instance.artifactEffectLevel["FlyingBullet"]),
+                1,
+                80f,
+                10f,
+                false,
+                sender,
+                Faction.Player,
+                Vector3.one);
+
+            ObjectPoolManager.Instance.Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), startRotation * Quaternion.Euler(0, 45, 0)).GetComponent<FlyingBulletController>()
+                .Initialize(
+                (player.status.damage * 0.15f) + ((player.status.damage * 0.5f) * CardManager.Instance.artifactEffectLevel["FlyingBullet"]),
+                1,
+                80f,
+                10f,
+                false,
+                sender,
+                Faction.Player,
+                Vector3.one);
+        }
+
         if (CardManager.Instance.artifactEffectLevel["Targeting"] > 0)
         {
             if (Random.Range(0.0f, 1.0f) > 0.8f)

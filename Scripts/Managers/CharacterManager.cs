@@ -13,8 +13,10 @@ public class CharacterManager : MonoSingleton<CharacterManager>
 {
     public CharacterData characterData;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         Load();
     }
 

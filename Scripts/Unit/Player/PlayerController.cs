@@ -54,7 +54,7 @@ public class PlayerController : UnitController
         RecalculateStats();
 
         status.hp = status.maxHP;
-        status.maxExp = 100;
+        status.maxExp = 300;
 
         skillDelay = new float[characterData.skills.Length];
         skillSpan = new float[characterData.skills.Length];
@@ -625,11 +625,14 @@ public class PlayerController : UnitController
             // 배리어 계산
             if (CardManager.Instance.artifactEffectLevel["Barrier"] > 0)
             {
-                barrierDelay = Mathf.Max(barrierDelay - Time.deltaTime, 0);
+                if (status.shield <= 0)
+                {
+                    barrierDelay = Mathf.Max(barrierDelay - Time.deltaTime, 0);
+                }
 
                 if (barrierDelay <= 0)
                 {
-                    status.shield = 30;
+                    status.shield = 30 + ((CardManager.Instance.artifactEffectLevel["Barrier"] - 1) * 10);
                     barrierDelay = 20;
                 }
             }
