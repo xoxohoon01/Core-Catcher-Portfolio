@@ -8,13 +8,25 @@ public class IncreaseHP : ILevelUpCardEffect
     {
         if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
         {
-            PlayerManager.Instance.GetPlayer().status.maxHP += card.amountByMaxLevel;
-            PlayerManager.Instance.GetPlayer().GetHeal(card.amountByMaxLevel);
+            StatModifier cardModifier = new StatModifier
+            {
+                statType = StatType.MaxHP,
+                type = ModifierType.Add,
+                value = card.amountByMaxLevel
+            };
+
+            PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
         }
         else
         {
-            PlayerManager.Instance.GetPlayer().status.maxHP += card.amount;
-            PlayerManager.Instance.GetPlayer().GetHeal(card.amount);
+            StatModifier cardModifier = new StatModifier
+            {
+                statType = StatType.MaxHP,
+                type = ModifierType.Add,
+                value = card.amount
+            };
+
+            PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
         }
     }
 }

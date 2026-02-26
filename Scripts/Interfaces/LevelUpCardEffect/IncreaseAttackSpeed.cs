@@ -7,8 +7,26 @@ public class IncreaseAttackSpeed : ILevelUpCardEffect
     public void ApplyEffect(LevelUpCardScriptableObject card)
     {
         if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
-            PlayerManager.Instance.GetPlayer().status.attackSpeed += PlayerManager.Instance.GetPlayer().characterData.attackSpeed * card.amountByMaxLevel;
+        {
+            StatModifier cardModifier = new StatModifier
+            {
+                statType = StatType.AttackSpeed,
+                type = ModifierType.Add,
+                value = card.amountByMaxLevel * PlayerManager.Instance.GetPlayer().baseStatus.attackSpeed
+            };
+
+            PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
+        }
         else
-            PlayerManager.Instance.GetPlayer().status.attackSpeed += PlayerManager.Instance.GetPlayer().characterData.attackSpeed * card.amount;
+        {
+            StatModifier cardModifier = new StatModifier
+            {
+                statType = StatType.AttackSpeed,
+                type = ModifierType.Add,
+                value = card.amount * PlayerManager.Instance.GetPlayer().baseStatus.attackSpeed
+            };
+
+            PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
+        }
     }
 }

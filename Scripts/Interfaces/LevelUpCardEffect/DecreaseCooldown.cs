@@ -7,8 +7,26 @@ public class DecreaseCooldown : ILevelUpCardEffect
     public void ApplyEffect(LevelUpCardScriptableObject card)
     {
         if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
-            PlayerManager.Instance.GetPlayer().status.cooldownReduction += card.amountByMaxLevel;
+        {
+            StatModifier cardModifier = new StatModifier
+            {
+                statType = StatType.CooldownReduction,
+                type = ModifierType.Add,
+                value = card.amountByMaxLevel
+            };
+
+            PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
+        }
         else
-            PlayerManager.Instance.GetPlayer().status.cooldownReduction += card.amount;
+        {
+            StatModifier cardModifier = new StatModifier
+            {
+                statType = StatType.CooldownReduction,
+                type = ModifierType.Add,
+                value = card.amount
+            };
+
+            PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
+        }
     }
 }
