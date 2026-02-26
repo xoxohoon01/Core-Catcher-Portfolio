@@ -1,9 +1,7 @@
-using System.Linq;
-using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class LevelUpCard : MonoBehaviour, IPointerClickHandler
 {
@@ -11,62 +9,56 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
     public TMP_Text title;
     public TMP_Text context;
 
-    LevelUpCardScriptableObject currentCard;
-    ILevelUpCardEffect effect;
+    private LevelUpCardScriptableObject levelUpCard;
+    private ArtifactCardScriptableObject artifactCard;
 
-    public void Initialize(string effectName)
+    private bool isArtifact;
+
+    public void InitializeLevelUp(LevelUpCardScriptableObject card)
     {
-        // 1. 모든 카드 로드
-        LevelUpCardScriptableObject[] allCards = Resources.LoadAll<LevelUpCardScriptableObject>("Cards");
+        isArtifact = false;
+        levelUpCard = card;
 
-        // 2. 효과 이름으로 카드 검색
-        currentCard = allCards.FirstOrDefault(card => card.effectName == effectName);
+        cardImage.sprite = card.cardSprite;
+        title.text = card.displayName;
 
-        // 3. 예외 처리: 효과 이름에 맞는 카드가 없을 경우 힐 카드로 대체
-        if (currentCard == null)
-            currentCard = allCards.FirstOrDefault(card => card.effectName == "HealHalf");
+        int level = CardManager.Instance.levelUpEffectLevel[card.effectName];
+        float amount = (level == 4) ? card.amountByMaxLevel : card.amount;
 
-        // 4. 정상 카드일 경우
-        effect = CardManager.Instance.CreateLevelUpEffect(currentCard.effectName);
+        context.text = string.Format(card.displayDescription, amount);
+    }
 
-        // 5. 카드에 표시될 내용
-        cardImage.sprite = currentCard.cardSprite ?? null;
-        title.text = currentCard.displayName;
-        if (CardManager.Instance.levelUpEffectLevel[effectName] == 4)
-        {
-            if (currentCard.effectName == "IncreaseMoveSpeed")
-                context.text = string.Format(currentCard.displayDescription, currentCard.amountByMaxLevel * 10);
-            else
-                context.text = string.Format(currentCard.displayDescription, currentCard.amountByMaxLevel);
-        }
-        else
-        {
-            if (currentCard.effectName == "IncreaseMoveSpeed")
-                context.text = string.Format(currentCard.displayDescription, currentCard.amount * 10);
-            else
-                context.text = string.Format(currentCard.displayDescription, currentCard.amount);
-        }
+    public void InitializeArtifact(ArtifactCardScriptableObject card)
+    {
+        isArtifact = true;
+        artifactCard = card;
+
+        cardImage.sprite = card.cardSprite;
+        title.text = card.displayName;
+
+        int level = CardManager.Instance.artifactEffectLevel[card.effectName];
+        float amount = (level == 4) ? card.amountByMaxLevel : card.amount;
+
+        context.text = string.Format(card.displayDescription, amount);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //if (UIManager.Instance.Get<MenuButtons>().gameObject.activeInHierarchy)
-        //    return;
-
-        CardManager.Instance.levelUpEffectLevel[currentCard.effectName]++;
-        var effect = CardManager.Instance.CreateLevelUpEffect(currentCard.effectName);
-        effect.ApplyEffect(currentCard);
+        if (isArtifact)
+        {
+            CardManager.Instance.artifactEffectLevel[artifactCard.effectName]++;
+            var effect = CardManager.Instance.CreateArtifactEffect(artifactCard.effectName);
+            effect.ApplyEffect(artifactCard);
+        }
+        else
+        {
+            CardManager.Instance.levelUpEffectLevel[levelUpCard.effectName]++;
+            var effect = CardManager.Instance.CreateLevelUpEffect(levelUpCard.effectName);
+            effect.ApplyEffect(levelUpCard);
+        }
 
         UIManager.Instance.Hide<LevelUpCardFrame>();
         BattleManager.Instance.isStop = false;
         Time.timeScale = 1;
-
-        CardManager.Instance.levelUpCount++;
-        if (CardManager.Instance.levelUpCount % 3 == 0)
-        {
-            BattleManager.Instance.isStop = true;
-            Time.timeScale = 0;
-            UIManager.Instance.Show<ArtifactCardFrame>("FloatingUI").Initialize();
-        }
     }
 }

@@ -1,51 +1,112 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using System.Linq;
 using UnityEngine;
 
 public class LevelUpCardFrame : UIBase
 {
-    public LevelUpCard[] cardSlots = new LevelUpCard[3]; // 총 3개의 카드 슬롯 (자식 컴포넌트)
-    private List<int> usedIndices = new List<int>();
+    public LevelUpCard[] cardSlots = new LevelUpCard[3];
 
     public override void Initialize()
     {
         base.Initialize();
 
-        LevelUpCardScriptableObject[] allCards = Resources.LoadAll<LevelUpCardScriptableObject>("Cards");
-
         ShowCards();
 
-        // 1. 사용 가능한 카드만 필터링 (레벨 < 5)
-        List<LevelUpCardScriptableObject> availableCards = new List<LevelUpCardScriptableObject>();
-        foreach (var card in allCards)
-        {
-            if (card.effectName != "HealHalf" && CardManager.Instance.levelUpEffectLevel[card.effectName] < 5)
-            {
-                availableCards.Add(card);
-            }
-        }
-        // 2. 카드를 섞기
-        Shuffle(availableCards);
+        var levelUpCards = GetAvailableLevelUpCards();
+        var artifactCards = GetAvailableArtifactCards();
 
-        // 3. 슬롯별로 할당
+        Shuffle(levelUpCards);
+        Shuffle(artifactCards);
+
+        int levelIndex = 0;
+        int artifactIndex = 0;
+
         for (int i = 0; i < cardSlots.Length; i++)
         {
-            if (i < availableCards.Count)
+            bool spawnArtifact = Random.value < 0.3f;
+
+            // 아티팩트 선택
+            if (spawnArtifact && artifactIndex < artifactCards.Count)
             {
-                cardSlots[i].Initialize(availableCards[i].effectName); // 일반 카드
+                cardSlots[i].InitializeArtifact(artifactCards[artifactIndex]);
+                artifactIndex++;
             }
-            else
+            // 레벨업 선택
+            else if (levelIndex < levelUpCards.Count)
             {
-                cardSlots[i].Initialize("HealHalf"); // 회복 카드
+                cardSlots[i].InitializeLevelUp(levelUpCards[levelIndex]);
+                levelIndex++;
+            }
+            // 레벨업이 부족하면 아티팩트로 대체
+            else if (artifactIndex < artifactCards.Count)
+            {
+                cardSlots[i].InitializeArtifact(artifactCards[artifactIndex]);
+                artifactIndex++;
             }
         }
     }
 
-    public void HideCards()
+    private List<LevelUpCardScriptableObject> GetAvailableLevelUpCards()
     {
+        var allCards = Resources.LoadAll<LevelUpCardScriptableObject>("Cards");
 
+        var available = allCards
+            .Where(card =>
+                card.effectName != "Heal" &&
+                CardManager.Instance.levelUpEffectLevel[card.effectName] < 5)
+            .ToList();
+
+        // 선택 가능한 카드가 없으면 Heal 반환
+        if (available.Count == 0)
+        {
+            var healCard = allCards.FirstOrDefault(card => card.effectName == "Heal");
+            if (healCard != null)
+                available.Add(healCard);
+        }
+
+        return available;
+    }
+
+    private List<ArtifactCardScriptableObject> GetAvailableArtifactCards()
+    {
+        List<ArtifactCardScriptableObject> allCards = new List<ArtifactCardScriptableObject>();
+
+        var characterCards = Resources.LoadAll<ArtifactCardScriptableObject>(
+            "Artifacts/" + GameManager.Instance.characterName);
+
+        var commonCards = Resources.LoadAll<ArtifactCardScriptableObject>(
+            "Artifacts/Common");
+
+        allCards.AddRange(characterCards);
+        allCards.AddRange(commonCards);
+
+        var available = allCards
+            .Where(card =>
+                card.effectName != "Heal" &&
+                CardManager.Instance.artifactEffectLevel[card.effectName] < 5)
+            .ToList();
+
+        // 선택 가능한 카드가 없으면 Heal 반환
+        if (available.Count == 0)
+        {
+            var healCard = allCards.FirstOrDefault(card => card.effectName == "Heal");
+            if (healCard != null)
+                available.Add(healCard);
+        }
+
+        return available;
+    }
+
+    private void Shuffle<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int rand = Random.Range(i, list.Count);
+            T temp = list[i];
+            list[i] = list[rand];
+            list[rand] = temp;
+        }
     }
 
     public void ShowCards()
@@ -54,28 +115,15 @@ public class LevelUpCardFrame : UIBase
         {
             RectTransform rectTransform = cardSlots[i].GetComponent<RectTransform>();
 
-            Vector2 targetPosition = new Vector2(cardSlots[i].GetComponent<RectTransform>().anchoredPosition.x, 0);
-            Vector2 startPos = new Vector2(cardSlots[i].GetComponent<RectTransform>().anchoredPosition.x, 1080);
+            Vector2 targetPosition = new Vector2(rectTransform.anchoredPosition.x, 0);
+            Vector2 startPos = new Vector2(rectTransform.anchoredPosition.x, 1080);
 
             rectTransform.anchoredPosition = startPos;
 
             rectTransform.DOAnchorPos(targetPosition, 0.5f)
                 .SetEase(Ease.InOutBack)
                 .SetUpdate(true)
-                .OnComplete(() =>
-                {
-                    // 애니메이션이 완료된 후 실행할 코드 (예: Debug.Log("도착!"))
-                    Debug.Log(gameObject.name + "이(가) 화면 중앙에 도착했습니다.");
-                });
-        }
-    }
-
-    private void Shuffle<T>(List<T> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            int rand = UnityEngine.Random.Range(i, list.Count);
-            (list[i], list[rand]) = (list[rand], list[i]);
+                .SetDelay(i * 0.05f);
         }
     }
 }
