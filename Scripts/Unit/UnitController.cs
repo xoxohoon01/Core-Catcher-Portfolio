@@ -37,7 +37,7 @@ public class UnitController : MonoBehaviour
     public Faction faction;
     public BaseStatus baseStatus;
     public Status status = new Status();
-    protected List<StatModifier> modifiers = new List<StatModifier>();
+    protected List<IStatModifier> modifiers = new List<IStatModifier>();
     protected bool isDirty = true;
 
     protected Vector3 lastVelocity;
@@ -77,7 +77,7 @@ public class UnitController : MonoBehaviour
         status.hp = Mathf.Min(status.hp + healAmount, status.maxHP);
     }
 
-    public void AddModifier(StatModifier mod)
+    public void AddModifier(IStatModifier mod)
     {
         modifiers.Add(mod);
         isDirty = true;
@@ -87,14 +87,10 @@ public class UnitController : MonoBehaviour
     {
         for (int i = modifiers.Count - 1; i >= 0; i--)
         {
-            if (modifiers[i].duration > 0)
+            if (modifiers[i].IsExpired())
             {
-                modifiers[i].duration -= Time.deltaTime;
-                if (modifiers[i].duration <= 0)
-                {
-                    modifiers.RemoveAt(i);
-                    isDirty = true;
-                }
+                modifiers.RemoveAt(i);
+                isDirty = true;
             }
         }
     }
@@ -106,12 +102,12 @@ public class UnitController : MonoBehaviour
 
         foreach (var mod in modifiers)
         {
-            if (mod.statType != type) continue;
+            if (mod.StatType != type) continue;
 
-            if (mod.type == ModifierType.Add)
-                add += mod.value;
+            if (mod.ModifierType == ModifierType.Add)
+                add += mod.GetValue();
             else
-                mul += mod.value;
+                mul += mod.GetValue();
         }
 
         return (baseValue + add) * (1f + mul);
@@ -119,7 +115,18 @@ public class UnitController : MonoBehaviour
 
     protected void RecalculateStats()
     {
-        if (!isDirty) return;
+        bool hasConditional = false;
+
+        foreach (var mod in modifiers)
+        {
+            if (mod is ConditionalModifier)
+            {
+                hasConditional = true;
+                break;
+            }
+        }
+
+        if (!isDirty && !hasConditional) return;
 
         status.maxHP = CalculateStat(StatType.MaxHP, baseStatus.maxHP);
         status.armor = CalculateStat(StatType.Armor, baseStatus.armor);

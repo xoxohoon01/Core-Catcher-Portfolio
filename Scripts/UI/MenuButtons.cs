@@ -43,8 +43,6 @@ public class MenuButtons : UIBase
         {
             if (UIManager.Instance.Get<LevelUpCardFrame>() != null && UIManager.Instance.Get<LevelUpCardFrame>().gameObject.activeInHierarchy)
                 return;
-            if (UIManager.Instance.Get<ArtifactCardFrame>() != null && UIManager.Instance.Get<ArtifactCardFrame>().gameObject.activeInHierarchy)
-                return;
 
             Time.timeScale = 1;
             BattleManager.Instance.isStop = false;

@@ -8,23 +8,22 @@ public class DecreaseCooldown : ILevelUpCardEffect
     {
         if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
         {
-            StatModifier cardModifier = new StatModifier
-            {
-                statType = StatType.CooldownReduction,
-                type = ModifierType.Add,
-                value = card.amountByMaxLevel
-            };
+            StatModifier cardModifier = new StatModifier(
+                StatType.CooldownReduction,
+                ModifierType.Add,
+                card.amountByMaxLevel
+            );
 
             PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
         }
         else
         {
             StatModifier cardModifier = new StatModifier
-            {
-                statType = StatType.CooldownReduction,
-                type = ModifierType.Add,
-                value = card.amount
-            };
+            (
+                StatType.CooldownReduction,
+                ModifierType.Add,
+                card.amount
+            );
 
             PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
         }

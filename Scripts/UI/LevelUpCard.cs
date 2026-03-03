@@ -37,7 +37,7 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         title.text = card.displayName;
 
         int level = CardManager.Instance.artifactEffectLevel[card.effectName];
-        float amount = (level == 4) ? card.amountByMaxLevel : card.amount;
+        float amount = (level == 4) ? card.baseAmount + (level * card.amountPerLevel) + (card.amountByMaxLevel) : card.baseAmount + level * card.amountPerLevel;
 
         context.text = string.Format(card.displayDescription, amount);
     }
@@ -46,9 +46,21 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
     {
         if (isArtifact)
         {
-            CardManager.Instance.artifactEffectLevel[artifactCard.effectName]++;
-            var effect = CardManager.Instance.CreateArtifactEffect(artifactCard.effectName);
-            effect.ApplyEffect(artifactCard);
+            string effectName = artifactCard.effectName;
+
+            int level = CardManager.Instance.artifactEffectLevel[effectName];
+            if (level == 0)
+            {
+                var effect = CardManager.Instance.CreateArtifactEffect(effectName);
+                effect?.ApplyEffect(artifactCard);
+            }
+
+            // 레벨 증가
+            CardManager.Instance.artifactEffectLevel[effectName]++;
+
+            UIManager.Instance.Hide<LevelUpCardFrame>();
+            BattleManager.Instance.isStop = false;
+            Time.timeScale = 1;
         }
         else
         {

@@ -105,6 +105,7 @@ public class MonsterController : UnitController
             animator.Play($"{gameObject.name}Death");
 
             GetComponent<Collider>().enabled = false;
+            agent.enabled = false;
             StateMachine = null;
         }
         else if (BattleManager.Instance.entireTime >= BattleManager.Instance.stageData.bossTime && !isDead && !isBoss)

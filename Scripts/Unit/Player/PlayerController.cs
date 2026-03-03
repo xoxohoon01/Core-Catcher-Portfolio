@@ -636,6 +636,10 @@ public class PlayerController : UnitController
                     barrierDelay = 20;
                 }
             }
+
+            if (CardManager.Instance.artifactEffectLevel["Berserk"] > 0)
+            {
+            }
         }
     }
 
