@@ -14,11 +14,19 @@ public class CharacterSelect : UIBase
 
     public override void Initialize()
     {
-        CharacterScriptableObject[] characters = Resources.LoadAll<CharacterScriptableObject>("CharacterSO");
+        StartCoroutine(WaitForCharacterAndRefresh());
+    }
+
+    private IEnumerator WaitForCharacterAndRefresh()
+    {
+        // GameManager.Instance.characterName이 준비될 때까지 대기
+        while (string.IsNullOrEmpty(GameManager.Instance.characterName))
+            yield return null;
 
         currentCharacterName = GameManager.Instance.characterName;
         RefreshText(currentCharacterName);
     }
+
 
     public void RefreshText(string characterName)
     {
