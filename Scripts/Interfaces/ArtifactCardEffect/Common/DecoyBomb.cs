@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DecoyBomb : IArtifactCardEffect
 {
+    public void Update()
+    {
+    }
     public void ApplyEffect(ArtifactCardScriptableObject card)
     {
     }

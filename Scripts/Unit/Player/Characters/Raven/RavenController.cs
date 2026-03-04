@@ -32,19 +32,6 @@ public class RavenController : PlayerController
     protected override void DashInitialize()
     {
         base.DashInitialize();
-
-        if (CardManager.Instance.artifactEffectLevel["TacticalDodge"] > 0)
-        {
-            StatModifier tacticalDodge = new StatModifier
-            (
-                StatType.CritChance,   // 또는 CritDamage
-                ModifierType.Add,      // % 기반이면 Mul
-                0.1f,                  // +30% 크리 확률
-                3f                     // 3초 지속
-            );
-            
-            AddModifier(tacticalDodge);
-        }
     }
 
     public override void BasicAttackInitialize(int number)

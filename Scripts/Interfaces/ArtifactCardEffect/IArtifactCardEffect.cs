@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IArtifactCardEffect
 {
+    void Update();
     void ApplyEffect(ArtifactCardScriptableObject card);
 }

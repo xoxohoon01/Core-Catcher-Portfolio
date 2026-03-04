@@ -6,11 +6,12 @@ public class PlayerController : UnitController
 {
     public CharacterScriptableObject characterData;
 
+    public event System.Action OnBasicAttack;
     public event System.Action OnSkillUsed;
+    public event System.Action OnDash;
     private List<IArtifactCardEffect> activeArtifacts = new List<IArtifactCardEffect>();
 
     public GameObject shield;
-    public float barrierDelay;
 
     private bool isDash;
     protected bool isAttack;
@@ -164,6 +165,7 @@ public class PlayerController : UnitController
             dashVector = direction.normalized * characterData.dashForce;
             dashDelay = status.dashCooldown;
             dashSpan = characterData.dashDuration;
+            OnDash?.Invoke();
 
             transform.rotation = Quaternion.LookRotation(direction);
             GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask("Monster");
@@ -265,6 +267,7 @@ public class PlayerController : UnitController
 
             attackDelay = delay * 0.95f;
             attackSpan = span;
+            OnBasicAttack?.Invoke();
 
             int stateHash = Animator.StringToHash(clipName);
             animator.Play(stateHash);
@@ -628,28 +631,10 @@ public class PlayerController : UnitController
                 }
             }
 
-            // 배리어 계산
-            if (CardManager.Instance.artifactEffectLevel["Barrier"] > 0)
-            {
-                if (status.shield <= 0)
-                {
-                    barrierDelay = Mathf.Max(barrierDelay - Time.deltaTime, 0);
-                }
-
-                if (barrierDelay <= 0)
-                {
-                    status.shield = 30 + ((CardManager.Instance.artifactEffectLevel["Barrier"] - 1) * 10);
-                    barrierDelay = 20;
-                }
-            }
-
             // 아티팩트 계산
             foreach (var artifact in activeArtifacts)
             {
-                if (artifact is Fury fury)
-                {
-                    fury.Update();
-                }
+                artifact.Update();
             }
         }
     }

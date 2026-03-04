@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class LevelUpCard : MonoBehaviour, IPointerClickHandler
 {
@@ -37,9 +38,23 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         title.text = card.displayName;
 
         int level = CardManager.Instance.artifactEffectLevel[card.effectName];
-        float amount = (level == 4) ? card.baseAmount + (level * card.amountPerLevel) + (card.amountByMaxLevel) : card.baseAmount + level * card.amountPerLevel;
+        string desc = card.displayDescription;
 
-        context.text = string.Format(card.displayDescription, amount);
+        foreach (var attr in card.attributes)
+        {
+            if (attr.type == AttributeType.none) continue;
+
+            float value = card.GetNextValue(attr.type, level);
+            string key = "{" + attr.type + "}";
+
+            string formattedValue = attr.isPercentage
+                ? value.ToString("0.##%")
+                : value.ToString("0.##");
+
+            desc = desc.Replace(key, formattedValue);
+        }
+
+        context.text = desc;
     }
 
     public void OnPointerClick(PointerEventData eventData)

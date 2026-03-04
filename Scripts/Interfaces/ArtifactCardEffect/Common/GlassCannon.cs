@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class GlassCannon : IArtifactCardEffect
 {
+    public void Update()
+    {
+    }
+
     public void ApplyEffect(ArtifactCardScriptableObject card)
     {
         PlayerController player = PlayerManager.Instance.GetPlayer();
@@ -14,16 +17,15 @@ public class GlassCannon : IArtifactCardEffect
             ModifierType.Multiply,
             () =>
             {
-                int level = CardManager.Instance.artifactEffectLevel[card.effectName];
+                int level = CardManager.Instance
+                    .artifactEffectLevel[card.effectName];
 
-                float value = card.baseAmount +
-                                 (card.amountPerLevel * (level - 1)) +
-                                 (level == 5 ? card.amountByMaxLevel : 0);
+                if (level <= 0) return 0f;
 
-                return value;
+                return card.GetValue(AttributeType.amount, level);
             },
             () => true
-            ));
+        ));
 
         player.AddModifier(new ConditionalModifier(
             StatType.MaxHP,
@@ -33,6 +35,6 @@ public class GlassCannon : IArtifactCardEffect
                 return -0.2f;
             },
             () => true
-            ));
+        ));
     }
 }
