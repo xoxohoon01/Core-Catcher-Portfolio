@@ -52,7 +52,7 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
             if (level == 0)
             {
                 var effect = CardManager.Instance.CreateArtifactEffect(effectName);
-                effect?.ApplyEffect(artifactCard);
+                PlayerManager.Instance.GetPlayer().AddArtifact(effect, artifactCard);
             }
 
             // 레벨 증가

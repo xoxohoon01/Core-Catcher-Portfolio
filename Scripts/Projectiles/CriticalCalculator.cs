@@ -12,7 +12,7 @@ public static class CriticalCalculator
 {
     public static CritResult Calculate(UnitController attacker)
     {
-        float crit = attacker.status.critChance * 100;
+        float crit = attacker.status.critChance * 100f;
 
         bool normalCrit = Random.Range(0f, 100f) < Mathf.Min(crit, 100f);
         crit -= 100f;

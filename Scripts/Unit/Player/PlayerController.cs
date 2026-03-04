@@ -1,14 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : UnitController
 {
     public CharacterScriptableObject characterData;
+
+    public event System.Action OnSkillUsed;
+    private List<IArtifactCardEffect> activeArtifacts = new List<IArtifactCardEffect>();
 
     public GameObject shield;
     public float barrierDelay;
@@ -351,6 +350,7 @@ public class PlayerController : UnitController
         }
 
         skill.OnSkillStart(this);
+        OnSkillUsed?.Invoke();
     }
     public void OnSkillAnimationEvent(int number)
     {
@@ -529,6 +529,12 @@ public class PlayerController : UnitController
     {
     }
 
+    public void AddArtifact(IArtifactCardEffect artifact, ArtifactCardScriptableObject card)
+    {
+        artifact.ApplyEffect(card);
+        activeArtifacts.Add(artifact);
+    }
+
     public void CheckDeath()
     {
         if (!isDead && status.hp <= 0)
@@ -637,8 +643,13 @@ public class PlayerController : UnitController
                 }
             }
 
-            if (CardManager.Instance.artifactEffectLevel["Berserk"] > 0)
+            // 아티팩트 계산
+            foreach (var artifact in activeArtifacts)
             {
+                if (artifact is Fury fury)
+                {
+                    fury.Update();
+                }
             }
         }
     }

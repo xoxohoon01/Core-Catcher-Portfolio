@@ -22,28 +22,47 @@ public class LevelUpCardFrame : UIBase
         int levelIndex = 0;
         int artifactIndex = 0;
 
-        for (int i = 0; i < cardSlots.Length; i++)
+        // Slot 0: Artifact guaranteed
+        if (artifactIndex < artifactCards.Count)
         {
-            bool spawnArtifact = Random.value < 0.3f;
+            cardSlots[0].InitializeArtifact(artifactCards[artifactIndex]);
+            artifactIndex++;
+        }
+        else if (levelIndex < levelUpCards.Count)
+        {
+            cardSlots[0].InitializeLevelUp(levelUpCards[levelIndex]);
+            levelIndex++;
+        }
 
-            // 아티팩트 선택
-            if (spawnArtifact && artifactIndex < artifactCards.Count)
-            {
-                cardSlots[i].InitializeArtifact(artifactCards[artifactIndex]);
-                artifactIndex++;
-            }
-            // 레벨업 선택
-            else if (levelIndex < levelUpCards.Count)
-            {
-                cardSlots[i].InitializeLevelUp(levelUpCards[levelIndex]);
-                levelIndex++;
-            }
-            // 레벨업이 부족하면 아티팩트로 대체
-            else if (artifactIndex < artifactCards.Count)
-            {
-                cardSlots[i].InitializeArtifact(artifactCards[artifactIndex]);
-                artifactIndex++;
-            }
+        // Slot 1: LevelUp guaranteed
+        if (levelIndex < levelUpCards.Count)
+        {
+            cardSlots[1].InitializeLevelUp(levelUpCards[levelIndex]);
+            levelIndex++;
+        }
+        else if (artifactIndex < artifactCards.Count)
+        {
+            cardSlots[1].InitializeArtifact(artifactCards[artifactIndex]);
+            artifactIndex++;
+        }
+
+        // Slot 2: Random from both pools
+        bool spawnArtifact = Random.value < 0.5f;
+
+        if (spawnArtifact && artifactIndex < artifactCards.Count)
+        {
+            cardSlots[2].InitializeArtifact(artifactCards[artifactIndex]);
+            artifactIndex++;
+        }
+        else if (levelIndex < levelUpCards.Count)
+        {
+            cardSlots[2].InitializeLevelUp(levelUpCards[levelIndex]);
+            levelIndex++;
+        }
+        else if (artifactIndex < artifactCards.Count)
+        {
+            cardSlots[2].InitializeArtifact(artifactCards[artifactIndex]);
+            artifactIndex++;
         }
     }
 

@@ -35,7 +35,7 @@ public class Berserk : IArtifactCardEffect
 
                 // 레벨 기반 최대 증가량 계산
                 float maxValue = card.baseAmount +
-                                 (card.amountPerLevel * (level - 1)) +
+                                 ((level - 1) * card.amountPerLevel) +
                                  (level == 5 ? card.amountByMaxLevel : 0);
 
                 // 0% → maxValue까지 선형 증가

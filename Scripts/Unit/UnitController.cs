@@ -38,7 +38,7 @@ public class UnitController : MonoBehaviour
     public BaseStatus baseStatus;
     public Status status = new Status();
     protected List<IStatModifier> modifiers = new List<IStatModifier>();
-    protected bool isDirty = true;
+    public bool isDirty = true;
 
     protected Vector3 lastVelocity;
     protected float lastAnimSpeed;

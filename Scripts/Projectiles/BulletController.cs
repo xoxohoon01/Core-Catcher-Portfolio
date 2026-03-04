@@ -3,12 +3,13 @@ using Microlight.MicroBar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 public class BulletController : MonoBehaviour
 {
+    public static Action OnPlayerHit;
+
     protected DamageNumber damageNumberPrefab;
 
     protected bool isInitialized;
@@ -90,6 +91,8 @@ public class BulletController : MonoBehaviour
             target.status.hp -= remainDamage;
             damageNumberPrefab.Spawn(target.transform.position, remainDamage);
         }
+
+        OnPlayerHit?.Invoke();
     }
 
     protected virtual void AfterHit(UnitController target)

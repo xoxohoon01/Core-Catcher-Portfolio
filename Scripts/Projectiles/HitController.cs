@@ -1,12 +1,14 @@
 using DamageNumbersPro;
 using Microlight.MicroBar;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HitController : MonoBehaviour
 {
+    public static Action OnPlayerHit;
+
     protected DamageNumber damageNumberPrefab;
     public GameObject particleObject;
     public GameObject audioObject;
@@ -96,6 +98,8 @@ public class HitController : MonoBehaviour
             target.status.hp -= remainDamage;
             critResult.damageNumber.Spawn(target.transform.position, remainDamage);
         }
+
+        OnPlayerHit?.Invoke();
     }
 
     protected virtual void AfterHit(UnitController target)
@@ -104,37 +108,6 @@ public class HitController : MonoBehaviour
         {
             target.healthBar.UpdateBar(target.status.hp, false, UpdateAnim.Damage);
         }
-    }
-
-    public int CheckCritical(UnitController sender)
-    {
-        float crit = sender.status.critChance * 100;
-
-        bool normalCrit = Random.Range(0f, 100f) < Mathf.Min(crit, 100f);
-        crit -= 100f;
-
-        bool superCrit = false;
-        if (crit > 0)
-        {
-            superCrit = Random.Range(0f, 100f) < Mathf.Min(crit, 100f);
-            crit -= 100f;
-        }
-
-        bool ultraCrit = false;
-        if (crit > 0)
-        {
-            ultraCrit = Random.Range(0f, 100f) < Mathf.Min(crit, 100f);
-            crit -= 100f;
-        }
-
-        if (ultraCrit)
-            return 4;
-        else if (superCrit)
-            return 3;
-        else if (normalCrit)
-            return 2;
-        else
-            return 1;
     }
 
     private IEnumerator CoRestoreMultiHit(UnitController target, float time)
