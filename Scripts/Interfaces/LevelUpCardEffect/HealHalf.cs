@@ -16,4 +16,8 @@ public class HealHalf : ILevelUpCardEffect, IArtifactCardEffect
     {
         PlayerManager.Instance.GetPlayer().GetHeal(PlayerManager.Instance.GetPlayer().status.maxHP * 0.5f);
     }
+
+    public void OnDash(Vector3 position, float damage, UnitController owner)
+    {
+    }
 }

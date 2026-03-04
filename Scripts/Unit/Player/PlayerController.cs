@@ -138,11 +138,6 @@ public class PlayerController : UnitController
     
     protected virtual void DashInitialize()
     {
-        if (CardManager.Instance.artifactEffectLevel["DecoyBomb"] > 0)
-        {
-            ObjectPoolManager.Instance.Spawn("DecoyBomb", transform.position, Quaternion.identity).GetComponent<DecoyBombController>()
-                .Initialize(status.damage, 0, 0.2f, 0.5f, 1.5f, 0, this, Faction.Player, Vector3.one * 5f);
-        }
     }
 
     protected void DashStart(string dashAnimationName)
@@ -165,13 +160,14 @@ public class PlayerController : UnitController
             dashVector = direction.normalized * characterData.dashForce;
             dashDelay = status.dashCooldown;
             dashSpan = characterData.dashDuration;
-            OnDash?.Invoke();
 
             transform.rotation = Quaternion.LookRotation(direction);
             GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask("Monster");
 
             StartAnimation(dashAnimationName);
             DashInitialize();
+
+            OnDash?.Invoke();
         }
     }
 

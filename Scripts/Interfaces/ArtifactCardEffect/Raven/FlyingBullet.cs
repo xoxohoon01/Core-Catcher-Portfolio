@@ -6,7 +6,6 @@ public class FlyingBullet : IArtifactCardEffect
 {
     public void Update()
     {
-
     }
     public void ApplyEffect(ArtifactCardScriptableObject card)
     {

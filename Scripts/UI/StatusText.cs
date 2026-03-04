@@ -34,19 +34,19 @@ public class StatusText : UIBase
         if (status == null)
             return;
 
-        maxHP.text = status.maxHP.ToString();
-        damage.text = status.damage.ToString();
-        armor.text = status.armor.ToString();
-        moveSpeed.text = (status.moveSpeed * 10f).ToString();
-        attackSpeed.text = status.attackSpeed.ToString();
-        cooldown.text = $"{status.cooldownReduction * 100}%";
-        skillRange.text = $"{status.skillRange * 100}%";
-        skillSpeed.text = $"{status.skillSpeed * 100}%";
+        maxHP.text = $"{status.maxHP:0.##}";
+        damage.text = $"{status.damage:0.##}";
+        armor.text = $"{status.armor:0.##}";
+        moveSpeed.text = $"{status.moveSpeed * 10f:0.##}";
+        attackSpeed.text = $"{status.attackSpeed:0.##}";
+        cooldown.text = $"{status.cooldownReduction * 100:0.##}%";
+        skillRange.text = $"{status.skillRange * 100:0.##}%";
+        skillSpeed.text = $"{status.skillSpeed * 100:0.##}%";
 
-        critChance.text = $"{status.critChance * 100}%";
-        critDamage.text = $"x{status.critDamage:F2}%";
-        skillDamage.text = $"{status.skillDamage * 100}%";
-        drain.text = $"{status.drain * 100}%";
-        dashCooldown.text = $"{status.dashCooldown:F2}";
+        critChance.text = $"{status.critChance * 100:0.##}%";
+        critDamage.text = $"x{status.critDamage:0.##}%";
+        skillDamage.text = $"{status.skillDamage * 100:0.##}%";
+        drain.text = $"{status.drain * 100:0.##}%";
+        dashCooldown.text = $"{status.dashCooldown:0.##}";
     }
 }

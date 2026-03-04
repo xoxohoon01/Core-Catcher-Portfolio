@@ -1,50 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardManager : MonoSingleton<CardManager>
 {
-    public int levelUpCount = 0;
-    public Dictionary<string, int> levelUpEffectLevel = new Dictionary<string, int>();
-    public Dictionary<string, int> artifactEffectLevel = new Dictionary<string, int>();
+    public Dictionary<string, int> levelUpEffectLevel = new();
+    public Dictionary<string, int> artifactEffectLevel = new();
 
-    public ILevelUpCardEffect CreateLevelUpEffect(string className)
-    {
-        Type type = Type.GetType(className);
-        if (type == null)
-        {
-            Debug.LogWarning($"클래스 '{className}'을 찾을 수 없습니다.");
-            return null;
-        }
-
-        if (!typeof(ILevelUpCardEffect).IsAssignableFrom(type))
-        {
-            Debug.LogWarning($"'{className}'은 ICardEffect를 구현하지 않았습니다.");
-            return null;
-        }
-
-        return Activator.CreateInstance(type) as ILevelUpCardEffect;
-    }
-
-    public IArtifactCardEffect CreateArtifactEffect(string className)
-    {
-        Type type = Type.GetType(className);
-        if (type == null)
-        {
-            Debug.LogWarning($"클래스 '{className}'을 찾을 수 없습니다.");
-            return null;
-        }
-
-        if (!typeof(IArtifactCardEffect).IsAssignableFrom(type))
-        {
-            Debug.LogWarning($"'{className}'은 ICardEffect를 구현하지 않았습니다.");
-            return null;
-        }
-
-        return Activator.CreateInstance(type) as IArtifactCardEffect;
-    }
+    private Dictionary<string, LevelUpCardScriptableObject> levelUpCards = new();
 
     protected override void Awake()
     {
@@ -53,22 +16,40 @@ public class CardManager : MonoSingleton<CardManager>
         levelUpEffectLevel.Clear();
         artifactEffectLevel.Clear();
 
-        LevelUpCardScriptableObject[] levelUpAllCards = Resources.LoadAll<LevelUpCardScriptableObject>("Cards");
-        foreach (LevelUpCardScriptableObject card in levelUpAllCards)
+        var levelUpAllCards = Resources.LoadAll<LevelUpCardScriptableObject>("Cards");
+        foreach (var card in levelUpAllCards)
         {
             levelUpEffectLevel.Add(card.effectName, 0);
+            levelUpCards.Add(card.effectName, card);
         }
 
-        ArtifactCardScriptableObject[] characterArtifactCards = Resources.LoadAll<ArtifactCardScriptableObject>($"Artifacts/{GameManager.Instance.characterName}");
-        foreach (ArtifactCardScriptableObject card in characterArtifactCards)
+        var artifactCards = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
+        foreach (var card in artifactCards)
         {
             artifactEffectLevel.Add(card.effectName, 0);
         }
+    }
 
-        ArtifactCardScriptableObject[] commonArtifactCards = Resources.LoadAll<ArtifactCardScriptableObject>($"Artifacts/Common");
-        foreach (ArtifactCardScriptableObject card in commonArtifactCards)
-        {
-            artifactEffectLevel.Add(card.effectName, 0);
-        }
+    public void SelectArtifact(string effectName)
+    {
+        artifactEffectLevel[effectName]++;
+
+        ArtifactManager.Instance.OnArtifactLevelUp(effectName);
+    }
+
+    public void SelectLevelUp(string effectName)
+    {
+        levelUpEffectLevel[effectName]++;
+
+        var effect = CreateLevelUpEffect(effectName);
+        effect?.ApplyEffect(levelUpCards[effectName]);
+    }
+
+    public ILevelUpCardEffect CreateLevelUpEffect(string className)
+    {
+        Type type = Type.GetType(className);
+        if (type == null) return null;
+
+        return Activator.CreateInstance(type) as ILevelUpCardEffect;
     }
 }

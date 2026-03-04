@@ -15,16 +15,19 @@ public class RavenController : PlayerController
     {
         base.Initialize();
 
-        status.damage = characterData.damage +
+        baseStatus.damage = characterData.damage +
             (SkillManager.Instance.Skill["Raven"][0].isUnlocked ? characterData.damage * 0.1f : 0) +
             (SkillManager.Instance.Skill["Raven"][1].isUnlocked ? characterData.damage * 0.1f : 0) +
             (SkillManager.Instance.Skill["Raven"][2].isUnlocked ? characterData.damage * 0.1f : 0)
             ;
 
-        status.maxHP = characterData.maxHP +
+        baseStatus.maxHP = characterData.maxHP +
             (SkillManager.Instance.Skill["Raven"][3].isUnlocked ? characterData.maxHP * 0.1f : 0) +
             (SkillManager.Instance.Skill["Raven"][4].isUnlocked ? characterData.maxHP * 0.1f : 0) +
             (SkillManager.Instance.Skill["Raven"][5].isUnlocked ? characterData.maxHP * 0.1f : 0);
+
+        isDirty = true;
+        RecalculateStats();
 
         status.hp = status.maxHP;
     }

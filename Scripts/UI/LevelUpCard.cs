@@ -1,8 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
 
 public class LevelUpCard : MonoBehaviour, IPointerClickHandler
 {
@@ -24,9 +23,15 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         title.text = card.displayName;
 
         int level = CardManager.Instance.levelUpEffectLevel[card.effectName];
-        float amount = (level == 4) ? card.amountByMaxLevel : card.amount;
+        string desc = card.displayDescription;
 
-        context.text = string.Format(card.displayDescription, amount);
+        string key = "{" + card.type + "}";
+
+        float value = (level == 4) ? card.amountByMaxLevel : card.amount;
+        value = card.isModified ? value * 100 : value;
+
+        desc = desc.Replace(key, FormatValue(value, card.isPercentage));
+        context.text = GetFormattedValue(desc);
     }
 
     public void InitializeArtifact(ArtifactCardScriptableObject card)
@@ -44,48 +49,49 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         {
             if (attr.type == AttributeType.none) continue;
 
-            float value = card.GetNextValue(attr.type, level);
             string key = "{" + attr.type + "}";
+            float value = card.GetNextValue(attr.type, level);
 
-            string formattedValue = attr.isPercentage
-                ? value.ToString("0.##%")
-                : value.ToString("0.##");
-
-            desc = desc.Replace(key, formattedValue);
+            desc = desc.Replace(key, FormatValue(value, attr.isPercentage));
         }
 
-        context.text = desc;
+        context.text = GetFormattedValue(desc);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (isArtifact)
-        {
-            string effectName = artifactCard.effectName;
-
-            int level = CardManager.Instance.artifactEffectLevel[effectName];
-            if (level == 0)
-            {
-                var effect = CardManager.Instance.CreateArtifactEffect(effectName);
-                PlayerManager.Instance.GetPlayer().AddArtifact(effect, artifactCard);
-            }
-
-            // 레벨 증가
-            CardManager.Instance.artifactEffectLevel[effectName]++;
-
-            UIManager.Instance.Hide<LevelUpCardFrame>();
-            BattleManager.Instance.isStop = false;
-            Time.timeScale = 1;
-        }
+            CardManager.Instance.SelectArtifact(artifactCard.effectName);
         else
-        {
-            CardManager.Instance.levelUpEffectLevel[levelUpCard.effectName]++;
-            var effect = CardManager.Instance.CreateLevelUpEffect(levelUpCard.effectName);
-            effect.ApplyEffect(levelUpCard);
-        }
+            CardManager.Instance.SelectLevelUp(levelUpCard.effectName);
 
         UIManager.Instance.Hide<LevelUpCardFrame>();
         BattleManager.Instance.isStop = false;
         Time.timeScale = 1;
+    }
+
+    private string FormatValue(float value, bool isPercent)
+    {
+        if (isPercent)
+            return $"<color=#80D4FF>{value:0.##%}</color>";
+        else
+            return $"<color=#80FF80>{value:0.##}</color>";
+    }
+
+    private string GetFormattedValue(string desc)
+    {
+        desc = desc.Replace("Skill Cooldown", "<color=#FA37CD>Skill Cooldown</color>");
+        desc = desc.Replace("Attack Speed", "<color=#FFFF00>Attack Speed</color>");
+        desc = desc.Replace("Damage", "<color=#FF0000>Damage</color>");
+        desc = desc.Replace("Crit Chance", "<color=#FF8800>Crit Chance</color>");
+        desc = desc.Replace("Crit Damage", "<color=#FF6600>Crit Damage</color>");
+        desc = desc.Replace("MaxHP", "<color=#00FF00>MaxHP</color>");
+        desc = desc.Replace("HP", "<color=#00FF00>HP</color>");
+        desc = desc.Replace("Move Speed", "<color=#00AAFF>Move Speed</color>");
+        desc = desc.Replace("Skill Range", "<color=#00FFAA>Skill Range</color>");
+        desc = desc.Replace("Skill Speed", "<color=#6400FF>Skill Speed</color>");
+        desc = desc.Replace("Shield", "<color=#0064FF>Shield</color>");
+
+        return desc;
     }
 }
