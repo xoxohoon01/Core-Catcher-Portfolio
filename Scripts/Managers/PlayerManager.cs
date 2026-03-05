@@ -32,11 +32,15 @@ public class PlayerManager : MonoSingleton<PlayerManager>
         {
             currentPlayer.status.exp -= currentPlayer.status.maxExp;
             currentPlayer.status.level += 1;
-            //currentPlayer.status.maxExp = Mathf.Min(currentPlayer.status.maxExp *= 1.075f, 750);
+            currentPlayer.baseStatus.damage += 1;
+            currentPlayer.isDirty = true;
+            currentPlayer.RecalculateStats();
+
             currentPlayer.status.maxExp = currentPlayer.status.maxExp *= 1.075f;
             BattleManager.Instance.isStop = true;
             Time.timeScale = 0;
             UIManager.Instance.Show<LevelUpCardFrame>("FloatingUI").Initialize();
+            UIManager.Instance.Get<StatusText>().UpdateText();
         }
     }
 

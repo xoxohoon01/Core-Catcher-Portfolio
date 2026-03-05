@@ -11,7 +11,7 @@ public class IncreaseDamage : ILevelUpCardEffect
             StatModifier cardModifier = new StatModifier
             (
                 StatType.Damage,
-                ModifierType.Add,
+                ModifierType.Multiply,
                 card.amountByMaxLevel
             );
 
@@ -22,7 +22,7 @@ public class IncreaseDamage : ILevelUpCardEffect
             StatModifier cardModifier = new StatModifier
             (
                 StatType.Damage,
-                ModifierType.Add,
+                ModifierType.Multiply,
                 card.amount
             );
 

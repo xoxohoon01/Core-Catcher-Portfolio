@@ -113,7 +113,7 @@ public class UnitController : MonoBehaviour
         return (baseValue + add) * (1f + mul);
     }
 
-    protected void RecalculateStats()
+    public void RecalculateStats()
     {
         bool hasConditional = false;
 

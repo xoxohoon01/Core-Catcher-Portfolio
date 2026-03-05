@@ -20,18 +20,29 @@ public class Settings : UIBase
         if (!isOpened)
         {
             RectTransform rect = GetComponent<RectTransform>();
-            // 시작 위치 설정
             rect.pivot = new Vector2(0, 1);
-            GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 2000);
-            // 슬라이드 인 연출
-            GetComponent<RectTransform>().DOAnchorPosY(-75f, 0.5f, true).SetEase(Ease.OutSine);
+            rect.anchoredPosition = new Vector2(0, 2000);
+
+            rect.DOAnchorPosY(-75f, 0.5f, true).SetEase(Ease.OutSine);
 
             isOpened = true;
         }
 
-        // 로드
+        // 슬라이더 초기화 시 이벤트 잠시 제거
+        musicVolumeSlider.onValueChanged.RemoveAllListeners();
+        sfxVolumeSlider.onValueChanged.RemoveAllListeners();
+
+        // 값 세팅
         musicVolumeSlider.value = SettingManager.Instance.settingData.musicVolume;
         sfxVolumeSlider.value = SettingManager.Instance.settingData.sfxVolume;
+
+        // 입력 필드도 세팅
+        musicInputField.text = musicVolumeSlider.value.ToString("0.##");
+        sfxInputField.text = sfxVolumeSlider.value.ToString("0.##");
+
+        // 이벤트 다시 연결
+        musicVolumeSlider.onValueChanged.AddListener(_ => UpdateMusicVolumeBySlider());
+        sfxVolumeSlider.onValueChanged.AddListener(_ => UpdateSFXVolumeBySlider());
     }
 
     public override void Hide()
@@ -39,34 +50,33 @@ public class Settings : UIBase
         if (isOpened)
         {
             transform.SetAsLastSibling();
-
-            // 시작 위치 설정
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75f);
-            // 슬라이드 인 연출
             GetComponent<RectTransform>().DOAnchorPosY(2000f, 0.5f, true).SetEase(Ease.InSine);
-
             isOpened = false;
         }
     }
 
     public void UpdateMusicVolumeBySlider()
     {
-        musicInputField.text = musicVolumeSlider.value.ToString();
+        musicInputField.text = musicVolumeSlider.value.ToString("0.##");
         SettingManager.Instance.SetMusicVolume(musicVolumeSlider.value);
     }
 
     public void UpdateSFXVolumeBySlider()
     {
-        sfxInputField.text = sfxVolumeSlider.value.ToString();
-        SettingManager.Instance.SetMusicVolume(sfxVolumeSlider.value);
+        sfxInputField.text = sfxVolumeSlider.value.ToString("0.##");
+        SettingManager.Instance.SetSFXVolume(sfxVolumeSlider.value);
     }
 
     public void UpdateMusicVolumeByInputField()
     {
         if (float.TryParse(musicInputField.text, out float value))
         {
+            // 이벤트 잠시 제거
+            musicVolumeSlider.onValueChanged.RemoveAllListeners();
             musicVolumeSlider.value = value;
             SettingManager.Instance.SetMusicVolume(value);
+            musicVolumeSlider.onValueChanged.AddListener(_ => UpdateMusicVolumeBySlider());
         }
     }
 
@@ -74,9 +84,11 @@ public class Settings : UIBase
     {
         if (float.TryParse(sfxInputField.text, out float value))
         {
+            // 이벤트 잠시 제거
+            sfxVolumeSlider.onValueChanged.RemoveAllListeners();
             sfxVolumeSlider.value = value;
             SettingManager.Instance.SetSFXVolume(value);
+            sfxVolumeSlider.onValueChanged.AddListener(_ => UpdateSFXVolumeBySlider());
         }
     }
 }
-
