@@ -327,9 +327,7 @@ public class PlayerController : UnitController
 
         animator.SetBool("isSkill", true);
 
-        float finalSpan =
-            (skill.baseSpan / (1 + ((status.attackSpeed / baseStatus.attackSpeed) * 0.1f)))
-            / status.skillSpeed;
+        float finalSpan = skill.baseSpan / status.skillSpeed;
 
         float finalCooldown =
             skill.baseCooldown * (1 - status.cooldownReduction);
