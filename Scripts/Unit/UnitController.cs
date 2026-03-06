@@ -81,6 +81,7 @@ public class UnitController : MonoBehaviour
     {
         modifiers.Add(mod);
         isDirty = true;
+        RecalculateStats();
     }
 
     void UpdateModifiers()

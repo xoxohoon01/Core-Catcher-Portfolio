@@ -32,7 +32,7 @@ public class MonsterController : UnitController
     protected void SetupStatus(int level)
     {
         status.level = level;
-        status.maxHP = status.maxHP * (1.0f + ((status.level - 1) * 0.25f));
+        status.maxHP = status.maxHP * (1.0f + ((status.level - 1) * 0.3f));
         status.hp = status.maxHP;
         status.damage = status.damage * (1.0f + ((status.level - 1) * 0.25f));
         status.armor = status.armor * (1.0f + ((status.level - 1) * 0.25f));

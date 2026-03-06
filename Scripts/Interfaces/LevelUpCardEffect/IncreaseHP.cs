@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IncreaseHP : ILevelUpCardEffect
 {
+    PlayerController player;
     public void ApplyEffect(LevelUpCardScriptableObject card)
     {
         if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
@@ -15,7 +16,9 @@ public class IncreaseHP : ILevelUpCardEffect
                 card.amountByMaxLevel
             );
 
-            PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
+            player = PlayerManager.Instance.GetPlayer();
+            player.AddModifier(cardModifier);
+            player.status.hp += card.amountByMaxLevel;
         }
         else
         {
@@ -26,7 +29,9 @@ public class IncreaseHP : ILevelUpCardEffect
                 card.amount
             );
 
-            PlayerManager.Instance.GetPlayer().AddModifier(cardModifier);
+            player = PlayerManager.Instance.GetPlayer();
+            player.AddModifier(cardModifier);
+            player.status.hp += card.amount;
         }
     }
 }

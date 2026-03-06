@@ -5,27 +5,21 @@ using UnityEngine;
 [System.Serializable]
 public class SpawnData
 {
-    public string monsterName;
     public float spawnTime;
-    public int count;
-    public float radius;
+    public List<WaveMonster> monsters;
     public bool isSpawned;
 
-    public SpawnData(string monsterName, float spawnTime, int count, float radius)
+    public SpawnData(float spawnTime, List<WaveMonster> monsters)
     {
-        this.monsterName = monsterName;
         this.spawnTime = spawnTime;
-        this.count = count;
-        this.radius = radius;
+        this.monsters = monsters;
         isSpawned = false;
     }
 
     public SpawnData(SpawnData data)
     {
-        this.monsterName = data.monsterName;
-        this.spawnTime = data.spawnTime;
-        this.count = data.count;
-        this.radius = data.radius;
+        spawnTime = data.spawnTime;
+        monsters = new List<WaveMonster>(data.monsters);
         isSpawned = false;
     }
 }
