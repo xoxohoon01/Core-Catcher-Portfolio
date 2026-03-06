@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardManager : MonoSingleton<CardManager>
@@ -8,6 +9,7 @@ public class CardManager : MonoSingleton<CardManager>
     public Dictionary<string, int> artifactEffectLevel = new();
 
     private Dictionary<string, LevelUpCardScriptableObject> levelUpCards = new();
+    private Dictionary<string, ArtifactCardScriptableObject> artifactCards = new();
 
     protected override void Awake()
     {
@@ -23,10 +25,11 @@ public class CardManager : MonoSingleton<CardManager>
             levelUpCards.Add(card.effectName, card);
         }
 
-        var artifactCards = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
-        foreach (var card in artifactCards)
+        var artifacts = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
+        foreach (var card in artifacts)
         {
             artifactEffectLevel.Add(card.effectName, 0);
+            artifactCards.Add(card.effectName, card);
         }
     }
 
@@ -51,5 +54,16 @@ public class CardManager : MonoSingleton<CardManager>
         if (type == null) return null;
 
         return Activator.CreateInstance(type) as ILevelUpCardEffect;
+    }
+
+    public ArtifactCardScriptableObject GetArtifact(string effectName)
+    {
+        if (!artifactCards.TryGetValue(effectName, out var card))
+        {
+            Debug.LogWarning($"Artifact not found : {effectName}");
+            return null;
+        }
+
+        return card;
     }
 }
