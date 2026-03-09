@@ -66,8 +66,6 @@ public class UnitController : MonoBehaviour
 
     public virtual void GetKnockback(Vector3 directionVector, float knockbackForce, float knockbackTime)
     {
-        if (isSuperArmor) return;
-
         isKnockback = true;
         this.knockbackTime = knockbackTime;
         knockbackSpan = 0;
@@ -82,8 +80,6 @@ public class UnitController : MonoBehaviour
 
     public virtual void GetAirBorne(float airborneForce)
     {
-        if (isSuperArmor) return;
-
         isAirborne = true;
         airborneSpan = 0;
 

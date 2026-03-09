@@ -160,6 +160,8 @@ public class MonsterController : UnitController
 
     public override void GetKnockback(Vector3 directionVector, float knockbackForce, float knockbackTime)
     {
+        if (isSuperArmor) return;
+
         base.GetKnockback(directionVector, knockbackForce, knockbackTime);
 
         animator.Play($"{gameObject.name}Idle");
@@ -171,6 +173,8 @@ public class MonsterController : UnitController
 
     public override void GetAirBorne(float airborneForce)
     {
+        if (isSuperArmor) return;
+
         base.GetAirBorne(airborneForce);
 
         animator.Play($"{gameObject.name}Idle");
