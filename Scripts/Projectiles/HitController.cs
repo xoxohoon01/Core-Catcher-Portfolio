@@ -71,6 +71,12 @@ public class HitController : MonoBehaviour
         CritResult critResult = CriticalCalculator.Calculate(sender);
 
         float finalDamage = damage * critResult.multiplier;
+
+        // 방어력 계산
+        float armor = target.status.armor;
+        float damageReduction = armor / (armor + 300f);
+        finalDamage = finalDamage * (1f - damageReduction);
+
         float remainDamage = finalDamage;
 
         if (target.status.shield > 0)

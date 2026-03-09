@@ -18,13 +18,13 @@ public class Berserk : IArtifactCardEffect
                 if (player.status.maxHP <= 0)
                     return 0f;
 
+                // 1 ~ 0
                 float ratio = player.status.hp / player.status.maxHP;
 
-                if (ratio >= 0.8f)
-                    return 0f;
-
-                float t = (0.8f - ratio) / 0.7f;
+                // 0.9
+                float t = (1f - ratio) / 0.8f;
                 t = Mathf.Clamp01(t);
+
 
                 int level = CardManager.Instance
                     .artifactEffectLevel[card.effectName];

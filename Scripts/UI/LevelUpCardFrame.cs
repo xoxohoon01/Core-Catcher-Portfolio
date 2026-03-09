@@ -145,4 +145,12 @@ public class LevelUpCardFrame : UIBase
                 .SetDelay(i * 0.05f);
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            Initialize();
+        }
+    }
 }

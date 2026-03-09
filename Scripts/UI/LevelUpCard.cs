@@ -81,16 +81,22 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
     private string GetFormattedValue(string desc)
     {
         desc = desc.Replace("Skill Cooldown", "<color=#FA37CD>Skill Cooldown</color>");
+        desc = desc.Replace("Skill Damage", "<color=#C329F2>Skill Damage</color>");
+        desc = desc.Replace("Skill Range", "<color=#00FFAA>Skill Range</color>");
+
+        desc = desc.Replace("Motion Speed", "<color=#6400FF>Motion Speed</color>");
         desc = desc.Replace("Attack Speed", "<color=#FFFF00>Attack Speed</color>");
-        desc = desc.Replace("Damage", "<color=#FF0000>Damage</color>");
+        desc = desc.Replace("Move Speed", "<color=#00AAFF>Move Speed</color>");
+
         desc = desc.Replace("Crit Chance", "<color=#FF8800>Crit Chance</color>");
         desc = desc.Replace("Crit Damage", "<color=#FF6600>Crit Damage</color>");
+
         desc = desc.Replace("MaxHP", "<color=#00FF00>MaxHP</color>");
         desc = desc.Replace("HP", "<color=#00FF00>HP</color>");
-        desc = desc.Replace("Move Speed", "<color=#00AAFF>Move Speed</color>");
-        desc = desc.Replace("Skill Range", "<color=#00FFAA>Skill Range</color>");
-        desc = desc.Replace("Skill Speed", "<color=#6400FF>Skill Speed</color>");
+        
         desc = desc.Replace("Shield", "<color=#0064FF>Shield</color>");
+
+        desc = desc.Replace("Damage", "<color=#FF0000>Damage</color>");
 
         return desc;
     }

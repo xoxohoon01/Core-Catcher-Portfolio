@@ -3,6 +3,7 @@ using Microlight.MicroBar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
@@ -19,6 +20,7 @@ public class BulletController : MonoBehaviour
     protected Vector3 prevPos;
     protected float bulletRadius;
 
+    protected CritResult critResult;
     protected float damage;
     protected float moveSpeed;
     protected float hitTime;
@@ -43,7 +45,7 @@ public class BulletController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         bulletRadius = GetComponent<CapsuleCollider>().radius;
 
-        CritResult critResult = CriticalCalculator.Calculate(sender);
+        critResult = CriticalCalculator.Calculate(sender);
 
         damageNumberPrefab = critResult.damageNumber;
 
@@ -64,7 +66,14 @@ public class BulletController : MonoBehaviour
     {
         float crit = target.status.critChance;
 
-        float remainDamage = damage;
+        float finalDamage = damage * critResult.multiplier;
+
+        // 방어력 계산
+        float armor = target.status.armor;
+        float damageReduction = armor / (armor + 300f);
+        finalDamage = finalDamage * (1f - damageReduction);
+
+        float remainDamage = finalDamage;
 
         if (target.status.shield > 0)
         {
