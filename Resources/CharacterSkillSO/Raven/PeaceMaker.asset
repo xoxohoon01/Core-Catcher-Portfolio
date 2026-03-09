@@ -16,5 +16,5 @@ MonoBehaviour:
   animationClipName: RavenSkill1
   displayName: Peace Maker
   description: Fires Shotgun 3 times.
-  baseCooldown: 4
+  baseCooldown: 8
   baseSpan: 1.5
