@@ -19,20 +19,29 @@ public class UnitController : MonoBehaviour
 
     public Animator animator { get; protected set; }
 
-    public bool isKnockback {  get; protected set; }
+    #region Condition
+    // Super Armor
+    public bool isSuperArmor { get; protected set; }
+    public float superArmorDecay { get; protected set; }
+
+    // KnockBack
+    public bool isKnockback { get; protected set; }
     public float knockbackTime { get; protected set; }
     public float knockbackSpan { get; protected set; }
+    protected Vector3 knockbackVector;
+    protected Vector3 knockbackStartVector;
 
+    // Airborne
     public bool isAirborne { get; protected set; }
     public float airborneSpan { get; protected set; }
+    
+    protected Vector3 airborneVector;
+    #endregion
+
 
     public bool isDead { get; protected set; }
 
     public Vector3 moveVector;
-
-    protected Vector3 knockbackVector;
-    protected Vector3 knockbackStartVector;
-    protected Vector3 airborneVector;
 
     public Faction faction;
     public BaseStatus baseStatus;
@@ -49,8 +58,16 @@ public class UnitController : MonoBehaviour
         return Physics.CheckBox(transform.position, boxSize, Quaternion.identity, LayerMask.GetMask("Ground"));
     }
 
+    public void GetSuperArmor(float time)
+    {
+        isSuperArmor = true;
+        superArmorDecay = time;
+    }
+
     public virtual void GetKnockback(Vector3 directionVector, float knockbackForce, float knockbackTime)
     {
+        if (isSuperArmor) return;
+
         isKnockback = true;
         this.knockbackTime = knockbackTime;
         knockbackSpan = 0;
@@ -65,6 +82,8 @@ public class UnitController : MonoBehaviour
 
     public virtual void GetAirBorne(float airborneForce)
     {
+        if (isSuperArmor) return;
+
         isAirborne = true;
         airborneSpan = 0;
 
@@ -175,6 +194,16 @@ public class UnitController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
             rigidbody.velocity = Vector3.zero;
             return;
+        }
+
+        if (isSuperArmor)
+        {
+            if (superArmorDecay <= 0)
+            {
+                isSuperArmor = false;
+            }
+
+            superArmorDecay = Mathf.Max(superArmorDecay - Time.deltaTime, 0);
         }
 
         if (isKnockback)

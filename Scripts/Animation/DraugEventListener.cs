@@ -8,6 +8,7 @@ public class DraugEventListener : MonoBehaviour
     {
         DraugController controller = GetComponent<DraugController>();
         controller.attackIndicator.gameObject.SetActive(true);
+        controller.GetSuperArmor(1.1f);
     }
 
     public void Attack()

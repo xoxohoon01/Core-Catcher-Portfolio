@@ -122,6 +122,29 @@ public class MonsterController : UnitController
         }
     }
 
+    private void CheckSuperArmor()
+    {
+        foreach (Material material in materials)
+        {
+            material.SetFloat("_IsActiveOutline", isSuperArmor ? 1 : 0);
+        }
+    }
+
+    private void CheckCrowedControl()
+    {
+        if (isAirborne || isKnockback || isAttack)
+        {
+            agent.enabled = false;
+            GetComponent<CapsuleCollider>().excludeLayers = excludeMaskInAttack;
+        }
+        else
+        {
+            agent.enabled = true;
+            GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask();
+        }
+    }    
+
+
     public void Despawn()
     {
         ObjectPoolManager.Instance.Despawn(gameObject);
@@ -194,16 +217,8 @@ public class MonsterController : UnitController
             attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
             StateMachine?.Update();
 
-            if (isAirborne || isKnockback || isAttack)
-            {
-                agent.enabled = false;
-                GetComponent<CapsuleCollider>().excludeLayers = excludeMaskInAttack;
-            }
-            else
-            {
-                agent.enabled = true;
-                GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask();
-            }
+            CheckCrowedControl();
+            CheckSuperArmor();
         }
         else
         {
