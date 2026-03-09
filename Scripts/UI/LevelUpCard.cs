@@ -52,7 +52,17 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
             string key = "{" + attr.type + "}";
             float value = card.GetNextValue(attr.type, level);
 
-            desc = desc.Replace(key, FormatValue(value, attr.isPercentage));
+            // 시간인지 확인
+            if (attr.type == AttributeType.period || attr.type == AttributeType.duration)
+            {
+                desc = desc.Replace(key, $"<color=#80D4FF>{value:0.##}s</color>");
+            }
+
+            // 시간이 아닌 경우
+            else
+            {
+                desc = desc.Replace(key, FormatValue(value, attr.isPercentage));
+            }
         }
 
         context.text = GetFormattedValue(desc);
@@ -84,7 +94,7 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         desc = desc.Replace("Skill Damage", "<color=#C329F2>Skill Damage</color>");
         desc = desc.Replace("Skill Range", "<color=#00FFAA>Skill Range</color>");
 
-        desc = desc.Replace("Motion Speed", "<color=#6400FF>Motion Speed</color>");
+        desc = desc.Replace("Motion Speed", "<color=#9600FF>Motion Speed</color>");
         desc = desc.Replace("Attack Speed", "<color=#FFFF00>Attack Speed</color>");
         desc = desc.Replace("Move Speed", "<color=#00AAFF>Move Speed</color>");
 
