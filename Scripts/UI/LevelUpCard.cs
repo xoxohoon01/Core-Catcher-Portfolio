@@ -22,7 +22,7 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         cardImage.sprite = card.cardSprite;
         title.text = card.displayName;
 
-        int level = CardManager.Instance.levelUpEffectLevel[card.effectName];
+        int level = CardManager.Instance.statLevel[card.effectName];
         string desc = card.displayDescription;
 
         string key = "{" + card.type + "}";

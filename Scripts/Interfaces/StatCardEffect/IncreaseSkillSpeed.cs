@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DecreaseCooldown : ILevelUpCardEffect
+public class IncreaseSkillSpeed : IStatCardEffect
 {
     public void ApplyEffect(StatCardScriptableObject card)
     {
-        if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
+        if (CardManager.Instance.statLevel[ToString()] == 5)
         {
-            StatModifier cardModifier = new StatModifier(
-                StatType.CooldownReduction,
+            StatModifier cardModifier = new StatModifier
+            (
+                StatType.SkillSpeed,
                 ModifierType.Add,
                 card.amountByMaxLevel
             );
@@ -20,7 +21,7 @@ public class DecreaseCooldown : ILevelUpCardEffect
         {
             StatModifier cardModifier = new StatModifier
             (
-                StatType.CooldownReduction,
+                StatType.SkillSpeed,
                 ModifierType.Add,
                 card.amount
             );

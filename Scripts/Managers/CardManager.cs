@@ -1,37 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardManager : MonoSingleton<CardManager>
 {
-    public Dictionary<string, int> levelUpEffectLevel = new();
+    public Dictionary<string, int> statLevel = new();
     public Dictionary<string, int> artifactEffectLevel = new();
 
-    private Dictionary<string, StatCardScriptableObject> levelUpCards = new();
+    private Dictionary<string, StatCardScriptableObject> statCards = new();
     private Dictionary<string, ArtifactCardScriptableObject> artifactCards = new();
 
-    protected override void Awake()
-    {
-        base.Awake();
-
-        levelUpEffectLevel.Clear();
-        artifactEffectLevel.Clear();
-
-        var levelUpAllCards = Resources.LoadAll<StatCardScriptableObject>("Cards");
-        foreach (var card in levelUpAllCards)
-        {
-            levelUpEffectLevel.Add(card.effectName, 0);
-            levelUpCards.Add(card.effectName, card);
-        }
-
-        var artifacts = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
-        foreach (var card in artifacts)
-        {
-            artifactEffectLevel.Add(card.effectName, 0);
-            artifactCards.Add(card.effectName, card);
-        }
-    }
+    public int OwnedArtifactCount => artifactEffectLevel.Count(x => x.Value > 0);
+    public const int MaxArtifactSlot = 4;
 
     public void SelectArtifact(string effectName)
     {
@@ -42,18 +24,18 @@ public class CardManager : MonoSingleton<CardManager>
 
     public void SelectLevelUp(string effectName)
     {
-        levelUpEffectLevel[effectName]++;
+        statLevel[effectName]++;
 
         var effect = CreateLevelUpEffect(effectName);
-        effect?.ApplyEffect(levelUpCards[effectName]);
+        effect?.ApplyEffect(statCards[effectName]);
     }
 
-    public ILevelUpCardEffect CreateLevelUpEffect(string className)
+    public IStatCardEffect CreateLevelUpEffect(string className)
     {
         Type type = Type.GetType(className);
         if (type == null) return null;
 
-        return Activator.CreateInstance(type) as ILevelUpCardEffect;
+        return Activator.CreateInstance(type) as IStatCardEffect;
     }
 
     public ArtifactCardScriptableObject GetArtifact(string effectName)
@@ -65,5 +47,27 @@ public class CardManager : MonoSingleton<CardManager>
         }
 
         return card;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        statLevel.Clear();
+        artifactEffectLevel.Clear();
+
+        var levelUpAllCards = Resources.LoadAll<StatCardScriptableObject>("Cards");
+        foreach (var card in levelUpAllCards)
+        {
+            statLevel.Add(card.effectName, 0);
+            statCards.Add(card.effectName, card);
+        }
+
+        var artifacts = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
+        foreach (var card in artifacts)
+        {
+            artifactEffectLevel.Add(card.effectName, 0);
+            artifactCards.Add(card.effectName, card);
+        }
     }
 }

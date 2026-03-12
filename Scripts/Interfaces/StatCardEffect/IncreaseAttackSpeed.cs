@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncreaseMoveSpeed : ILevelUpCardEffect
+public class IncreaseAttackSpeed : IStatCardEffect
 {
     public void ApplyEffect(StatCardScriptableObject card)
     {
-        if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
+        if (CardManager.Instance.statLevel[ToString()] == 5)
         {
             StatModifier cardModifier = new StatModifier
             (
-                StatType.MoveSpeed,
+                StatType.AttackSpeed,
                 ModifierType.Add,
                 card.amountByMaxLevel * PlayerManager.Instance.GetPlayer().baseStatus.attackSpeed
             );
@@ -21,7 +21,7 @@ public class IncreaseMoveSpeed : ILevelUpCardEffect
         {
             StatModifier cardModifier = new StatModifier
             (
-                StatType.MoveSpeed,
+                StatType.AttackSpeed,
                 ModifierType.Add,
                 card.amount * PlayerManager.Instance.GetPlayer().baseStatus.attackSpeed
             );

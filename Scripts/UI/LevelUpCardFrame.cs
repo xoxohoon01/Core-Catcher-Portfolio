@@ -13,108 +13,99 @@ public class LevelUpCardFrame : UIBase
 
         ShowCards();
 
-        var levelUpCards = GetAvailableStatCards();
+        var statCards = GetAvailableStatCards();
         var artifactCards = GetAvailableArtifactCards();
 
-        Shuffle(levelUpCards);
+        // 각 리스트를 개별적으로 셔플
+        Shuffle(statCards);
         Shuffle(artifactCards);
 
-        int levelIndex = 0;
-        int artifactIndex = 0;
-
-        // Slot 0: Artifact guaranteed
-        if (artifactIndex < artifactCards.Count)
+        // --- Slot 0: 아티팩트 전용 슬롯 ---
+        // GetAvailableArtifactCards에서 이미 조건(4개 제한, 만렙 시 힐)을 처리해서 보내줌
+        if (artifactCards.Count > 0)
         {
-            cardSlots[0].InitializeArtifact(artifactCards[artifactIndex]);
-            artifactIndex++;
-        }
-        else if (levelIndex < levelUpCards.Count)
-        {
-            cardSlots[0].InitializeLevelUp(levelUpCards[levelIndex]);
-            levelIndex++;
+            // 아티팩트 혹은 힐 카드가 세팅됨
+            cardSlots[0].InitializeArtifact(artifactCards[0]);
         }
 
-        // Slot 1: LevelUp guaranteed
-        if (levelIndex < levelUpCards.Count)
+        // --- Slot 1: 스탯 카드 전용 슬롯 ---
+        if (statCards.Count > 0)
         {
-            cardSlots[1].InitializeLevelUp(levelUpCards[levelIndex]);
-            levelIndex++;
-        }
-        else if (artifactIndex < artifactCards.Count)
-        {
-            cardSlots[1].InitializeArtifact(artifactCards[artifactIndex]);
-            artifactIndex++;
+            cardSlots[1].InitializeLevelUp(statCards[0]);
         }
 
-        // Slot 2: Random from both pools
-        bool spawnArtifact = Random.value < 0.5f;
+        // --- Slot 2: 랜덤 슬롯 (아티팩트 풀과 스탯 풀에서 무작위) ---
+        // 0번과 1번 슬롯에서 사용하지 않은 남은 카드들 중 하나를 선택
+        List<bool> randomPool = new List<bool> { true, false }; // true: Artifact, false: Stat
+        bool isArtifact = randomPool[Random.Range(0, 2)];
 
-        if (spawnArtifact && artifactIndex < artifactCards.Count)
+        if (isArtifact)
         {
-            cardSlots[2].InitializeArtifact(artifactCards[artifactIndex]);
-            artifactIndex++;
+            // 아티팩트 풀의 다음 카드(index 1)가 있으면 쓰고, 없으면 0번이라도 다시 활용
+            var targetCard = artifactCards.Count > 1 ? artifactCards[1] : artifactCards[0];
+            cardSlots[2].InitializeArtifact(targetCard);
         }
-        else if (levelIndex < levelUpCards.Count)
+        else
         {
-            cardSlots[2].InitializeLevelUp(levelUpCards[levelIndex]);
-            levelIndex++;
-        }
-        else if (artifactIndex < artifactCards.Count)
-        {
-            cardSlots[2].InitializeArtifact(artifactCards[artifactIndex]);
-            artifactIndex++;
+            var targetCard = statCards.Count > 1 ? statCards[1] : statCards[0];
+            cardSlots[2].InitializeLevelUp(targetCard);
         }
     }
 
     private List<StatCardScriptableObject> GetAvailableStatCards()
     {
         var allCards = Resources.LoadAll<StatCardScriptableObject>("Cards");
-
         var available = allCards
             .Where(card =>
                 card.effectName != "Heal" &&
-                CardManager.Instance.levelUpEffectLevel[card.effectName] < 5)
+                CardManager.Instance.statLevel[card.effectName] < 5)
             .ToList();
 
-        // 선택 가능한 카드가 없으면 Heal 반환
+        // 모든 스탯 카드가 만렙이면 힐 카드 반환
         if (available.Count == 0)
         {
             var healCard = allCards.FirstOrDefault(card => card.effectName == "Heal");
-            if (healCard != null)
-                available.Add(healCard);
+            if (healCard != null) available.Add(healCard);
         }
-
         return available;
     }
 
     private List<ArtifactCardScriptableObject> GetAvailableArtifactCards()
     {
+        // 모든 아티팩트 로드
         List<ArtifactCardScriptableObject> allCards = new List<ArtifactCardScriptableObject>();
+        allCards.AddRange(Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts/" + GameManager.Instance.characterName));
+        allCards.AddRange(Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts/Common"));
 
-        var characterCards = Resources.LoadAll<ArtifactCardScriptableObject>(
-            "Artifacts/" + GameManager.Instance.characterName);
+        // 현재 보유 중인(레벨 1 이상) 아티팩트
+        var owned = allCards.Where(card =>
+            CardManager.Instance.artifactEffectLevel.ContainsKey(card.effectName) &&
+            CardManager.Instance.artifactEffectLevel[card.effectName] > 0).ToList();
 
-        var commonCards = Resources.LoadAll<ArtifactCardScriptableObject>(
-            "Artifacts/Common");
+        List<ArtifactCardScriptableObject> result = new List<ArtifactCardScriptableObject>();
 
-        allCards.AddRange(characterCards);
-        allCards.AddRange(commonCards);
-
-        var available = allCards
-            .Where(card =>
-                card.effectName != "Heal" &&
-                CardManager.Instance.artifactEffectLevel[card.effectName] < 5)
-            .ToList();
-
-        // 선택 가능한 카드가 없으면 Heal 반환
-        if (available.Count == 0)
+        if (owned.Count < 4)
         {
-            var healCard = allCards.FirstOrDefault(card => card.effectName == "Heal");
-            if (healCard != null)
-                available.Add(healCard);
+            // 1. 아직 4개를 다 안 골랐을 때: 만렙이 아닌 모든 아티팩트가 후보
+            result = allCards.Where(card =>
+                card.effectName != "Heal" &&
+                CardManager.Instance.artifactEffectLevel[card.effectName] < 5).ToList();
+        }
+        else
+        {
+            // 2. 4개를 이미 골랐을 때: 보유한 4개 중 만렙이 아닌 것만 후보
+            result = owned.Where(card =>
+                CardManager.Instance.artifactEffectLevel[card.effectName] < 5).ToList();
         }
 
-        return available;
+        // 3. 만약 위 조건에서 후보가 하나도 없다면 (4개 다 만렙 등): 힐 카드만 넣어서 반환
+        if (result.Count == 0)
+        {
+            var healCard = allCards.FirstOrDefault(card => card.effectName == "Heal");
+            if (healCard != null) result.Add(healCard);
+        }
+
+        return result;
     }
 
     private void Shuffle<T>(List<T> list)
@@ -122,9 +113,7 @@ public class LevelUpCardFrame : UIBase
         for (int i = 0; i < list.Count; i++)
         {
             int rand = Random.Range(i, list.Count);
-            T temp = list[i];
-            list[i] = list[rand];
-            list[rand] = temp;
+            (list[i], list[rand]) = (list[rand], list[i]);
         }
     }
 
@@ -133,24 +122,16 @@ public class LevelUpCardFrame : UIBase
         for (int i = 0; i < 3; i++)
         {
             RectTransform rectTransform = cardSlots[i].GetComponent<RectTransform>();
-
-            Vector2 targetPosition = new Vector2(rectTransform.anchoredPosition.x, 0);
-            Vector2 startPos = new Vector2(rectTransform.anchoredPosition.x, 1080);
-
-            rectTransform.anchoredPosition = startPos;
-
-            rectTransform.DOAnchorPos(targetPosition, 0.5f)
-                .SetEase(Ease.InOutBack)
+            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, 1080);
+            rectTransform.DOAnchorPos(new Vector2(rectTransform.anchoredPosition.x, 0), 0.5f)
+                .SetEase(Ease.OutBack)
                 .SetUpdate(true)
-                .SetDelay(i * 0.05f);
+                .SetDelay(i * 0.1f);
         }
     }
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            Initialize();
-        }
+        if (Input.GetKeyUp(KeyCode.R)) Initialize();
     }
 }

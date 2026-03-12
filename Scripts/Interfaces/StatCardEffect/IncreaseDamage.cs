@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncreaseSkillRange : ILevelUpCardEffect
+public class IncreaseDamage : IStatCardEffect
 {
     public void ApplyEffect(StatCardScriptableObject card)
     {
-        if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
+        if (CardManager.Instance.statLevel[ToString()] == 5)
         {
             StatModifier cardModifier = new StatModifier
             (
-                StatType.SkillRange,
-                ModifierType.Add,
+                StatType.Damage,
+                ModifierType.Multiply,
                 card.amountByMaxLevel
             );
 
@@ -21,8 +21,8 @@ public class IncreaseSkillRange : ILevelUpCardEffect
         {
             StatModifier cardModifier = new StatModifier
             (
-                StatType.SkillRange,
-                ModifierType.Add,
+                StatType.Damage,
+                ModifierType.Multiply,
                 card.amount
             );
 

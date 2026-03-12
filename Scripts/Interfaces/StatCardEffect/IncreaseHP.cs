@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncreaseHP : ILevelUpCardEffect
+public class IncreaseHP : IStatCardEffect
 {
     PlayerController player;
     public void ApplyEffect(StatCardScriptableObject card)
     {
-        if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
+        if (CardManager.Instance.statLevel[ToString()] == 5)
         {
             StatModifier cardModifier = new StatModifier
             (
