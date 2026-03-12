@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Indicator : MonoBehaviour
+public class RoundIndicator : MonoBehaviour
 {
     public float decay;
     public float lifeTime;
 
     private Material material;
 
-    public void Initialize(float radius, float innerRadius, float angle, float time)
+    public void Initialize(Vector3 size, float radius, float innerRadius, float angle, float time)
     {
+        transform.localScale = size;
+
         material = new Material(GetComponent<MeshRenderer>().sharedMaterial);
         GetComponent<MeshRenderer>().material = material;
 
-        material.SetFloat("_IsRect", 0);
         material.SetFloat("_Radius", radius);
         material.SetFloat("_InnerRadius", innerRadius);
         material.SetFloat("_Angle", angle);

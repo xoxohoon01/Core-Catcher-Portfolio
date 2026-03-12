@@ -12,7 +12,7 @@ public class MonsterController : UnitController
     [Header("References")]
     public List<GameObject> modelObjects = new List<GameObject>();
     public Image attackIndicator;
-    public Indicator indicator;
+    public RoundIndicator indicator;
     public LayerMask excludeMaskInAttack;
     public bool isBoss;
 
