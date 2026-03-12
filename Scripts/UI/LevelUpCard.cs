@@ -93,8 +93,8 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         desc = desc.Replace("Skill Cooldown", "<color=#FA37CD>Skill Cooldown</color>");
         desc = desc.Replace("Skill Damage", "<color=#C329F2>Skill Damage</color>");
         desc = desc.Replace("Skill Range", "<color=#00FFAA>Skill Range</color>");
+        desc = desc.Replace("Motion Speed", "<color=#C329F2>Motion Speed</color>");
 
-        desc = desc.Replace("Motion Speed", "<color=#9600FF>Motion Speed</color>");
         desc = desc.Replace("Attack Speed", "<color=#FFFF00>Attack Speed</color>");
         desc = desc.Replace("Move Speed", "<color=#00AAFF>Move Speed</color>");
 
