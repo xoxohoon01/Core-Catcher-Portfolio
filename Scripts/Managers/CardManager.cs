@@ -8,7 +8,7 @@ public class CardManager : MonoSingleton<CardManager>
     public Dictionary<string, int> levelUpEffectLevel = new();
     public Dictionary<string, int> artifactEffectLevel = new();
 
-    private Dictionary<string, LevelUpCardScriptableObject> levelUpCards = new();
+    private Dictionary<string, StatCardScriptableObject> levelUpCards = new();
     private Dictionary<string, ArtifactCardScriptableObject> artifactCards = new();
 
     protected override void Awake()
@@ -18,7 +18,7 @@ public class CardManager : MonoSingleton<CardManager>
         levelUpEffectLevel.Clear();
         artifactEffectLevel.Clear();
 
-        var levelUpAllCards = Resources.LoadAll<LevelUpCardScriptableObject>("Cards");
+        var levelUpAllCards = Resources.LoadAll<StatCardScriptableObject>("Cards");
         foreach (var card in levelUpAllCards)
         {
             levelUpEffectLevel.Add(card.effectName, 0);

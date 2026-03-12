@@ -7,7 +7,7 @@ public class HealHalf : ILevelUpCardEffect, IArtifactCardEffect
     public void Update()
     {
     }
-    public void ApplyEffect(LevelUpCardScriptableObject card)
+    public void ApplyEffect(StatCardScriptableObject card)
     {
         PlayerManager.Instance.GetPlayer().GetHeal(PlayerManager.Instance.GetPlayer().status.maxHP * 0.5f);
     }

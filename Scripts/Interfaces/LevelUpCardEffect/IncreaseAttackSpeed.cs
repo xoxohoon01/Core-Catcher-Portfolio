@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IncreaseAttackSpeed : ILevelUpCardEffect
 {
-    public void ApplyEffect(LevelUpCardScriptableObject card)
+    public void ApplyEffect(StatCardScriptableObject card)
     {
         if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
         {

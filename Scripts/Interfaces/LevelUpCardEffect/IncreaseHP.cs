@@ -5,7 +5,7 @@ using UnityEngine;
 public class IncreaseHP : ILevelUpCardEffect
 {
     PlayerController player;
-    public void ApplyEffect(LevelUpCardScriptableObject card)
+    public void ApplyEffect(StatCardScriptableObject card)
     {
         if (CardManager.Instance.levelUpEffectLevel[ToString()] == 5)
         {

@@ -9,12 +9,12 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
     public TMP_Text title;
     public TMP_Text context;
 
-    private LevelUpCardScriptableObject levelUpCard;
+    private StatCardScriptableObject levelUpCard;
     private ArtifactCardScriptableObject artifactCard;
 
     private bool isArtifact;
 
-    public void InitializeLevelUp(LevelUpCardScriptableObject card)
+    public void InitializeLevelUp(StatCardScriptableObject card)
     {
         isArtifact = false;
         levelUpCard = card;

@@ -13,7 +13,7 @@ public class LevelUpCardFrame : UIBase
 
         ShowCards();
 
-        var levelUpCards = GetAvailableLevelUpCards();
+        var levelUpCards = GetAvailableStatCards();
         var artifactCards = GetAvailableArtifactCards();
 
         Shuffle(levelUpCards);
@@ -66,9 +66,9 @@ public class LevelUpCardFrame : UIBase
         }
     }
 
-    private List<LevelUpCardScriptableObject> GetAvailableLevelUpCards()
+    private List<StatCardScriptableObject> GetAvailableStatCards()
     {
-        var allCards = Resources.LoadAll<LevelUpCardScriptableObject>("Cards");
+        var allCards = Resources.LoadAll<StatCardScriptableObject>("Cards");
 
         var available = allCards
             .Where(card =>

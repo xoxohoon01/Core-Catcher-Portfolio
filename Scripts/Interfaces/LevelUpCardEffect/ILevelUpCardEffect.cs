@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ILevelUpCardEffect
 {
-    void ApplyEffect(LevelUpCardScriptableObject card);
+    void ApplyEffect(StatCardScriptableObject card);
 }
