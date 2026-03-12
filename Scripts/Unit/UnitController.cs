@@ -75,7 +75,7 @@ public class UnitController : MonoBehaviour
         knockbackStartVector.y = 0;
         knockbackVector = knockbackStartVector;
 
-        transform.rotation = Quaternion.LookRotation(transform.position - directionVector, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(-directionVector, Vector3.up);
     }
 
     public virtual void GetAirBorne(float airborneForce)
