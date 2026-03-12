@@ -15,6 +15,7 @@ public class Indicator : MonoBehaviour
         material = new Material(GetComponent<MeshRenderer>().sharedMaterial);
         GetComponent<MeshRenderer>().material = material;
 
+        material.SetFloat("_IsRect", 0);
         material.SetFloat("_Radius", radius);
         material.SetFloat("_InnerRadius", innerRadius);
         material.SetFloat("_Angle", angle);
@@ -29,5 +30,9 @@ public class Indicator : MonoBehaviour
         decay = Mathf.Min(decay += Time.deltaTime, lifeTime);
 
         material.SetFloat("_FillAmount", decay / lifeTime);
+        if (decay >= lifeTime)
+        {
+            ObjectPoolManager.Instance.Despawn(gameObject);
+        }
     }
 }
