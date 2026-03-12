@@ -23,7 +23,7 @@ public class JawlerController : MonsterController
         Vector3 forwardPos = startRotation * Vector3.forward;
 
         BulletController obj = ObjectPoolManager.Instance.Spawn("JawlerAttack", startPos, startRotation).GetComponent<BulletController>();
-        obj.Initialize(status.damage, 1, 30, 5, false, this, Faction.Monster, Vector3.one * 2);
+        obj.Initialize(status.damage, 1, 30, 1.25f, false, this, Faction.Monster, Vector3.one * 2);
         ObjectPoolManager.Instance.Spawn("AudioObject", obj.transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("JawlerAttack", "MonsterWeapon");
     }
 }
