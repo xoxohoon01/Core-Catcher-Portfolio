@@ -9,7 +9,6 @@ public class PlayerController : UnitController
     public event System.Action OnBasicAttack;
     public event System.Action OnSkillUsed;
     public event System.Action OnDash;
-    private List<IArtifactCardEffect> activeArtifacts = new List<IArtifactCardEffect>();
 
     public GameObject shield;
 
@@ -408,7 +407,6 @@ public class PlayerController : UnitController
     public void AddArtifact(IArtifactCardEffect artifact, ArtifactCardScriptableObject card)
     {
         artifact.ApplyEffect(card);
-        activeArtifacts.Add(artifact);
     }
 
     public void CheckDeath()
@@ -502,12 +500,6 @@ public class PlayerController : UnitController
                         EndSkill();
                     }
                 }
-            }
-
-            // 아티팩트 계산
-            foreach (var artifact in activeArtifacts)
-            {
-                artifact.Update();
             }
         }
     }
