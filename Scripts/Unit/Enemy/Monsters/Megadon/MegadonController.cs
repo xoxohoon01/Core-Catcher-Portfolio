@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class MegadonController : MonsterController
 {
+    public override string AttackAnimationName => "MegadonAttack";
     public bool isMoving = false;
 
     public override void InitializeStateMachine()
     {
         StateMachine = new MonsterStateMachine();
-        ChaseState = new IMegadonChaseState(this);
-        AttackState = new IMegadonAttackState(this);
+        ChaseState = new MonsterChaseState<MegadonController>(this);
+        AttackState = new MegadonAttackState<MegadonController>(this);
 
         StateMachine.ChangeState(ChaseState);
     }

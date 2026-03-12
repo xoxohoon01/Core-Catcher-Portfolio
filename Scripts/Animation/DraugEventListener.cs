@@ -9,7 +9,7 @@ public class DraugEventListener : MonoBehaviour
     public void StartAttack()
     {
         DraugController controller = GetComponent<DraugController>();
-        controller.attackIndicator.gameObject.SetActive(true);
+
         controller.GetSuperArmor(1.1f);
 
         Vector3 projectileSize = new Vector3(2, 2, 2);
@@ -30,7 +30,6 @@ public class DraugEventListener : MonoBehaviour
         DraugController controller = GetComponent<DraugController>();
 
         controller.StartCoroutine(controller.AttackInitialize());
-        controller.attackIndicator.gameObject.SetActive(false);
     }
 
     public void EndAttack()

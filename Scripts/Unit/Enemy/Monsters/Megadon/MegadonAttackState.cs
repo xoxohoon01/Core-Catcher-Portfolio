@@ -2,28 +2,24 @@ using UnityEngine;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-public class IMegadonAttackState : IMonsterState
+public class MegadonAttackState<T> : MonsterAttackState<MegadonController>
 {
-    private MegadonController monster;
     private Vector3 targetVector;
     private bool isAttackStart;
 
-    public IMegadonAttackState(MegadonController monster)
-    {
-        this.monster = monster;
-    }
+    public MegadonAttackState(MegadonController monster) : base(monster) { }
 
-    public void OnEnter()
+    public override void OnEnter()
     {
+        base.OnEnter();
         isAttackStart = false;
     }
 
-    public void OnUpdate()
+    public override void OnUpdate()
     {
         if (isAttackStart && monster.isAttack)
         {
-            monster.moveVector = targetVector * monster.status.moveSpeed;
-            monster.GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask("Monster", "Player");
+            monster.moveVector = targetVector * 25f;
         }
         else if (!isAttackStart && !monster.isAttack)
         {
@@ -37,9 +33,13 @@ public class IMegadonAttackState : IMonsterState
 
                 if (monster.attackDelay <= 0)
                 {
-                    monster.animator.Play("MegadonAttack", 0, 0);
+                    monster.animator.Play(monster.AttackAnimationName, 0, 0);
                     monster.attackDelay = (1 / monster.status.attackSpeed);
-                    targetVector = target.transform.position - monster.transform.position;
+                    Vector3 targetPos = target.transform.position;
+                    targetPos.y = 0;
+                    Vector3 nowPos = monster.transform.position;
+                    nowPos.y = 0;
+                    targetVector = (targetPos - nowPos).normalized;
                     isAttackStart = true;
                 }
             }
@@ -49,7 +49,4 @@ public class IMegadonAttackState : IMonsterState
             }
         }
     }
-
-    public void OnExit() { }
-
 }

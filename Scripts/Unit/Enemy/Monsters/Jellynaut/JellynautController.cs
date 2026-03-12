@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class JellynautController : MonsterController
 {
-
+    public override string AttackAnimationName => "JellynautAttack";
     public override void InitializeStateMachine()
     {
         StateMachine = new MonsterStateMachine();
-        ChaseState = new IJellynautChaseState(this);
-        AttackState = new IJellynautAttackState(this);
+        ChaseState = new MonsterChaseState<JellynautController>(this);
+        AttackState = new MonsterAttackState<JellynautController>(this);
 
         StateMachine.ChangeState(ChaseState);
     }

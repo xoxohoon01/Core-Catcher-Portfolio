@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MegadonEventListener : MonoBehaviour
@@ -19,7 +20,9 @@ public class MegadonEventListener : MonoBehaviour
     public void StartAttack()
     {
         MegadonController controller = GetComponent<MegadonController>();
-        controller.attackIndicator.gameObject.SetActive(true);
+
+        controller.boxIndicator = ObjectPoolManager.Instance.Spawn("BoxIndicator", transform.position, transform.rotation).GetComponent<BoxIndicator>();
+        controller.boxIndicator.Initialize(new Vector3(0.2f, 1f, 0.85f), 2f);
     }
 
     public void Attack()
@@ -27,7 +30,6 @@ public class MegadonEventListener : MonoBehaviour
         MegadonController controller = GetComponent<MegadonController>();
         
         controller.AttackInitialize();
-        controller.attackIndicator.gameObject.SetActive(false);
     }
 
     public void EndAttack()

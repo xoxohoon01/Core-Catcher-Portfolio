@@ -1,10 +1,8 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoxIndicator : MonoBehaviour
 {
+    public MeshRenderer mesh;
     public float decay;
     public float lifeTime;
 
@@ -14,8 +12,8 @@ public class BoxIndicator : MonoBehaviour
     {
         transform.localScale = size;
 
-        material = new Material(GetComponent<MeshRenderer>().sharedMaterial);
-        GetComponent<MeshRenderer>().material = material;
+        material = new Material(mesh.sharedMaterial);
+        mesh.material = material;
 
         material.SetFloat("_FillAmount", 0);
 

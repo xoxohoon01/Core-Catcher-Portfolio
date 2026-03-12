@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class JawlerController : MonsterController
 {
+    public override string AttackAnimationName => "JawlerAttack";
+
     public override void InitializeStateMachine()
     {
         StateMachine = new MonsterStateMachine();
-        ChaseState = new IJawlerChaseState(this);
-        AttackState = new IJawlerAttackState(this);
+        ChaseState = new MonsterChaseState<JawlerController>(this);
+        AttackState = new MonsterAttackState<JawlerController>(this);
 
         StateMachine.ChangeState(ChaseState);
     }

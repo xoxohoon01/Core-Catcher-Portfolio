@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DraugController : MonsterController
 {
+    public override string AttackAnimationName => "DraugAttack";
     public override void InitializeStateMachine()
     {
         StateMachine = new MonsterStateMachine();

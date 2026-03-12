@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class TaillessController : MonsterController
 {
+    public override string AttackAnimationName => "TaillessAttack";
     public bool isMoving = false;
 
     public override void InitializeStateMachine()
     {
         StateMachine = new MonsterStateMachine();
-        ChaseState = new ITaillessChaseState(this);
-        AttackState = new ITaillessAttackState(this);
+
+        ChaseState = new TaillessChaseState<TaillessController>(this);
+        AttackState = new MonsterAttackState<TaillessController>(this);
 
         StateMachine.ChangeState(ChaseState);
     }

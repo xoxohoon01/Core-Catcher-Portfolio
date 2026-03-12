@@ -2,10 +2,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ITaillessChaseState : IMonsterState
+public class TaillessChaseState<T> : MonsterChaseState<TaillessController>
 {
-    private TaillessController monster;
-
     private bool hasDirection;
     private Quaternion lastRotation;
 
@@ -15,21 +13,21 @@ public class ITaillessChaseState : IMonsterState
     private Vector3 dir;
     private NavMeshPath path = new NavMeshPath();
 
-    public ITaillessChaseState(TaillessController monster)
-    {
-        this.monster = monster;
-    }
+    public TaillessChaseState(TaillessController monster) : base(monster) { }
 
-    public void OnEnter()
+    public override void OnEnter()
     {
+        base.OnEnter(); // 부모의 Enter 로직 실행
+
         hasDirection = false;
         monster.moveVector = Vector3.zero;
     }
 
-    public void OnUpdate()
+    public override void OnUpdate()
     {
         PlayerController target = PlayerManager.Instance.GetPlayer();
         if (target == null || target.isDead) return;
+        if (monster.isKnockback || monster.isAirborne) return;
 
         monster.Target = target.transform;
 
@@ -128,8 +126,10 @@ public class ITaillessChaseState : IMonsterState
         }
     }
 
-    public void OnExit()
+    public override void OnExit()
     {
+        base.OnExit();
+
         monster.moveVector = Vector3.zero;
         hasDirection = false;
     }

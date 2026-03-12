@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public enum MonsterState { Chase, Attack, Die }
 
-public class MonsterController : UnitController
+public abstract class MonsterController : UnitController
 {
     [Header("References")]
     public List<GameObject> modelObjects = new List<GameObject>();
-    public Image attackIndicator;
-    public RoundIndicator indicator;
+    public BoxIndicator boxIndicator;
+    public RoundIndicator roundIndicator;
     public LayerMask excludeMaskInAttack;
     public bool isBoss;
 
@@ -22,6 +22,7 @@ public class MonsterController : UnitController
     [HideInInspector] public IMonsterState ChaseState;
     [HideInInspector] public IMonsterState AttackState;
     [HideInInspector] public NavMeshAgent agent;
+    public abstract string AttackAnimationName { get; }
 
     private List<Material> materials = new List<Material>();
     private float dissapearAmount;
@@ -82,8 +83,8 @@ public class MonsterController : UnitController
     public virtual void InitializeStateMachine()
     {
         StateMachine = new MonsterStateMachine();
-        ChaseState = new IMonsterChaseState(this);
-        AttackState = new IMonsterAttackState(this);
+        ChaseState = new MonsterChaseState<MonsterController>(this);
+        AttackState = new MonsterAttackState<MonsterController>(this);
 
         StateMachine.ChangeState(ChaseState);
     }
@@ -99,9 +100,6 @@ public class MonsterController : UnitController
         {
             isDead = true;
 
-            if (attackIndicator != null)
-                attackIndicator.gameObject.SetActive(false);
-
             PlayerManager.Instance.GetExp(status.exp);
             animator.Play($"{gameObject.name}Death");
 
@@ -112,9 +110,6 @@ public class MonsterController : UnitController
         else if (BattleManager.Instance.entireTime >= BattleManager.Instance.stageData.bossTime && !isDead && !isBoss)
         {
             isDead = true;
-
-            if (attackIndicator != null)
-                attackIndicator.gameObject.SetActive(false);
 
             animator.Play($"{gameObject.name}Death");
 
@@ -153,9 +148,13 @@ public class MonsterController : UnitController
         {
             ObjectPoolManager.Instance.Despawn(healthBar.transform.parent.gameObject);
         }
-        if (attackIndicator != null)
+        if (boxIndicator!= null)
         {
-            attackIndicator.gameObject.SetActive(false);
+            ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
+        }
+        if (roundIndicator!= null)
+        {
+            ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
         }
     }
 
@@ -168,7 +167,14 @@ public class MonsterController : UnitController
         animator.Play($"{gameObject.name}Idle");
 
         isAttack = false;
-        attackIndicator?.gameObject.SetActive(false);
+        if (boxIndicator != null)
+        {
+            ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
+        }
+        if (roundIndicator != null)
+        {
+            ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
+        }
         StateMachine?.ChangeState(ChaseState);
     }
 
@@ -181,7 +187,14 @@ public class MonsterController : UnitController
         animator.Play($"{gameObject.name}Idle");
         
         isAttack = false;
-        attackIndicator?.gameObject.SetActive(false);
+        if (boxIndicator != null)
+        {
+            ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
+        }
+        if (roundIndicator != null)
+        {
+            ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
+        }
         StateMachine?.ChangeState(ChaseState);
     }
 

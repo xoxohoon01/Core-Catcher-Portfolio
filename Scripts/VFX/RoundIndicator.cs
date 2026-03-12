@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RoundIndicator : MonoBehaviour
 {
+    public MeshRenderer mesh;
     public float decay;
     public float lifeTime;
 
@@ -14,8 +15,8 @@ public class RoundIndicator : MonoBehaviour
     {
         transform.localScale = size;
 
-        material = new Material(GetComponent<MeshRenderer>().sharedMaterial);
-        GetComponent<MeshRenderer>().material = material;
+        material = new Material(mesh.sharedMaterial);
+        mesh.material = material;
 
         material.SetFloat("_Radius", radius);
         material.SetFloat("_InnerRadius", innerRadius);
