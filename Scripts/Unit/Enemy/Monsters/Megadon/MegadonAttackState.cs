@@ -19,6 +19,7 @@ public class MegadonAttackState<T> : MonsterAttackState<MegadonController>
     {
         if (isAttackStart && monster.isAttack)
         {
+            monster.transform.rotation = Quaternion.LookRotation(targetVector, Vector3.up);
             monster.moveVector = targetVector * 25f;
         }
         else if (!isAttackStart && !monster.isAttack)
