@@ -21,8 +21,11 @@ public class MegadonEventListener : MonoBehaviour
     {
         MegadonController controller = GetComponent<MegadonController>();
 
+        float width = controller.GetComponent<CapsuleCollider>().radius * 2;
+        float speed = 25f;
+        float duration = 0.17f;
         controller.boxIndicator = ObjectPoolManager.Instance.Spawn("BoxIndicator", transform.position, transform.rotation).GetComponent<BoxIndicator>();
-        controller.boxIndicator.Initialize(new Vector3(0.2f, 1f, 0.9f), 2f);
+        controller.boxIndicator.Initialize(new Vector3(width, 1f, speed * duration), 2f);
     }
 
     public void Attack()
