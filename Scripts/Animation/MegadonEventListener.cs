@@ -23,9 +23,9 @@ public class MegadonEventListener : MonoBehaviour
 
         float width = controller.GetComponent<CapsuleCollider>().radius * 2;
         float speed = 25f;
-        float duration = 0.17f;
+        float duration = 0.33f;
         controller.boxIndicator = ObjectPoolManager.Instance.Spawn("BoxIndicator", transform.position, transform.rotation).GetComponent<BoxIndicator>();
-        controller.boxIndicator.Initialize(new Vector3(width, 1f, speed * duration), 2f);
+        controller.boxIndicator.Initialize(new Vector3(width, 1f, (speed * duration) + (width / 2)), 2f);
     }
 
     public void Attack()

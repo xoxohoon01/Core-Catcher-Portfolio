@@ -8,8 +8,9 @@ public class JellynautEventListener : MonoBehaviour
     {
         JellynautController controller = GetComponent<JellynautController>();
 
+        float width = 4.5f * 2;
         controller.roundIndicator = ObjectPoolManager.Instance.Spawn("RoundIndicator", transform.position, transform.rotation).GetComponent<RoundIndicator>();
-        controller.roundIndicator.Initialize(new Vector3(1f, 1f, 1f), 1f, 0f, 360f, 2f);
+        controller.roundIndicator.Initialize(new Vector3(width, 1f, width), 1f, 0f, 360f, 2f);
     }
 
     public void Attack()

@@ -25,7 +25,7 @@ public class MegadonAttackState<T> : MonsterAttackState<MegadonController>
         else if (!isAttackStart && !monster.isAttack)
         {
             PlayerController target = PlayerManager.Instance.GetPlayer();
-            if (target == null && !target.isDead) return;
+            if (target == null || target.isDead) return;
             monster.Target = target.transform;
 
             if (Vector3.Distance(monster.transform.position, target.transform.position) <= monster.attackRange)

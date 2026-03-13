@@ -135,7 +135,20 @@ public abstract class MonsterController : UnitController
         }
         else
         {
-            agent.enabled = true;
+            if (!agent.enabled)
+            {
+                agent.enabled = true;
+
+                if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
+                {
+                    agent.Warp(hit.position);
+                }
+                else
+                {
+                    agent.Warp(transform.position);
+                }
+            }
+            
             GetComponent<CapsuleCollider>().excludeLayers = LayerMask.GetMask();
         }
     }    
