@@ -11,7 +11,6 @@ public class ArtifactManager : MonoSingleton<ArtifactManager>
     {
         if (activeEffects.TryGetValue(effectName, out var existingEffect))
         {
-            existingEffect.ApplyEffect(artifactCards[effectName]);
             return;
         }
 
