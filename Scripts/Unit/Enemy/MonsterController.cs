@@ -161,14 +161,6 @@ public abstract class MonsterController : UnitController
         {
             ObjectPoolManager.Instance.Despawn(healthBar.transform.parent.gameObject);
         }
-        if (boxIndicator!= null)
-        {
-            ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
-        }
-        if (roundIndicator!= null)
-        {
-            ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
-        }
     }
 
     public override void GetKnockback(Vector3 directionVector, float knockbackForce, float knockbackTime)
@@ -248,11 +240,31 @@ public abstract class MonsterController : UnitController
             attackDelay = Mathf.Max(attackDelay - Time.deltaTime, 0);
             StateMachine?.Update();
 
+            if (boxIndicator != null)
+            {
+                boxIndicator.transform.position = transform.position + Vector3.up * 0.1f;
+            }
+            if (roundIndicator != null)
+            {
+                roundIndicator.transform.position = transform.position + Vector3.up * 0.1f;
+            }
+
             CheckCrowedControl();
             CheckSuperArmor();
         }
         else
         {
+            // Despawn Indicator
+            if (boxIndicator != null)
+            {
+                ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
+            }
+            if (roundIndicator != null)
+            {
+                ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
+            }
+
+            // 사라지는 효과
             dissapearAmount = Mathf.Min(dissapearAmount + Time.deltaTime, 1);
             foreach (Material material in materials)
             {
