@@ -89,9 +89,18 @@ public abstract class MonsterController : UnitController
         StateMachine.ChangeState(ChaseState);
     }
 
-    public GameObject DetectPlayer()
+    private void ClearIndicators()
     {
-        return null;
+        if (boxIndicator != null)
+        {
+            ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
+            boxIndicator = null;
+        }
+        if (roundIndicator != null)
+        {
+            ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
+            roundIndicator = null;
+        }
     }
 
     public void CheckDeath()
@@ -173,14 +182,7 @@ public abstract class MonsterController : UnitController
         animator.SetBool("isMove", false);
 
         isAttack = false;
-        if (boxIndicator != null)
-        {
-            ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
-        }
-        if (roundIndicator != null)
-        {
-            ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
-        }
+        ClearIndicators();
         StateMachine?.ChangeState(ChaseState);
     }
 
@@ -194,14 +196,7 @@ public abstract class MonsterController : UnitController
         animator.SetBool("isMove", false);
 
         isAttack = false;
-        if (boxIndicator != null)
-        {
-            ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
-        }
-        if (roundIndicator != null)
-        {
-            ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
-        }
+        ClearIndicators();
         StateMachine?.ChangeState(ChaseState);
     }
 
@@ -256,17 +251,8 @@ public abstract class MonsterController : UnitController
         }
         else
         {
-            // Despawn Indicator
-            if (boxIndicator != null)
-            {
-                ObjectPoolManager.Instance.Despawn(boxIndicator.gameObject);
-            }
-            if (roundIndicator != null)
-            {
-                ObjectPoolManager.Instance.Despawn(roundIndicator.gameObject);
-            }
+            ClearIndicators();
 
-            // 사라지는 효과
             dissapearAmount = Mathf.Min(dissapearAmount + Time.deltaTime, 1);
             foreach (Material material in materials)
             {

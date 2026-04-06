@@ -3,31 +3,58 @@ using UnityEngine;
 public class BoxIndicator : MonoBehaviour
 {
     public MeshRenderer mesh;
-    public float decay;
-    public float lifeTime;
+    private float decay;
+    private float lifeTime;
 
     private Material material;
 
+    private static readonly int FillAmountProp = Shader.PropertyToID("_FillAmount");
+
+    private void Awake()
+    {
+        if (mesh != null && mesh.sharedMaterial != null)
+        {
+            material = new Material(mesh.sharedMaterial);
+            mesh.material = material;
+        }
+    }
+
     public void Initialize(Vector3 size, float time)
     {
+        decay = 0;
+        lifeTime = time;
         transform.localScale = size;
 
         material = new Material(mesh.sharedMaterial);
         mesh.material = material;
 
-        material.SetFloat("_FillAmount", 0);
+        if (material != null)
+        {
+            material.SetFloat(FillAmountProp, 0f);
+        }
 
-        decay = 0;
-        lifeTime = time;
+    }
+
+    private void PrepareForDespawn()
+    {
+        decay = 0f;
+        if (material != null)
+        {
+            material.SetFloat(FillAmountProp, 0f);
+        }
     }
 
     private void Update()
     {
-        decay = Mathf.Min(decay += Time.deltaTime, lifeTime);
+        if (lifeTime <= 0)
+            return;
 
-        material.SetFloat("_FillAmount", decay / lifeTime);
+        decay += Time.deltaTime;
+
+        material.SetFloat(FillAmountProp, decay / lifeTime);
         if (decay >= lifeTime)
         {
+            PrepareForDespawn();
             ObjectPoolManager.Instance.Despawn(gameObject);
         }
     }
