@@ -170,6 +170,7 @@ public abstract class MonsterController : UnitController
         base.GetKnockback(directionVector, knockbackForce, knockbackTime);
 
         animator.Play($"{gameObject.name}Idle");
+        animator.SetBool("isMove", false);
 
         isAttack = false;
         if (boxIndicator != null)
@@ -190,7 +191,8 @@ public abstract class MonsterController : UnitController
         base.GetAirBorne(airborneForce);
 
         animator.Play($"{gameObject.name}Idle");
-        
+        animator.SetBool("isMove", false);
+
         isAttack = false;
         if (boxIndicator != null)
         {
