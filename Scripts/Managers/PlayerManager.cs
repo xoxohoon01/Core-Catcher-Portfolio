@@ -40,7 +40,6 @@ public class PlayerManager : MonoSingleton<PlayerManager>
             BattleManager.Instance.isStop = true;
             Time.timeScale = 0;
             UIManager.Instance.Show<LevelUpCardFrame>("FloatingUI").Initialize();
-            UIManager.Instance.Get<StatusText>().UpdateText();
         }
     }
 
