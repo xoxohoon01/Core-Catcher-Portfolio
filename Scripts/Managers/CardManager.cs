@@ -56,14 +56,14 @@ public class CardManager : MonoSingleton<CardManager>
         statLevel.Clear();
         artifactEffectLevel.Clear();
 
-        var levelUpAllCards = Resources.LoadAll<StatCardScriptableObject>("Cards");
+        var levelUpAllCards = Resources.LoadAll<StatCardScriptableObject>("CardSO");
         foreach (var card in levelUpAllCards)
         {
             statLevel.Add(card.effectName, 0);
             statCards.Add(card.effectName, card);
         }
 
-        var artifacts = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
+        var artifacts = Resources.LoadAll<ArtifactCardScriptableObject>("ArtifactSO");
         foreach (var card in artifacts)
         {
             artifactEffectLevel.Add(card.effectName, 0);

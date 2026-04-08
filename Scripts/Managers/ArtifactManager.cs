@@ -36,7 +36,7 @@ public class ArtifactManager : MonoSingleton<ArtifactManager>
     {
         base.Awake();
 
-        var cards = Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts");
+        var cards = Resources.LoadAll<ArtifactCardScriptableObject>("ArtifactSO");
         foreach (var card in cards)
         {
             artifactCards[card.effectName] = card;

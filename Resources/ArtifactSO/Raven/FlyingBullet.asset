@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc4055a0907b5b40a8e4a9b00868d9f, type: 3}
+  m_Name: FlyingBullet
+  m_EditorClassIdentifier: 
+  cardName: FlyingBullet
+  displayName: Flying Bullet
+  displayDescription: 'Summons a flying bullet upon successfully attacking an enemy
+    with a basic attack.
+
+    Damage: {amount}'
+  cardSprite: {fileID: 21300000, guid: 332ffb4784ee85d45a2a3042483958a6, type: 3}
+  effectName: FlyingBullet
+  attributes:
+  - type: 1
+    levelUpType: 0
+    isPercentage: 1
+    isFixedValue: 1
+    baseValue: 0.25
+    perLevel: 0.1
+    valueByMaxLevel: 0.75

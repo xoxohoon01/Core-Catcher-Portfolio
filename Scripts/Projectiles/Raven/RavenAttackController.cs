@@ -52,9 +52,9 @@ public class RavenAttackController : BulletController
 
         if (CardManager.Instance.artifactEffectLevel["Targeting"] > 0)
         {
-            if (Random.Range(0.0f, 1.0f) > 0.8f)
+            int level = CardManager.Instance.artifactEffectLevel["Targeting"];
+            if (Random.Range(0.0f, 1.0f) <= CardManager.Instance.GetArtifact("Targeting").GetValue(AttributeType.chance, level))
             {
-                int level = CardManager.Instance.artifactEffectLevel["Targeting"];
                 ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity).GetComponent<TargetingController>()
                 .Initialize(
                 (level == 5) ? (30) : (5 * level),

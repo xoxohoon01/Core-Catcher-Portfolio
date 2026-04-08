@@ -54,7 +54,7 @@ public class LevelUpCardFrame : UIBase
 
     private List<StatCardScriptableObject> GetAvailableStatCards()
     {
-        var allCards = Resources.LoadAll<StatCardScriptableObject>("Cards");
+        var allCards = Resources.LoadAll<StatCardScriptableObject>("CardSO");
         var available = allCards
             .Where(card =>
                 card.effectName != "Heal" &&
@@ -74,8 +74,8 @@ public class LevelUpCardFrame : UIBase
     {
         // 모든 아티팩트 로드
         List<ArtifactCardScriptableObject> allCards = new List<ArtifactCardScriptableObject>();
-        allCards.AddRange(Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts/" + GameManager.Instance.characterName));
-        allCards.AddRange(Resources.LoadAll<ArtifactCardScriptableObject>("Artifacts/Common"));
+        allCards.AddRange(Resources.LoadAll<ArtifactCardScriptableObject>("ArtifactSO/" + GameManager.Instance.characterName));
+        allCards.AddRange(Resources.LoadAll<ArtifactCardScriptableObject>("ArtifactSO/Common"));
 
         // 현재 보유 중인(레벨 1 이상) 아티팩트
         var owned = allCards.Where(card =>
