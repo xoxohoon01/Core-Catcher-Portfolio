@@ -16,19 +16,20 @@ public class FlyingBulletController : BulletController
         {
             if (CardManager.Instance.artifactEffectLevel["Targeting"] > 0)
             {
-                if (Random.Range(0.0f, 1.0f) > 0.8f)
+                int level = CardManager.Instance.artifactEffectLevel["Targeting"];
+                if (Random.Range(0.0f, 1.0f) <= CardManager.Instance.GetArtifact("Targeting").GetValue(AttributeType.chance, level))
                 {
                     ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity).GetComponent<TargetingController>()
                     .Initialize(
-                    (PlayerManager.Instance.GetPlayer().status.damage * 0.2f) * CardManager.Instance.artifactEffectLevel["Targeting"],
-                    0,
-                    3f,
-                    0.625f,
-                    5f,
-                    0.5f,
-                    sender,
-                    Faction.Player,
-                    Vector3.one);
+                        PlayerManager.Instance.GetPlayer().status.damage * CardManager.Instance.GetArtifact("Targeting").GetValue(AttributeType.amount, level),
+                        0,
+                        3f,
+                        0.625f,
+                        5f,
+                        0.5f,
+                        sender,
+                        Faction.Player,
+                        Vector3.one);
                 }
             }
         }

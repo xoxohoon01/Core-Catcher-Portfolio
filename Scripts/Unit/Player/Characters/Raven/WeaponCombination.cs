@@ -29,7 +29,7 @@ public class WeaponCombination : SkillData
                 .Spawn("RavenSkill2Bullet", spawnPos, rotation)
                 .GetComponent<BulletController>()
                 .Initialize(
-                    raven.status.damage * 2.3f,
+                    raven.status.damage * 1.2f,
                     raven.CheckCritical(),
                     100f,
                     1f,

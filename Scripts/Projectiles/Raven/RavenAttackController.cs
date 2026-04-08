@@ -39,14 +39,14 @@ public class RavenAttackController : BulletController
                     .Spawn("FlyingBullet", player.transform.position + (Vector3.up * 2), rot)
                     .GetComponent<FlyingBulletController>()
                     .Initialize(
-                        damage,
-                        1,
-                        80f,
-                        10f,
-                        false,
-                        sender,
-                        Faction.Player,
-                        Vector3.one);
+                    damage,
+                    1,
+                    80f,
+                    10f,
+                    false,
+                    sender,
+                    Faction.Player,
+                    Vector3.one);
             }
         }
 
@@ -56,16 +56,16 @@ public class RavenAttackController : BulletController
             if (Random.Range(0.0f, 1.0f) <= CardManager.Instance.GetArtifact("Targeting").GetValue(AttributeType.chance, level))
             {
                 ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity).GetComponent<TargetingController>()
-                .Initialize(
-                (level == 5) ? (30) : (5 * level),
-                0,
-                3f,
-                0.625f,
-                5f,
-                0.5f,
-                sender,
-                Faction.Player,
-                Vector3.one);
+                    .Initialize(
+                    PlayerManager.Instance.GetPlayer().status.damage * CardManager.Instance.GetArtifact("Targeting").GetValue(AttributeType.amount, level),
+                    0,
+                    3f,
+                    0.625f,
+                    5f,
+                    0.5f,
+                    sender,
+                    Faction.Player,
+                    Vector3.one);
             }
         }
     }

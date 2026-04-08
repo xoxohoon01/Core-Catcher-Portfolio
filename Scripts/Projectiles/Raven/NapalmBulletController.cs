@@ -44,7 +44,7 @@ public class NapalmBulletController : MonoBehaviour
         // 폭발 오브젝트 생성
         ObjectPoolManager.Instance.Spawn("Napalm", position, Quaternion.identity).GetComponent<HitController>()
             .Initialize(
-            10 + ((player.status.damage * 0.05f) * level),
+            player.status.damage * CardManager.Instance.GetArtifact("NapalmDrone").GetValue(AttributeType.amount, level),
             0f,
             0f,
             0f,
