@@ -39,6 +39,8 @@ public class NapalmBulletController : MonoBehaviour
         PlayerController player = PlayerManager.Instance.GetPlayer();
 
         int level = CardManager.Instance.artifactEffectLevel["NapalmDrone"];
+        float size = CardManager.Instance.GetArtifact("NapalmDrone").GetValue(AttributeType.range, level);
+
         // 폭발 오브젝트 생성
         ObjectPoolManager.Instance.Spawn("Napalm", position, Quaternion.identity).GetComponent<HitController>()
             .Initialize(
@@ -50,7 +52,7 @@ public class NapalmBulletController : MonoBehaviour
             1f,
             PlayerManager.Instance.GetPlayer(),
             Faction.Player,
-            new Vector3(1 + (CardManager.Instance.artifactEffectLevel["NapalmDrone"] * 0.2f), 1, 1 + (CardManager.Instance.artifactEffectLevel["NapalmDrone"] * 0.2f)));
+            new Vector3(size, 1, size));
         ObjectPoolManager.Instance.Despawn(gameObject);
     }
 }
