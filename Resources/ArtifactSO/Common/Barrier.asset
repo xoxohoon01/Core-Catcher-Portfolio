@@ -22,11 +22,11 @@ MonoBehaviour:
   attributes:
   - type: 1
     levelUpType: 0
-    isPercentage: 0
-    isFixedValue: 0
-    baseValue: 30
-    perLevel: 10
-    valueByMaxLevel: 5
+    isPercentage: 1
+    isFixedValue: 1
+    baseValue: 0.3
+    perLevel: 0.1
+    valueByMaxLevel: 0.75
   - type: 4
     levelUpType: 0
     isPercentage: 0

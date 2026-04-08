@@ -24,7 +24,7 @@ public class Barrier : IArtifactCardEffect
 
         if (decayTimer >= decayDelay)
         {
-            float shieldAmount = card.GetValue(AttributeType.amount, level);
+            float shieldAmount = player.status.maxHP * card.GetValue(AttributeType.amount, level);
 
             player.status.shield = shieldAmount;
             decayTimer = 0f;
