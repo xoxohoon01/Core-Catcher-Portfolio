@@ -67,4 +67,9 @@ public class ExpGem : MonoBehaviour
             }
         }
     }
+
+    public void BeginMagnet()
+    {
+        isTracing = true;
+    }
 }
