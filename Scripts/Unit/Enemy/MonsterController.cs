@@ -109,12 +109,13 @@ public abstract class MonsterController : UnitController
         {
             isDead = true;
 
-            PlayerManager.Instance.GetExp(status.exp);
             animator.Play($"{gameObject.name}Death");
 
             GetComponent<Collider>().enabled = false;
             agent.enabled = false;
             StateMachine = null;
+            Vector3 dropPos = new Vector3(transform.position.x, 0, transform.position.z);
+            ObjectPoolManager.Instance.Spawn("ExpGem1", dropPos, transform.rotation);
         }
         else if (BattleManager.Instance.entireTime >= BattleManager.Instance.stageData.bossTime && !isDead && !isBoss)
         {

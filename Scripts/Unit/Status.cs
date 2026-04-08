@@ -28,6 +28,8 @@ public class Status
     public float exp;
     public float maxExp;
 
+    public float magneticRange;
+
     public float maxHP;
     public float hp;
     public float shield;

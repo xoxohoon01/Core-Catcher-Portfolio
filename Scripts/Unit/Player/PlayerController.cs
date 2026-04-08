@@ -53,7 +53,9 @@ public class PlayerController : UnitController
         RecalculateStats();
 
         status.hp = status.maxHP;
+        status.level = 1;
         status.maxExp = 200;
+        status.magneticRange = 3;
 
         skillDelay = new float[characterData.skills.Length];
         skillSpan = new float[characterData.skills.Length];
