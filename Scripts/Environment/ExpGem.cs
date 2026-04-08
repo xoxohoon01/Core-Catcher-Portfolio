@@ -5,18 +5,18 @@ using UnityEngine;
 public class ExpGem : MonoBehaviour
 {
     public float exp;
-    public float startSpeed = 5f;     // 시작 속도
+    public float startSpeed = 15f;     // 시작 속도
     public float acceleration = 10f;  // 초당 증가할 속도 (가속도)
     public float maxSpeed = 100f;      // 제한할 최대 속도
 
     private bool isTracing = false; // 현재 추적 중인지 여부
-    private float currentSpeed = 5f; // 시작 이동 속도
+    private float currentSpeed = 15f; // 시작 이동 속도
 
     private void OnEnable()
     {
         // 오브젝트 풀에서 다시 꺼내질 때 상태 초기화
         isTracing = false;
-        currentSpeed = 5f;
+        currentSpeed = 15f;
     }
 
     private void Update()

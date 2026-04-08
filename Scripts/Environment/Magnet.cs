@@ -27,6 +27,11 @@ public class Magnet : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        transform.Rotate(0, 90 * Time.deltaTime, 0);
+    }
+
     private void ActivateMagnet()
     {
         ExpGem[] allGems = FindObjectsByType<ExpGem>(FindObjectsSortMode.None);

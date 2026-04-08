@@ -119,7 +119,21 @@ public abstract class MonsterController : UnitController
             agent.enabled = false;
             StateMachine = null;
             Vector3 dropPos = new Vector3(transform.position.x, 0, transform.position.z);
-            ObjectPoolManager.Instance.Spawn("ExpGem1", dropPos, transform.rotation);
+
+            float rand = Random.value; // 0.0 ~ 1.0
+
+            if (rand <= 0.01f)
+            {
+                ObjectPoolManager.Instance.Spawn("Magnet", dropPos, transform.rotation);
+            }
+            else if (rand <= 0.02f)
+            {
+                ObjectPoolManager.Instance.Spawn("Medikit", dropPos, transform.rotation);
+            }
+            else
+            {
+                ObjectPoolManager.Instance.Spawn("ExpGem1", dropPos, transform.rotation);
+            }
         }
         else if (BattleManager.Instance.entireTime >= BattleManager.Instance.stageData.bossTime && !isDead && !isBoss)
         {
