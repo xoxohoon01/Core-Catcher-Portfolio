@@ -93,11 +93,21 @@ public class BulletController : MonoBehaviour
 
                 remainDamage -= shieldDamage;
             }
+
+            if (target.faction == Faction.Player)
+            {
+                ScreenEffectManager.Instance.BeginEffect("Shield");
+            }
         }
         if (remainDamage > 0)
         {
             target.status.hp -= remainDamage;
             damageNumberPrefab.Spawn(target.transform.position, remainDamage);
+
+            if (target.faction == Faction.Player)
+            {
+                ScreenEffectManager.Instance.BeginEffect("Damage");
+            }
         }
 
         OnPlayerHit?.Invoke();
