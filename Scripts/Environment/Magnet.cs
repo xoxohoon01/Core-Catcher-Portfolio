@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class Magnet : MonoBehaviour
 {
-    private bool isTracing = false; // 현재 추적 중인지 여부
-    private float currentSpeed = 5f; // 시작 이동 속도
-
-    private void OnEnable()
-    {
-        // 오브젝트 풀에서 다시 꺼내질 때 상태 초기화
-        isTracing = false;
-        currentSpeed = 5f;
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.GetComponent<UnitController>() != null)
