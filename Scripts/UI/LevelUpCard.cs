@@ -1,6 +1,9 @@
 using TMPro;
+using UnityEditor.Localization.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class LevelUpCard : MonoBehaviour, IPointerClickHandler
@@ -45,6 +48,8 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
         int level = CardManager.Instance.artifactEffectLevel[card.effectName];
         string desc = card.displayDescription;
 
+        desc = LocalizationSettings.StringDatabase.GetLocalizedString("ArtifactDescriptionTable", card.cardName);
+
         foreach (var attr in card.attributes)
         {
             if (attr.type == AttributeType.none) continue;
@@ -55,9 +60,11 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
             // 시간인지 확인
             if (attr.type == AttributeType.period || attr.type == AttributeType.duration)
             {
-                desc = desc.Replace(key, $"<color=#80D4FF>{value:0.##}s</color>");
+                if (LocalizationSettings.SelectedLocale.Identifier.Code == "ko")
+                    desc = desc.Replace(key, $"<color=#80D4FF>{value:0.##}초</color>");
+                else
+                    desc = desc.Replace(key, $"<color=#80D4FF>{value:0.##}s</color>");
             }
-
             // 시간이 아닌 경우
             else
             {

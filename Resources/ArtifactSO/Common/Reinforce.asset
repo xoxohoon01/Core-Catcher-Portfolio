@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Reinforce
   displayName: Reinforce
-  displayDescription: Increase Skill Damage.
-  cardSprite: {fileID: 21300000, guid: b6ebfd1e3fd50814c93e4cadba7f1543, type: 3}
+  displayDescription: Increase Skill Damage {amount}
+  cardSprite: {fileID: 21300000, guid: 0d1326370da504e458915514b5d2c802, type: 3}
   effectName: Reinforce
   attributes:
   - type: 1

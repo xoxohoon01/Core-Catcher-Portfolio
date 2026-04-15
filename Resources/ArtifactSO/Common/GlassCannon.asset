@@ -17,7 +17,7 @@ MonoBehaviour:
   displayDescription: 'Increase Damage {amount}
 
     Decrease HP 20%'
-  cardSprite: {fileID: 21300000, guid: b6ebfd1e3fd50814c93e4cadba7f1543, type: 3}
+  cardSprite: {fileID: 21300000, guid: f2d7a55bd905af84b85e13b2da2adcd7, type: 3}
   effectName: GlassCannon
   attributes:
   - type: 1
