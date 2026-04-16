@@ -1,8 +1,6 @@
 using TMPro;
-using UnityEditor.Localization.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class SkillTree : UIBase
@@ -108,8 +109,10 @@ public class SkillTree : UIBase
         currentSkillNode = node;
         currentSkill = skill;
 
-        detail.transform.GetChild(0).GetComponent<TMP_Text>().text = currentSkill.displayName;
-        detail.transform.GetChild(1).GetComponent<TMP_Text>().text = currentSkill.displayDescription;
+        string nameKey = GameManager.Instance.characterName + "_" + skill.name + "_" + "Name";
+        string descKey = GameManager.Instance.characterName + "_" + skill.name + "_" + "Desc";
+        detail.transform.GetChild(0).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillTreeTable", nameKey);
+        detail.transform.GetChild(1).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillTreeTable", descKey);
 
         UpdateActiveButton();
     }

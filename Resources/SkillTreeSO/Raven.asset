@@ -22,7 +22,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 9725fb87facc42a4984598500f76e0fb, type: 3}
     position: {x: -200, y: 0}
     needNodeId: -1
-  - name: Charge Shot
+  - name: Charge_Shot
     id: 7
     displayName: Charge Shot
     displayDescription: The "Piercing Shell" no longer grants an airbone, but grants
@@ -30,49 +30,49 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 4029a9cfeb86f134c9c5af05993eaac8, type: 3}
     position: {x: -200, y: -200}
     needNodeId: -1
-  - name: Damage Up 1
+  - name: Damage_Up_1
     id: 0
     displayName: Damage Up 1
     displayDescription: Increase 10% in Damage.
     sprite: {fileID: 21300000, guid: df3edba90cf3d164abec6b9abac2f4ed, type: 3}
     position: {x: 0, y: 0}
     needNodeId: -1
-  - name: Damage Up 2
+  - name: Damage_Up_2
     id: 1
     displayName: Damage Up 2
     displayDescription: Increase 10% in Damage.
     sprite: {fileID: 21300000, guid: df3edba90cf3d164abec6b9abac2f4ed, type: 3}
     position: {x: 0, y: -200}
     needNodeId: 0
-  - name: Damage Up 3
+  - name: Damage_Up_3
     id: 2
     displayName: Damage Up 3
     displayDescription: Increase 10% in Damage.
     sprite: {fileID: 21300000, guid: df3edba90cf3d164abec6b9abac2f4ed, type: 3}
     position: {x: 0, y: -400}
     needNodeId: 1
-  - name: Health Up 1
+  - name: Health_Up_1
     id: 3
     displayName: HP Up 1
     displayDescription: Increase 10% in MaxHP
     sprite: {fileID: 21300000, guid: 5f4b3c9ebab20ca44b6e6de540b4067d, type: 3}
     position: {x: 200, y: 0}
     needNodeId: -1
-  - name: Health Up 2
+  - name: Health_Up_2
     id: 4
     displayName: HP Up 2
     displayDescription: Increase 10% in MaxHP
     sprite: {fileID: 21300000, guid: 5f4b3c9ebab20ca44b6e6de540b4067d, type: 3}
     position: {x: 200, y: -200}
     needNodeId: 3
-  - name: Health Up 3
+  - name: Health_Up_3
     id: 5
     displayName: HP Up 3
     displayDescription: Increase 10% in MaxHP
     sprite: {fileID: 21300000, guid: 5f4b3c9ebab20ca44b6e6de540b4067d, type: 3}
     position: {x: 200, y: -400}
     needNodeId: 4
-  - name: Flying Target
+  - name: Flying_Target
     id: 8
     displayName: Flying Target
     displayDescription: Flying Bullet will be with Targeting

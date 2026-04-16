@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class CharacterSelect : UIBase
@@ -32,27 +33,27 @@ public class CharacterSelect : UIBase
     {
         CharacterScriptableObject character = Resources.Load<CharacterScriptableObject>($"CharacterSO/{characterName}");
 
-        characterDetailPanel.transform.GetChild(2).GetComponent<TMP_Text>().text = character.characterName;
-        characterDetailPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = character.characterDescription;
+        characterDetailPanel.transform.GetChild(2).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("CharacterNameTable", characterName);
+        characterDetailPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("CharacterDescriptionTable", characterName);
         characterDetailPanel.transform.GetChild(4).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.dashName}") ?? Resources.Load<Sprite>($"Sprites/DefaultDashIcon");
-        characterDetailPanel.transform.GetChild(5).GetComponent<TMP_Text>().text = character.dashDisplayName;
-        characterDetailPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = character.dashDescription;
+        characterDetailPanel.transform.GetChild(5).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("DashNameTable", characterName);
+        characterDetailPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("DashDescriptionTable", characterName);
 
         characterSkillPanel.transform.GetChild(2).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[0].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        characterSkillPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = character.skills[0].displayName;
-        characterSkillPanel.transform.GetChild(4).GetComponent<TMP_Text>().text = character.skills[0].description;
+        characterSkillPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillNameTable", character.skills[0].skillID);
+        characterSkillPanel.transform.GetChild(4).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillDescriptionTable", character.skills[0].skillID);
 
         characterSkillPanel.transform.GetChild(5).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[1].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        characterSkillPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = character.skills[1].displayName;
-        characterSkillPanel.transform.GetChild(7).GetComponent<TMP_Text>().text = character.skills[1].description;
+        characterSkillPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillNameTable", character.skills[1].skillID);
+        characterSkillPanel.transform.GetChild(7).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillDescriptionTable", character.skills[1].skillID);
 
         characterSkillPanel.transform.GetChild(8).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[2].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        characterSkillPanel.transform.GetChild(9).GetComponent<TMP_Text>().text = character.skills[2].displayName;
-        characterSkillPanel.transform.GetChild(10).GetComponent<TMP_Text>().text = character.skills[2].description;
+        characterSkillPanel.transform.GetChild(9).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillNameTable", character.skills[2].skillID);
+        characterSkillPanel.transform.GetChild(10).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillDescriptionTable", character.skills[2].skillID);
 
         characterSkillPanel.transform.GetChild(11).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[3].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
-        characterSkillPanel.transform.GetChild(12).GetComponent<TMP_Text>().text = character.skills[3].displayName;
-        characterSkillPanel.transform.GetChild(13).GetComponent<TMP_Text>().text = character.skills[3].description;
+        characterSkillPanel.transform.GetChild(12).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillNameTable", character.skills[3].skillID);
+        characterSkillPanel.transform.GetChild(13).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillDescriptionTable", character.skills[3].skillID);
 
         if (currentCharacterName == GameManager.Instance.characterName)
             participateButton.SetActive(false);
