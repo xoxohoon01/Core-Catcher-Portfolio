@@ -33,11 +33,11 @@ public class CharacterSelect : UIBase
     {
         CharacterScriptableObject character = Resources.Load<CharacterScriptableObject>($"CharacterSO/{characterName}");
 
-        characterDetailPanel.transform.GetChild(2).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("CharacterNameTable", characterName);
-        characterDetailPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("CharacterDescriptionTable", characterName);
+        characterDetailPanel.transform.GetChild(2).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("CharacterTable", characterName + "_Name");
+        characterDetailPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("CharacterTable", characterName + "_Desc");
         characterDetailPanel.transform.GetChild(4).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.dashName}") ?? Resources.Load<Sprite>($"Sprites/DefaultDashIcon");
-        characterDetailPanel.transform.GetChild(5).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("DashNameTable", characterName);
-        characterDetailPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("DashDescriptionTable", characterName);
+        characterDetailPanel.transform.GetChild(5).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("CharacterTable", characterName + "_Dash_Name");
+        characterDetailPanel.transform.GetChild(6).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("CharacterTable", characterName + "_Dash_Desc");
 
         characterSkillPanel.transform.GetChild(2).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/{character.characterName}/{character.skills[0].skillID}") ?? Resources.Load<Sprite>("Sprites/DefaultSkillIcon");
         characterSkillPanel.transform.GetChild(3).GetComponent<TMP_Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("SkillNameTable", character.skills[0].skillID);

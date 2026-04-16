@@ -19,12 +19,11 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
     {
         isArtifact = false;
         levelUpCard = card;
+        int level = CardManager.Instance.statLevel[card.effectName];
 
         cardImage.sprite = card.cardSprite;
-        title.text = card.displayName;
-
-        int level = CardManager.Instance.statLevel[card.effectName];
-        string desc = card.displayDescription;
+        title.text = LocalizationSettings.StringDatabase.GetLocalizedString("CardTable", card.cardName + "_Name"); ;
+        string desc = LocalizationSettings.StringDatabase.GetLocalizedString("CardTable", card.cardName + "_Desc");
 
         string key = "{" + card.type + "}";
 
@@ -39,14 +38,11 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
     {
         isArtifact = true;
         artifactCard = card;
+        int level = CardManager.Instance.artifactEffectLevel[card.effectName];
 
         cardImage.sprite = card.cardSprite;
-        title.text = card.displayName;
-
-        int level = CardManager.Instance.artifactEffectLevel[card.effectName];
-        string desc = card.displayDescription;
-
-        desc = LocalizationSettings.StringDatabase.GetLocalizedString("ArtifactDescriptionTable", card.cardName);
+        title.text = LocalizationSettings.StringDatabase.GetLocalizedString("ArtifactTable", card.cardName + "_Name");
+        string desc = LocalizationSettings.StringDatabase.GetLocalizedString("ArtifactTable", card.cardName + "_Desc");
 
         foreach (var attr in card.attributes)
         {
