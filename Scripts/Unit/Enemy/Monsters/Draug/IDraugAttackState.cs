@@ -36,7 +36,15 @@ public class IDraugAttackState : IMonsterState
 
             if (monster.attackDelay <= 0)
             {
-                monster.animator.Play("DraugAttack", 0, 0);
+                if (Random.Range(1f, 100f) <= 70)
+                {
+                    monster.animator.Play("DraugHandAttack", 0, 0);
+                }
+                else
+                {
+                    monster.animator.Play("DraugSmash", 0, 0);
+                }
+                    
                 monster.isAttack = true;
                 monster.attackDelay = (1 / monster.status.attackSpeed);
             }
