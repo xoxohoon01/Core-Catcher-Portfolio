@@ -32,7 +32,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
         {
             currentPlayer.status.exp -= currentPlayer.status.maxExp;
             currentPlayer.status.level += 1;
-            currentPlayer.baseStatus.damage += 1;
+            currentPlayer.baseStatus.damage += 0.5f;
             currentPlayer.isDirty = true;
             currentPlayer.RecalculateStats();
 

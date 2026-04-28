@@ -26,10 +26,10 @@ MonoBehaviour:
   - type: 1
     levelUpType: 0
     isPercentage: 1
-    isFixedValue: 0
-    baseValue: 0.75
-    perLevel: 0.05
-    valueByMaxLevel: 0
+    isFixedValue: 1
+    baseValue: 0.4
+    perLevel: 0.1
+    valueByMaxLevel: 1
   - type: 3
     levelUpType: 0
     isPercentage: 1
