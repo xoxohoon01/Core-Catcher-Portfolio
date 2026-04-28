@@ -11,7 +11,7 @@ public class DraugEventListener : MonoBehaviour
     {
         DraugController controller = GetComponent<DraugController>();
 
-        controller.GetSuperArmor(1.5f);
+        controller.GetSuperArmor(2f);
 
         Vector3 projectileSize = new Vector3(30, 1, 30);
 
@@ -20,7 +20,7 @@ public class DraugEventListener : MonoBehaviour
         Vector3 forwardPos = startRotation * Vector3.forward;
 
         ObjectPoolManager.Instance.Spawn("RoundIndicator", startPos, startRotation)
-            .GetComponent<RoundIndicator>().Initialize(projectileSize, 1f, 0.5f, 180f, 1.5f);
+            .GetComponent<RoundIndicator>().Initialize(projectileSize, 1f, 0.35f, 180f, 1.5f);
     }
 
     public void PrepareSmash()
