@@ -15,6 +15,7 @@ public class HitController : MonoBehaviour
     public GameObject audioObject;
 
     public bool isRound;
+    protected Vector3 centerPos;
     protected Vector3 forwardDir;
     protected float radius;
     protected float innerRadius;
@@ -83,6 +84,7 @@ public class HitController : MonoBehaviour
         UnitController sender,
         Faction senderFaction,
         Vector3 size,
+        Vector3 centerPos,
         Vector3 forwardDir,
         float radius,
         float innerRadius,
@@ -101,6 +103,7 @@ public class HitController : MonoBehaviour
         faction = senderFaction;
         transform.localScale = size;
 
+        this.centerPos = centerPos;
         this.forwardDir = forwardDir;
         this.radius = radius;
         this.innerRadius = innerRadius;
@@ -185,7 +188,7 @@ public class HitController : MonoBehaviour
         float actualInnerRadius = (innerRadius * transform.localScale.x) / 2;
 
         // 1. 공격 범위 내의 모든 콜라이더 검사
-        Collider[] hits = Physics.OverlapSphere(transform.position, actualRadius);
+        Collider[] hits = Physics.OverlapSphere(centerPos, actualRadius);
 
         foreach (var hit in hits)
         {
@@ -199,8 +202,8 @@ public class HitController : MonoBehaviour
                     continue;
 
                 Vector3 targetPos = target.transform.position;
-                Vector3 dirToTarget = (targetPos - transform.position).normalized;
-                float distanceToTarget = Vector3.Distance(transform.position, targetPos);
+                Vector3 dirToTarget = (targetPos - centerPos).normalized;
+                float distanceToTarget = Vector3.Distance(centerPos, targetPos);
 
                 // 2. 거리 및 각도 판정
                 bool isWithinDistance = distanceToTarget >= actualInnerRadius && distanceToTarget <= actualRadius;
@@ -380,7 +383,7 @@ public class HitController : MonoBehaviour
 
         // Handles.DrawSolidArc는 (중심점, 법선벡터, 시작방향, 각도, 반지름) 순서입니다.
         // 법선은 보통 위쪽(Vector3.up)을 사용합니다.
-        Handles.DrawSolidArc(transform.position, Vector3.up,
+        Handles.DrawSolidArc(centerPos, Vector3.up,
                              Quaternion.Euler(0, -angle / 2, 0) * forward,
                              angle, actualRadius);
 
@@ -388,7 +391,7 @@ public class HitController : MonoBehaviour
         if (actualInnerRadius > 0)
         {
             Handles.color = Color.yellow;
-            Handles.DrawWireArc(transform.position, Vector3.up,
+            Handles.DrawWireArc(centerPos, Vector3.up,
                                 Quaternion.Euler(0, -angle / 2, 0) * forward,
                                 angle, actualInnerRadius);
         }

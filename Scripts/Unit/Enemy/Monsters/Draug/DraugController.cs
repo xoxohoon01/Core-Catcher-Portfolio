@@ -22,7 +22,7 @@ public class DraugController : MonsterController
         Vector3 forwardPos = startRotation * Vector3.forward;
 
         HitController obj1 = ObjectPoolManager.Instance.Spawn("DraugHandAttack", startPos, startRotation).GetComponent<HitController>();
-        obj1.InitializeRound(status.damage, 0, 0.2f, 0f, 1, 0, this, Faction.Monster, new Vector3(30, 1, 30), forwardPos, 1f, 0.35f, 180f);
+        obj1.InitializeRound(status.damage, 0, 0.2f, 0f, 1, 0, this, Faction.Monster, new Vector3(30, 1, 30), transform.position, forwardPos, 1f, 0.35f, 180f);
         ObjectPoolManager.Instance.Spawn("AudioObject", obj1.transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio("DraugAttack", "MonsterWeapon");
 
         yield return 0;

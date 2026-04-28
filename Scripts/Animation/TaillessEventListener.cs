@@ -20,7 +20,7 @@ public class TaillessEventListener : MonoBehaviour
     {
         TaillessController controller = GetComponent<TaillessController>();
 
-        float width = 2f * 3f;
+        float width = 9f;
         controller.roundIndicator = ObjectPoolManager.Instance.Spawn("RoundIndicator", transform.position, transform.rotation).GetComponent<RoundIndicator>();
         controller.roundIndicator.Initialize(new Vector3(width, 1, width), 1f, 0.3f, 80f, 1.5f);
     }

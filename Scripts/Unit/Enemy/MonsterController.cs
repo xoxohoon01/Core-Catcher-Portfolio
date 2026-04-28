@@ -122,11 +122,11 @@ public abstract class MonsterController : UnitController
 
             float rand = Random.value; // 0.0 ~ 1.0
 
-            if (rand <= 0.01f)
+            if (rand <= 0.003f)
             {
                 ObjectPoolManager.Instance.Spawn("Magnet", dropPos, transform.rotation);
             }
-            else if (rand <= 0.02f)
+            else if (rand <= 0.002f)
             {
                 ObjectPoolManager.Instance.Spawn("Medikit", dropPos, transform.rotation);
             }
