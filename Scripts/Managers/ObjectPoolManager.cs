@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
@@ -14,19 +11,26 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
         public int size;
     }
 
-    [Header("Pools ¼³Á¤")]
-    [Tooltip("¿©±â¿¡ Ç®À» ¸¸µé ÇÁ¸®ÆÕ°ú ÅÂ±×, ÃÊ±â Å©±â¸¦ Ãß°¡ÇÏ¼¼¿ä.")]
+    [Header("Pools ï¿½ï¿½ï¿½ï¿½")]
+    [Tooltip("ï¿½ï¿½ï¿½â¿¡ Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ°ï¿½ ï¿½Â±ï¿½, ï¿½Ê±ï¿½ Å©ï¿½â¸¦ ï¿½ß°ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.")]
     public List<Pool> pools;
 
-    // ÅÂ±×º° ¿ÀºêÁ§Æ® Å¥
+    // íƒœê·¸ë³„ ì˜¤ë¸Œì íŠ¸ í
     private Dictionary<string, Queue<GameObject>> poolDictionary;
 
-    // ÅÂ±×·ÎºÎÅÍ ¿ÀºêÁ§Æ®¸¦ ²¨³» È°¼ºÈ­ÇØ¼­ ¹İÈ¯
+    // í’€ í™•ì¥ìš© í”„ë¦¬íŒ¹ ë”•ì…”ë„ˆë¦¬ (List ìˆœíšŒ ì œê±°)
+    private Dictionary<string, GameObject> prefabDictionary;
+
+    // íŒŒí‹°í´/íŠ¸ë ˆì¼ ìºì‹œ â€” ì¸ìŠ¤í„´ìŠ¤ ID ê¸°ì¤€ìœ¼ë¡œ ì €ì¥
+    private Dictionary<int, ParticleSystem[]> particleCache;
+    private Dictionary<int, TrailRenderer[]> trailCache;
+
+    // íƒœê·¸ë¡œë¶€í„° ì˜¤ë¸Œì íŠ¸ë¥¼ êº¼ë‚´ í™œì„±í™”í•´ì„œ ë°˜í™˜
     public GameObject Spawn(string targetTag, Vector3 position, Quaternion rotation)
     {
         if (!poolDictionary.ContainsKey(targetTag))
         {
-            Debug.LogWarning($"ObjectPoolManager: ÅÂ±× '{targetTag}'¿¡ ÇØ´çÇÏ´Â Ç®À» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"ObjectPoolManager: íƒœê·¸ '{targetTag}'ì— í•´ë‹¹í•˜ëŠ” í’€ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return null;
         }
 
@@ -41,37 +45,42 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
         }
         else
         {
-            Pool targetPool = pools.FirstOrDefault(pool => pool.tag == targetTag);
-            objectToSpawn = Instantiate(targetPool.prefab);
+            // í’€ ì†Œì§„ ì‹œ í™•ì¥ â€” ìºì‹œë„ í•¨ê»˜ ë“±ë¡
+            objectToSpawn = Instantiate(prefabDictionary[targetTag]);
             objectToSpawn.name = targetTag;
             objectToSpawn.transform.position = position;
             objectToSpawn.transform.rotation = rotation;
+            CacheEffects(objectToSpawn);
         }
 
-        // ParticleSystem ÃÊ±âÈ­
-        var particles = objectToSpawn.GetComponentsInChildren<ParticleSystem>(true);
-        for (int i = 0; i < particles.Length; i++)
+        int id = objectToSpawn.GetInstanceID();
+
+        // ìºì‹±ëœ íŒŒí‹°í´ ì´ˆê¸°í™”
+        if (particleCache.TryGetValue(id, out var particles))
         {
-            particles[i].Clear(true);
-            particles[i].Play(true);
+            for (int i = 0; i < particles.Length; i++)
+            {
+                particles[i].Clear(true);
+                particles[i].Play(true);
+            }
         }
 
-        // ParticleSystem ÃÊ±âÈ­
-        var trails = objectToSpawn.GetComponentsInChildren<TrailRenderer>(true);
-        for (int i = 0; i < trails.Length; i++)
+        // ìºì‹±ëœ íŠ¸ë ˆì¼ ì´ˆê¸°í™”
+        if (trailCache.TryGetValue(id, out var trails))
         {
-            trails[i].Clear();
+            for (int i = 0; i < trails.Length; i++)
+                trails[i].Clear();
         }
 
         return objectToSpawn;
     }
 
-    // »ç¿ëÀÌ ³¡³­ ¿ÀºêÁ§Æ®¸¦ ºñÈ°¼ºÈ­ÇÏ¿© Ç®·Î ¹İÈ¯
+    // ì˜¤ë¸Œì íŠ¸ë¥¼ ë¹„í™œì„±í™”í•˜ì—¬ í’€ì— ë°˜í™˜
     public void Despawn(GameObject obj)
     {
         if (!poolDictionary.ContainsKey(obj.name))
         {
-            Debug.LogWarning($"ObjectPoolManager: ÅÂ±× '{obj.name}'¿¡ ÇØ´çÇÏ´Â Ç®À» Ã£À» ¼ö ¾ø½À´Ï´Ù. ¹İÈ¯ ½ÇÆĞ.");
+            Debug.LogWarning($"ObjectPoolManager: íƒœê·¸ '{obj.name}'ì— í•´ë‹¹í•˜ëŠ” í’€ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ë°˜í™˜ ì‹¤íŒ¨.");
             Destroy(obj);
             return;
         }
@@ -85,20 +94,35 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
     {
         base.Awake();
 
-        // Ç® ÃÊ±âÈ­
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        poolDictionary  = new Dictionary<string, Queue<GameObject>>();
+        prefabDictionary = new Dictionary<string, GameObject>();
+        particleCache   = new Dictionary<int, ParticleSystem[]>();
+        trailCache      = new Dictionary<int, TrailRenderer[]>();
+
+        // í’€ ì´ˆê¸°í™” â€” ê° ì˜¤ë¸Œì íŠ¸ì˜ íŒŒí‹°í´/íŠ¸ë ˆì¼ì„ ë¯¸ë¦¬ ìºì‹±
         foreach (var pool in pools)
         {
+            pool.tag = pool.prefab.name;
+            prefabDictionary[pool.tag] = pool.prefab;
+
             var objectQueue = new Queue<GameObject>();
             for (int i = 0; i < pool.size; i++)
             {
-                pool.tag = pool.prefab.name;
                 GameObject obj = Instantiate(pool.prefab);
                 obj.name = pool.tag;
                 obj.SetActive(false);
+                CacheEffects(obj);
                 objectQueue.Enqueue(obj);
             }
             poolDictionary.Add(pool.tag, objectQueue);
         }
+    }
+
+    // ì˜¤ë¸Œì íŠ¸ì˜ íŒŒí‹°í´/íŠ¸ë ˆì¼ì„ ì¸ìŠ¤í„´ìŠ¤ ID ê¸°ì¤€ìœ¼ë¡œ ìºì‹±
+    private void CacheEffects(GameObject obj)
+    {
+        int id = obj.GetInstanceID();
+        particleCache[id] = obj.GetComponentsInChildren<ParticleSystem>(true);
+        trailCache[id]    = obj.GetComponentsInChildren<TrailRenderer>(true);
     }
 }
