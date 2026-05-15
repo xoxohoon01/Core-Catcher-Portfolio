@@ -33,21 +33,18 @@ public class AfterBurner : IArtifactCardEffect
 
         // 카운터 초기화 후 발사
         hitCount = 0;
-        FireBurst(level, target);
+        FireBurst(level);
     }
 
-    private void FireBurst(int level, UnitController lastTarget)
+    private void FireBurst(int level)
     {
         int bulletCount = Mathf.RoundToInt(card.GetValue(AttributeType.amount, level));
         float damageMultiplier = card.GetValue(AttributeType.duration, level);
         float damage = player.status.damage * damageMultiplier;
 
-        // 마지막으로 명중한 적 방향을 중심으로 부채꼴 발사
-        Vector3 baseDir = lastTarget != null
-            ? (lastTarget.transform.position - player.transform.position)
-            : player.transform.forward;
+        // 캐릭터가 바라보는 방향을 중심으로 부채꼴 발사
+        Vector3 baseDir = player.transform.forward;
         baseDir.y = 0;
-        if (baseDir == Vector3.zero) baseDir = player.transform.forward;
         baseDir.Normalize();
 
         // 탄환 수에 따라 좌우로 30도 간격으로 퍼지도록 각도 계산
