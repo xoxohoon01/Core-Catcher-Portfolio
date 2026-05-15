@@ -179,6 +179,13 @@ public class HitController : MonoBehaviour
                 // 플레이어가 실제로 체력 피해를 입었을 때만 이벤트 발생
                 OnPlayerHit?.Invoke(target as PlayerController);
             }
+
+            // 플레이어의 공격이 적에게 명중했을 때 이벤트 발생 (아티팩트 연동)
+            if (sender is PlayerController playerSender)
+            {
+                playerSender.InvokeAttackHit(target, target.transform.position);
+                playerSender.InvokeCritical(critResult.level);
+            }
         }
     }
 
