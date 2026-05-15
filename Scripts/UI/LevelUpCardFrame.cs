@@ -123,7 +123,7 @@ public class LevelUpCardFrame : UIBase
         {
             RectTransform rectTransform = cardSlots[i].GetComponent<RectTransform>();
             rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, 1080);
-            rectTransform.DOAnchorPos(new Vector2(rectTransform.anchoredPosition.x, 0), 0.5f)
+            rectTransform.DOAnchorPos(new Vector2(rectTransform.anchoredPosition.x, 200), 0.5f)
                 .SetEase(Ease.OutBack)
                 .SetUpdate(true)
                 .SetDelay(i * 0.1f);
