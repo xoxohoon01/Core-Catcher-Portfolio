@@ -16,32 +16,32 @@ public class LevelUpCardFrame : UIBase
         var statCards = GetAvailableStatCards();
         var artifactCards = GetAvailableArtifactCards();
 
-        // °¢ ¸®½ºÆ®¸¦ °³º°ÀûÀ¸·Î ¼ÅÇÃ
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Shuffle(statCards);
         Shuffle(artifactCards);
 
-        // --- Slot 0: ¾ÆÆ¼ÆÑÆ® Àü¿ë ½½·Ô ---
-        // GetAvailableArtifactCards¿¡¼­ ÀÌ¹Ì Á¶°Ç(4°³ Á¦ÇÑ, ¸¸·¾ ½Ã Èú)À» Ã³¸®ÇØ¼­ º¸³»ÁÜ
+        // --- Slot 0: ï¿½ï¿½Æ¼ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ---
+        // GetAvailableArtifactCardsï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½(4ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½)ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (artifactCards.Count > 0)
         {
-            // ¾ÆÆ¼ÆÑÆ® È¤Àº Èú Ä«µå°¡ ¼¼ÆÃµÊ
+            // ï¿½ï¿½Æ¼ï¿½ï¿½Æ® È¤ï¿½ï¿½ ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½ï¿½ï¿½Ãµï¿½
             cardSlots[0].InitializeArtifact(artifactCards[0]);
         }
 
-        // --- Slot 1: ½ºÅÈ Ä«µå Àü¿ë ½½·Ô ---
+        // --- Slot 1: ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ---
         if (statCards.Count > 0)
         {
             cardSlots[1].InitializeLevelUp(statCards[0]);
         }
 
-        // --- Slot 2: ·£´ı ½½·Ô (¾ÆÆ¼ÆÑÆ® Ç®°ú ½ºÅÈ Ç®¿¡¼­ ¹«ÀÛÀ§) ---
-        // 0¹ø°ú 1¹ø ½½·Ô¿¡¼­ »ç¿ëÇÏÁö ¾ÊÀº ³²Àº Ä«µåµé Áß ÇÏ³ª¸¦ ¼±ÅÃ
+        // --- Slot 2: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½Æ¼ï¿½ï¿½Æ® Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) ---
+        // 0ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         List<bool> randomPool = new List<bool> { true, false }; // true: Artifact, false: Stat
         bool isArtifact = randomPool[Random.Range(0, 2)];
 
         if (isArtifact)
         {
-            // ¾ÆÆ¼ÆÑÆ® Ç®ÀÇ ´ÙÀ½ Ä«µå(index 1)°¡ ÀÖÀ¸¸é ¾²°í, ¾øÀ¸¸é 0¹øÀÌ¶óµµ ´Ù½Ã È°¿ë
+            // ï¿½ï¿½Æ¼ï¿½ï¿½Æ® Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½(index 1)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½Ì¶ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½
             var targetCard = artifactCards.Count > 1 ? artifactCards[1] : artifactCards[0];
             cardSlots[2].InitializeArtifact(targetCard);
         }
@@ -61,7 +61,7 @@ public class LevelUpCardFrame : UIBase
                 CardManager.Instance.statLevel[card.effectName] < 5)
             .ToList();
 
-        // ¸ğµç ½ºÅÈ Ä«µå°¡ ¸¸·¾ÀÌ¸é Èú Ä«µå ¹İÈ¯
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½È¯
         if (available.Count == 0)
         {
             var healCard = allCards.FirstOrDefault(card => card.effectName == "Heal");
@@ -72,12 +72,12 @@ public class LevelUpCardFrame : UIBase
 
     private List<ArtifactCardScriptableObject> GetAvailableArtifactCards()
     {
-        // ¸ğµç ¾ÆÆ¼ÆÑÆ® ·Îµå
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½Æ® ï¿½Îµï¿½
         List<ArtifactCardScriptableObject> allCards = new List<ArtifactCardScriptableObject>();
         allCards.AddRange(Resources.LoadAll<ArtifactCardScriptableObject>("ArtifactSO/" + GameManager.Instance.characterName));
         allCards.AddRange(Resources.LoadAll<ArtifactCardScriptableObject>("ArtifactSO/Common"));
 
-        // ÇöÀç º¸À¯ ÁßÀÎ(·¹º§ 1 ÀÌ»ó) ¾ÆÆ¼ÆÑÆ®
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ 1 ï¿½Ì»ï¿½) ï¿½ï¿½Æ¼ï¿½ï¿½Æ®
         var owned = allCards.Where(card =>
             CardManager.Instance.artifactEffectLevel.ContainsKey(card.effectName) &&
             CardManager.Instance.artifactEffectLevel[card.effectName] > 0).ToList();
@@ -86,19 +86,19 @@ public class LevelUpCardFrame : UIBase
 
         if (owned.Count < 4)
         {
-            // 1. ¾ÆÁ÷ 4°³¸¦ ´Ù ¾È °ñ¶úÀ» ¶§: ¸¸·¾ÀÌ ¾Æ´Ñ ¸ğµç ¾ÆÆ¼ÆÑÆ®°¡ ÈÄº¸
+            // 1. ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Äºï¿½
             result = allCards.Where(card =>
                 card.effectName != "Heal" &&
                 CardManager.Instance.artifactEffectLevel[card.effectName] < 5).ToList();
         }
         else
         {
-            // 2. 4°³¸¦ ÀÌ¹Ì °ñ¶úÀ» ¶§: º¸À¯ÇÑ 4°³ Áß ¸¸·¾ÀÌ ¾Æ´Ñ °Í¸¸ ÈÄº¸
+            // 2. 4ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½Í¸ï¿½ ï¿½Äºï¿½
             result = owned.Where(card =>
                 CardManager.Instance.artifactEffectLevel[card.effectName] < 5).ToList();
         }
 
-        // 3. ¸¸¾à À§ Á¶°Ç¿¡¼­ ÈÄº¸°¡ ÇÏ³ªµµ ¾ø´Ù¸é (4°³ ´Ù ¸¸·¾ µî): Èú Ä«µå¸¸ ³Ö¾î¼­ ¹İÈ¯
+        // 3. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ ï¿½Äºï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ (4ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½): ï¿½ï¿½ Ä«ï¿½å¸¸ ï¿½Ö¾î¼­ ï¿½ï¿½È¯
         if (result.Count == 0)
         {
             var healCard = allCards.FirstOrDefault(card => card.effectName == "Heal");
@@ -130,8 +130,9 @@ public class LevelUpCardFrame : UIBase
         }
     }
 
-    private void Update()
+    // UI ë¦¬ë¡¤ ë²„íŠ¼ì—ì„œ í˜¸ì¶œ
+    public void OnClickReroll()
     {
-        if (Input.GetKeyUp(KeyCode.R)) Initialize();
+        Initialize();
     }
 }
