@@ -21,22 +21,33 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         PlayerController player = PlayerManager.Instance.GetPlayer();
 
-        foreach (var monster in spawnData.monsters)
+        int typeCount = spawnData.monsters.Count;
+
+        // 몬스터 종류마다 원형 위에서 균등하게 방향을 배분
+        float baseAngle = Random.Range(0f, 360f);
+
+        for (int typeIndex = 0; typeIndex < typeCount; typeIndex++)
         {
-            float angleOffset = Random.Range(0f, 360f);
+            var monster = spawnData.monsters[typeIndex];
+
+            // 종류별 군집 중심 방향 — 전체를 typeCount로 나눠 고르게 배치
+            float clusterAngle = baseAngle + (typeIndex * 360f / typeCount);
+            float clusterRad = clusterAngle * Mathf.Deg2Rad;
+
+            // 군집 중심점
+            Vector3 clusterCenter = player.transform.position + new Vector3(
+                Mathf.Cos(clusterRad) * monster.radius,
+                0f,
+                Mathf.Sin(clusterRad) * monster.radius
+            );
+
+            // 군집 내 개별 스폰 — 중심점 주변 원형 범위에 랜덤 배치
+            float clusterSpread = 3f;
 
             for (int i = 0; i < monster.count; i++)
             {
-                float angle = (i * 360f / monster.count) + angleOffset;
-                float rad = angle * Mathf.Deg2Rad;
-
-                Vector3 offset = new Vector3(
-                    Mathf.Cos(rad) * monster.radius,
-                    0f,
-                    Mathf.Sin(rad) * monster.radius
-                );
-
-                Vector3 spawnPos = player.transform.position + offset;
+                Vector2 rand = Random.insideUnitCircle * clusterSpread;
+                Vector3 spawnPos = clusterCenter + new Vector3(rand.x, 0f, rand.y);
 
                 ObjectPoolManager.Instance
                     .Spawn(monster.monsterName, spawnPos, Quaternion.identity)
