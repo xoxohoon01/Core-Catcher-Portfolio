@@ -7,10 +7,11 @@ public class RavenSkill4Controller : BulletController
 {
     protected override void CheckHit(UnitController target)
     {
-        // 탄환이 아닌 히트 단위로 크리티컬 재계산
+        // 관통 탄환은 적마다 크리티컬을 독립 판정 — 히트 전 플래그 리셋
         critResult = CriticalCalculator.Calculate(sender);
         damage = rawDamage * critResult.multiplier;
         damageNumberPrefab = critResult.damageNumber;
+        ResetCritEvent();
 
         base.CheckHit(target);
 

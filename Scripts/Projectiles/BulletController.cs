@@ -22,6 +22,7 @@ public class BulletController : MonoBehaviour
     protected CritResult critResult;
     protected float rawDamage; // 크리티컬 적용 전 기본 데미지
     protected float damage;
+    private bool hasFiredCritEvent; // 이 인스턴스에서 크리티컬 이벤트를 이미 발생시켰는지 여부
     protected float moveSpeed;
     protected float hitTime;
     protected float lifeTime;
@@ -113,10 +114,15 @@ public class BulletController : MonoBehaviour
             }
 
             // 플레이어의 공격이 적에게 명중했을 때 이벤트 발생
+            // InvokeCritical은 이 BulletController 인스턴스당 1회만 — 관통 시 중복 방지
             if (sender is PlayerController playerSender)
             {
                 playerSender.InvokeAttackHit(target, target.transform.position);
-                playerSender.InvokeCritical(critResult.level);
+                if (!hasFiredCritEvent)
+                {
+                    hasFiredCritEvent = true;
+                    playerSender.InvokeCritical(critResult.level);
+                }
             }
         }
     }
@@ -133,11 +139,15 @@ public class BulletController : MonoBehaviour
         hitInfoMap[target].canHit = true;
     }
 
+    // 히트마다 크리티컬을 재계산하는 서브클래스(관통 탄환 등)에서 호출
+    protected void ResetCritEvent() => hasFiredCritEvent = false;
+
     private void OnDisable()
     {
         currentLifeTime = 0;
         hitInfoMap.Clear();
         isInitialized = false;
+        hasFiredCritEvent = false;
     }
 
     private void Update()
