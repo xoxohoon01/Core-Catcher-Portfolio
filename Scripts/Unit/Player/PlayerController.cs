@@ -13,6 +13,8 @@ public class PlayerController : UnitController
     public event System.Action OnHit;
     // 플레이어의 공격이 적에게 명중했을 때 호출 — 피격 대상과 명중 위치 전달
     public event System.Action<UnitController, Vector3> OnAttackHit;
+    // 크리티컬 발생 시 호출 — 크리 단계 전달 (2=일반, 3=슈퍼, 4=울트라)
+    public event System.Action<int> OnCritical;
 
     public GameObject shield;
 
@@ -485,6 +487,13 @@ public class PlayerController : UnitController
     public void InvokeAttackHit(UnitController target, Vector3 hitPosition)
     {
         OnAttackHit?.Invoke(target, hitPosition);
+    }
+
+    // 크리티컬 발생 시 호출 — level 2 이상일 때만 이벤트 발생
+    public void InvokeCritical(int critLevel)
+    {
+        if (critLevel >= 2)
+            OnCritical?.Invoke(critLevel);
     }
 
     private void Start()

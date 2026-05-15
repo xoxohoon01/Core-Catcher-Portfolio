@@ -114,6 +114,7 @@ public class BulletController : MonoBehaviour
             if (sender is PlayerController playerSender)
             {
                 playerSender.InvokeAttackHit(target, target.transform.position);
+                playerSender.InvokeCritical(critResult.level);
             }
         }
     }
