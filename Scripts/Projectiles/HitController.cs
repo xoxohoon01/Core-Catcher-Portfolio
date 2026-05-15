@@ -27,6 +27,7 @@ public class HitController : MonoBehaviour
 
     protected float damage;
     protected float moveSpeed;
+    private bool hasFiredCritEvent; // 이 인스턴스에서 크리티컬 이벤트를 이미 발생시켰는지 여부
     protected float hitTime;
     protected float startDelay;
     protected float lifeTime;
@@ -181,10 +182,15 @@ public class HitController : MonoBehaviour
             }
 
             // 플레이어의 공격이 적에게 명중했을 때 이벤트 발생 (아티팩트 연동)
+            // InvokeCritical은 이 HitController 인스턴스당 1회만 — 다수 적 동시 피격 시 중복 방지
             if (sender is PlayerController playerSender)
             {
                 playerSender.InvokeAttackHit(target, target.transform.position);
-                playerSender.InvokeCritical(critResult.level);
+                if (!hasFiredCritEvent)
+                {
+                    hasFiredCritEvent = true;
+                    playerSender.InvokeCritical(critResult.level);
+                }
             }
         }
     }
@@ -305,6 +311,7 @@ public class HitController : MonoBehaviour
         currentLifeTime = 0;
         hitInfoMap.Clear();
         isInitialized = false;
+        hasFiredCritEvent = false;
     }
 
     protected virtual void Update()
