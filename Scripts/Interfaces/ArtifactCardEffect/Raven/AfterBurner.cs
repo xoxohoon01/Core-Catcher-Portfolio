@@ -39,8 +39,8 @@ public class AfterBurner : IArtifactCardEffect
     private void FireBurst(int level)
     {
         int bulletCount = Mathf.RoundToInt(card.GetValue(AttributeType.amount, level));
-        float damageMultiplier = card.GetValue(AttributeType.duration, level);
-        float damage = player.status.damage * damageMultiplier;
+        // 탄환 수가 많으므로 개당 데미지는 기본 공격의 80%로 고정
+        float damage = player.status.damage * 0.8f;
 
         // 캐릭터가 바라보는 방향을 중심으로 부채꼴 발사
         Vector3 baseDir = player.transform.forward;
