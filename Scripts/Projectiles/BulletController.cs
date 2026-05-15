@@ -14,8 +14,6 @@ public class BulletController : MonoBehaviour
 
     protected bool isInitialized;
     protected bool isHit;
-    // false로 설정하면 명중 시 OnAttackHit 이벤트를 발생시키지 않음 (FlyingBullet 등 2차 탄환용)
-    public bool invokeAttackHitEvent = true;
 
     protected new Rigidbody rigidbody;
     protected Vector3 prevPos;
@@ -112,8 +110,8 @@ public class BulletController : MonoBehaviour
                 OnPlayerHit?.Invoke();
             }
 
-            // 플레이어의 공격이 적에게 명중했을 때 이벤트 발생 (2차 탄환은 제외)
-            if (invokeAttackHitEvent && sender is PlayerController playerSender)
+            // 플레이어의 공격이 적에게 명중했을 때 이벤트 발생
+            if (sender is PlayerController playerSender)
             {
                 playerSender.InvokeAttackHit(target, target.transform.position);
             }
@@ -137,7 +135,6 @@ public class BulletController : MonoBehaviour
         currentLifeTime = 0;
         hitInfoMap.Clear();
         isInitialized = false;
-        invokeAttackHitEvent = true;
     }
 
     private void Update()
