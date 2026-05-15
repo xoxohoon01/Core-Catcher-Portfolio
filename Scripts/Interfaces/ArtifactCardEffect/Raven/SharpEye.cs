@@ -6,6 +6,7 @@ public class SharpEye : IArtifactCardEffect
     private PlayerController player;
     private ArtifactCardScriptableObject card;
     private System.Action<int> critCallback;
+    private int lastTriggerFrame = -1; // 같은 프레임 내 중복 발동 방지
 
     public void ApplyEffect(ArtifactCardScriptableObject card)
     {
@@ -18,6 +19,10 @@ public class SharpEye : IArtifactCardEffect
 
     private void OnCritical(int critLevel)
     {
+        // 범위 공격 등 같은 프레임에 여러 번 발동되지 않도록 제한
+        if (Time.frameCount == lastTriggerFrame) return;
+        lastTriggerFrame = Time.frameCount;
+
         int level = CardManager.Instance.artifactEffectLevel[card.effectName];
         if (level <= 0) return;
 

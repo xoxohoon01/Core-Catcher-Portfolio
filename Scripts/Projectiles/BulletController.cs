@@ -20,6 +20,7 @@ public class BulletController : MonoBehaviour
     protected float bulletRadius;
 
     protected CritResult critResult;
+    protected float rawDamage; // 크리티컬 적용 전 기본 데미지
     protected float damage;
     protected float moveSpeed;
     protected float hitTime;
@@ -48,6 +49,7 @@ public class BulletController : MonoBehaviour
 
         damageNumberPrefab = critResult.damageNumber;
 
+        rawDamage = baseDamage;
         damage = baseDamage * critResult.multiplier;
         moveSpeed = startSpeed;
         lifeTime = startLifeTime;
