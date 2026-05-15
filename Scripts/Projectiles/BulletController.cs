@@ -139,9 +139,6 @@ public class BulletController : MonoBehaviour
         hitInfoMap[target].canHit = true;
     }
 
-    // 히트마다 크리티컬을 재계산하는 서브클래스(관통 탄환 등)에서 호출
-    protected void ResetCritEvent() => hasFiredCritEvent = false;
-
     private void OnDisable()
     {
         currentLifeTime = 0;

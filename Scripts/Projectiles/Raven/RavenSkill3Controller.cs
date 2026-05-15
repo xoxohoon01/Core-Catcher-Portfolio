@@ -7,11 +7,11 @@ public class RavenSkill3Controller : BulletController
 {
     protected override void CheckHit(UnitController target)
     {
-        // 관통 탄환은 적마다 크리티컬을 독립 판정 — 히트 전 플래그 리셋
+        // 적마다 크리티컬 데미지를 독립 계산 (데미지 숫자 표시용)
+        // InvokeCritical은 탄환 인스턴스당 1회 — ResetCritEvent() 호출하지 않음
         critResult = CriticalCalculator.Calculate(sender);
         damage = rawDamage * critResult.multiplier;
         damageNumberPrefab = critResult.damageNumber;
-        ResetCritEvent();
 
         base.CheckHit(target);
 
