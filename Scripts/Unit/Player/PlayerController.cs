@@ -11,6 +11,8 @@ public class PlayerController : UnitController
     public event System.Action OnDash;
     // 체력 피해를 실제로 입었을 때 호출 (실드로만 막힌 경우 제외)
     public event System.Action OnHit;
+    // 플레이어의 공격이 적에게 명중했을 때 호출 — 피격 대상과 명중 위치 전달
+    public event System.Action<UnitController, Vector3> OnAttackHit;
 
     public GameObject shield;
 
@@ -477,6 +479,12 @@ public class PlayerController : UnitController
     {
         if (target == this)
             OnHit?.Invoke();
+    }
+
+    // BulletController / HitController에서 적 명중 시 호출
+    public void InvokeAttackHit(UnitController target, Vector3 hitPosition)
+    {
+        OnAttackHit?.Invoke(target, hitPosition);
     }
 
     private void Start()

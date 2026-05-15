@@ -107,10 +107,15 @@ public class BulletController : MonoBehaviour
             if (target.faction == Faction.Player)
             {
                 ScreenEffectManager.Instance.BeginEffect("Damage");
+                OnPlayerHit?.Invoke();
+            }
+
+            // 플레이어의 공격이 적에게 명중했을 때 이벤트 발생
+            if (sender is PlayerController playerSender)
+            {
+                playerSender.InvokeAttackHit(target, target.transform.position);
             }
         }
-
-        OnPlayerHit?.Invoke();
     }
 
     protected virtual void AfterHit(UnitController target)
