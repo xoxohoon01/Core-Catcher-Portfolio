@@ -8,7 +8,8 @@ using UnityEngine;
 
 public class HitController : MonoBehaviour
 {
-    public static Action OnPlayerHit;
+    // 플레이어가 실제로 피격됐을 때 호출 — 피격된 PlayerController를 인자로 전달
+    public static Action<PlayerController> OnPlayerHit;
 
     protected DamageNumber damageNumberPrefab;
     public GameObject particleObject;
@@ -174,10 +175,11 @@ public class HitController : MonoBehaviour
             if (target.faction == Faction.Player)
             {
                 ScreenEffectManager.Instance.BeginEffect("Damage");
+
+                // 플레이어가 실제로 체력 피해를 입었을 때만 이벤트 발생
+                OnPlayerHit?.Invoke(target as PlayerController);
             }
         }
-
-        OnPlayerHit?.Invoke();
     }
 
     public void CheckHitRound()

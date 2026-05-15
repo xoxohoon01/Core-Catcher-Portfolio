@@ -9,6 +9,8 @@ public class PlayerController : UnitController
     public event System.Action OnBasicAttack;
     public event System.Action OnSkillUsed;
     public event System.Action OnDash;
+    // ì²´ë ¥ í”¼í•´ë¥¼ ì‹¤ì œë¡œ ì…ì—ˆì„ ë•Œ í˜¸ì¶œ (ì‹¤ë“œë¡œë§Œ ë§‰íŒ ê²½ìš° ì œì™¸)
+    public event System.Action OnHit;
 
     public GameObject shield;
 
@@ -194,7 +196,7 @@ public class PlayerController : UnitController
         {
             if (!isDash && !isSkill && attackDelay <= 0)
             {
-                // °ø°İ ÄŞº¸º° µô·¹ÀÌ´Â ÇÏÀ§ Å¬·¡½ºÀÇ BasicAttack() ¾È¿¡¼­ °è»ê.
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½Şºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ BasicAttack() ï¿½È¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
                 BasicAttack();
                 isAttack = true;
             }
@@ -460,6 +462,23 @@ public class PlayerController : UnitController
         GameManager.Instance.AddCharacterObject(gameObject);
     }
 
+    private void OnEnable()
+    {
+        // ì´ í”Œë ˆì´ì–´ ì¸ìŠ¤í„´ìŠ¤ê°€ ë§ì•˜ì„ ë•Œë§Œ OnHit ë°œìƒ
+        HitController.OnPlayerHit += HandlePlayerHit;
+    }
+
+    private void OnDisable()
+    {
+        HitController.OnPlayerHit -= HandlePlayerHit;
+    }
+
+    private void HandlePlayerHit(PlayerController target)
+    {
+        if (target == this)
+            OnHit?.Invoke();
+    }
+
     private void Start()
     {
         shield.transform.SetParent(null);
@@ -488,7 +507,7 @@ public class PlayerController : UnitController
             Dash();
             Attack();
 
-            // ÄğÅ¸ÀÓ °è»ê
+            // ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½
             for (int i = 0; i < characterData.skills.Length; i++)
             {
                 if (skillSpan[i] <= 0)
