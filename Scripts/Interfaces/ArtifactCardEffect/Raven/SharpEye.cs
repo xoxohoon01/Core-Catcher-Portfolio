@@ -21,8 +21,8 @@ public class SharpEye : IArtifactCardEffect
         int level = CardManager.Instance.artifactEffectLevel[card.effectName];
         if (level <= 0) return;
 
-        // 크리 단계가 높을수록 쿨다운 감소량 증가
-        float reduction = card.GetValue(AttributeType.amount, level) * (critLevel - 1);
+        // 크리 단계 관계없이 고정 감소량 적용
+        float reduction = card.GetValue(AttributeType.amount, level);
 
         for (int i = 0; i < player.skillDelay.Length; i++)
         {
