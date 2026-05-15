@@ -54,12 +54,13 @@ public class FlyingBullet : IArtifactCardEffect
         Quaternion rotation = Quaternion.LookRotation(dir.normalized);
         Vector3 spawnPos = player.transform.position + (player.transform.forward) + (Vector3.up * 2f);
 
-        // 추가 탄환 발사 — 데미지는 기본 공격의 일부
+        // 추가 탄환 발사 — 2차 탄환이므로 OnAttackHit 이벤트 발생 안 함
         float bulletDamage = player.status.damage * card.GetValue(AttributeType.duration, level);
-        ObjectPoolManager.Instance
+        BulletController bullet = ObjectPoolManager.Instance
             .Spawn("RavenAttack", spawnPos, rotation)
-            .GetComponent<BulletController>()
-            .Initialize(bulletDamage, player.CheckCritical(), 100f, 1f, false, player, player.faction, Vector3.one);
+            .GetComponent<BulletController>();
+        bullet.invokeAttackHitEvent = false;
+        bullet.Initialize(bulletDamage, player.CheckCritical(), 100f, 1f, false, player, player.faction, Vector3.one);
     }
 
     public void Update() { }
