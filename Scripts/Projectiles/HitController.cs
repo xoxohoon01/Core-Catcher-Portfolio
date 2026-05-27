@@ -28,6 +28,7 @@ public class HitController : MonoBehaviour
     protected float damage;
     protected float moveSpeed;
     private bool hasFiredCritEvent; // 이 인스턴스에서 크리티컬 이벤트를 이미 발생시켰는지 여부
+    public bool countAsAttackHit = false; // AfterBurner 카운트 여부 — 기본공격 히트박스만 true로 설정
     protected float hitTime;
     protected float startDelay;
     protected float lifeTime;
@@ -185,7 +186,8 @@ public class HitController : MonoBehaviour
             // InvokeCritical은 이 HitController 인스턴스당 1회만 — 다수 적 동시 피격 시 중복 방지
             if (sender is PlayerController playerSender)
             {
-                playerSender.InvokeAttackHit(target, target.transform.position);
+                if (countAsAttackHit)
+                    playerSender.InvokeAttackHit(target, target.transform.position);
                 if (!hasFiredCritEvent)
                 {
                     hasFiredCritEvent = true;
@@ -312,6 +314,7 @@ public class HitController : MonoBehaviour
         hitInfoMap.Clear();
         isInitialized = false;
         hasFiredCritEvent = false;
+        countAsAttackHit = false;
     }
 
     protected virtual void Update()
