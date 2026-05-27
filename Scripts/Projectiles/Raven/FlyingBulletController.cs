@@ -20,22 +20,19 @@ public class FlyingBulletController : BulletController
         base.CheckHit(target);
         ObjectPoolManager.Instance.Spawn($"AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio($"Hit{Random.Range(1, 3)}", "Hit");
 
-        // 스킬 시너지: 스킬 8 해금 시 FlyingBullet → Targeting 연계
-        if (SkillManager.Instance.CheckSkillUnlocked("Raven", 8))
+        // Targeting 아티팩트 보유 시 FlyingBullet → Targeting 연계
+        int level = CardManager.Instance.artifactEffectLevel["Targeting"];
+        if (level > 0)
         {
-            int level = CardManager.Instance.artifactEffectLevel["Targeting"];
-            if (level > 0)
+            ArtifactCardScriptableObject card = CardManager.Instance.GetArtifact("Targeting");
+            if (Random.Range(0.0f, 1.0f) <= card.GetValue(AttributeType.chance, level))
             {
-                ArtifactCardScriptableObject card = CardManager.Instance.GetArtifact("Targeting");
-                if (Random.Range(0.0f, 1.0f) <= card.GetValue(AttributeType.chance, level))
-                {
-                    ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity)
-                        .GetComponent<TargetingController>()
-                        .Initialize(
-                            PlayerManager.Instance.GetPlayer().status.damage * card.GetValue(AttributeType.amount, level),
-                            0, 3f, 0.625f, 5f, 0.5f,
-                            sender, Faction.Player, Vector3.one);
-                }
+                ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity)
+                    .GetComponent<TargetingController>()
+                    .Initialize(
+                        PlayerManager.Instance.GetPlayer().status.damage * card.GetValue(AttributeType.amount, level),
+                        0, 3f, 0.625f, 5f, 0.5f,
+                        sender, Faction.Player, Vector3.one);
             }
         }
     }
