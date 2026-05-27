@@ -10,8 +10,8 @@ public class FlyingBulletController : BulletController
     public override void Initialize(float baseDamage, int critLevel, float startSpeed, float startLifeTime, bool isStartPenetration, UnitController sender, Faction senderFaction, Vector3 size)
     {
         base.Initialize(baseDamage, critLevel, startSpeed, startLifeTime, isStartPenetration, sender, senderFaction, size);
-        // FlyingBullet 명중은 AfterBurner 카운트 및 FlyingBullet 재발동에서 제외 (루프 방지)
-        countAsAttackHit = false;
+        // FlyingBullet 명중 시 AfterBurner 카운트는 포함, FlyingBullet 재발동만 제외 (루프 방지)
+        countAsAttackHit = true;
         triggersBulletHit = false;
     }
 
