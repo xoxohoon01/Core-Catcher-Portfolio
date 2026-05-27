@@ -6,8 +6,10 @@ public class AfterBurnerController : BulletController
     public override void Initialize(float baseDamage, int critLevel, float startSpeed, float startLifeTime, bool isStartPenetration, UnitController sender, Faction senderFaction, Vector3 size)
     {
         base.Initialize(baseDamage, critLevel, startSpeed, startLifeTime, isStartPenetration, sender, senderFaction, size);
-        // AfterBurner 카운트에서 제외 (무한 루프 방지), FlyingBullet · Targeting은 OnBulletHit으로 발동
+        // AfterBurner 카운트에서 제외 (무한 루프 방지)
         countAsAttackHit = false;
+        // AfterBurner탄 명중 시 FlyingBullet · Targeting은 발동
+        triggersBulletHit = true;
     }
 
     protected override void CheckHit(UnitController target)

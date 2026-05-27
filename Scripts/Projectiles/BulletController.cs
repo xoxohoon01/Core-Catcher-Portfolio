@@ -23,8 +23,8 @@ public class BulletController : MonoBehaviour
     protected float rawDamage; // 크리티컬 적용 전 기본 데미지
     protected float damage;
     private bool hasFiredCritEvent; // 이 인스턴스에서 크리티컬 이벤트를 이미 발생시켰는지 여부
-    public bool countAsAttackHit = true;   // AfterBurner 카운트에 포함할지 여부
-    public bool triggersBulletHit = true;  // FlyingBullet · Targeting 발동 여부
+    public bool countAsAttackHit = false;  // AfterBurner 카운트 여부 — 기본공격 탄환만 true로 설정
+    public bool triggersBulletHit = false; // FlyingBullet · Targeting 발동 여부 — 기본공격 탄환만 true로 설정
     protected float moveSpeed;
     protected float hitTime;
     protected float lifeTime;
@@ -63,7 +63,8 @@ public class BulletController : MonoBehaviour
         prevPos = transform.position;
 
         isHit = false;
-        countAsAttackHit = true;
+        countAsAttackHit = false;
+        triggersBulletHit = false;
         isInitialized = true;
     }
 
@@ -151,8 +152,8 @@ public class BulletController : MonoBehaviour
         hitInfoMap.Clear();
         isInitialized = false;
         hasFiredCritEvent = false;
-        countAsAttackHit = true;
-        triggersBulletHit = true;
+        countAsAttackHit = false;
+        triggersBulletHit = false;
     }
 
     private void Update()
