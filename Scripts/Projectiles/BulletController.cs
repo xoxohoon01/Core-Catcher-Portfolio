@@ -23,6 +23,8 @@ public class BulletController : MonoBehaviour
     protected float rawDamage; // 크리티컬 적용 전 기본 데미지
     protected float damage;
     private bool hasFiredCritEvent; // 이 인스턴스에서 크리티컬 이벤트를 이미 발생시켰는지 여부
+    public bool countAsAttackHit = true;   // AfterBurner 카운트에 포함할지 여부
+    public bool triggersBulletHit = true;  // FlyingBullet · Targeting 발동 여부
     protected float moveSpeed;
     protected float hitTime;
     protected float lifeTime;
@@ -61,6 +63,7 @@ public class BulletController : MonoBehaviour
         prevPos = transform.position;
 
         isHit = false;
+        countAsAttackHit = true;
         isInitialized = true;
     }
 
@@ -117,7 +120,10 @@ public class BulletController : MonoBehaviour
             // InvokeCritical은 이 BulletController 인스턴스당 1회만 — 관통 시 중복 방지
             if (sender is PlayerController playerSender)
             {
-                playerSender.InvokeAttackHit(target, target.transform.position);
+                if (countAsAttackHit)
+                    playerSender.InvokeAttackHit(target, target.transform.position);
+                if (triggersBulletHit)
+                    playerSender.InvokeBulletHit(target, target.transform.position);
                 if (!hasFiredCritEvent)
                 {
                     hasFiredCritEvent = true;
@@ -145,6 +151,8 @@ public class BulletController : MonoBehaviour
         hitInfoMap.Clear();
         isInitialized = false;
         hasFiredCritEvent = false;
+        countAsAttackHit = true;
+        triggersBulletHit = true;
     }
 
     private void Update()

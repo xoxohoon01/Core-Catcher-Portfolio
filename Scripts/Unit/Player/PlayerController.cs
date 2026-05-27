@@ -11,8 +11,10 @@ public class PlayerController : UnitController
     public event System.Action OnDash;
     // 체력 피해를 실제로 입었을 때 호출 (실드로만 막힌 경우 제외)
     public event System.Action OnHit;
-    // 플레이어의 공격이 적에게 명중했을 때 호출 — 피격 대상과 명중 위치 전달
+    // 플레이어의 공격이 적에게 명중했을 때 호출 — AfterBurner 카운트 전용
     public event System.Action<UnitController, Vector3> OnAttackHit;
+    // 탄환이 적에게 명중했을 때 호출 — FlyingBullet · Targeting 발동용 (triggersBulletHit=true인 탄환만)
+    public event System.Action<UnitController, Vector3> OnBulletHit;
     // 크리티컬 발생 시 호출 — 크리 단계 전달 (2=일반, 3=슈퍼, 4=울트라)
     public event System.Action<int> OnCritical;
 
@@ -483,10 +485,16 @@ public class PlayerController : UnitController
             OnHit?.Invoke();
     }
 
-    // BulletController / HitController에서 적 명중 시 호출
+    // BulletController / HitController에서 적 명중 시 호출 — AfterBurner 카운트용
     public void InvokeAttackHit(UnitController target, Vector3 hitPosition)
     {
         OnAttackHit?.Invoke(target, hitPosition);
+    }
+
+    // triggersBulletHit=true인 탄환 명중 시 호출 — FlyingBullet · Targeting 발동용
+    public void InvokeBulletHit(UnitController target, Vector3 hitPosition)
+    {
+        OnBulletHit?.Invoke(target, hitPosition);
     }
 
     // 크리티컬 발생 시 호출 — level 2 이상일 때만 이벤트 발생

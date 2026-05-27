@@ -7,29 +7,34 @@ public class FlyingBulletController : BulletController
 {
     float rotateSpeed = 16f;
 
+    public override void Initialize(float baseDamage, int critLevel, float startSpeed, float startLifeTime, bool isStartPenetration, UnitController sender, Faction senderFaction, Vector3 size)
+    {
+        base.Initialize(baseDamage, critLevel, startSpeed, startLifeTime, isStartPenetration, sender, senderFaction, size);
+        // FlyingBullet ëª…ì¤‘ì€ AfterBurner ì¹´ìš´íŠ¸ ë° FlyingBullet ì¬ë°œë™ì—ì„œ ì œì™¸ (ë£¨í”„ ë°©ì§€)
+        countAsAttackHit = false;
+        triggersBulletHit = false;
+    }
+
     protected override void CheckHit(UnitController target)
     {
         base.CheckHit(target);
         ObjectPoolManager.Instance.Spawn($"AudioObject", transform.position, Quaternion.identity).GetComponent<AudioObject>().PlayAudio($"Hit{Random.Range(1, 3)}", "Hit");
 
+        // ìŠ¤í‚¬ ì‹œë„ˆì§€: ìŠ¤í‚¬ 8 í•´ê¸ˆ ì‹œ FlyingBullet â†’ Targeting ì—°ê³„
         if (SkillManager.Instance.CheckSkillUnlocked("Raven", 8))
         {
-            if (CardManager.Instance.artifactEffectLevel["Targeting"] > 0)
+            int level = CardManager.Instance.artifactEffectLevel["Targeting"];
+            if (level > 0)
             {
-                int level = CardManager.Instance.artifactEffectLevel["Targeting"];
-                if (Random.Range(0.0f, 1.0f) <= CardManager.Instance.GetArtifact("Targeting").GetValue(AttributeType.chance, level))
+                ArtifactCardScriptableObject card = CardManager.Instance.GetArtifact("Targeting");
+                if (Random.Range(0.0f, 1.0f) <= card.GetValue(AttributeType.chance, level))
                 {
-                    ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity).GetComponent<TargetingController>()
-                    .Initialize(
-                        PlayerManager.Instance.GetPlayer().status.damage * CardManager.Instance.GetArtifact("Targeting").GetValue(AttributeType.amount, level),
-                        0,
-                        3f,
-                        0.625f,
-                        5f,
-                        0.5f,
-                        sender,
-                        Faction.Player,
-                        Vector3.one);
+                    ObjectPoolManager.Instance.Spawn("Targeting", target.transform.position, Quaternion.identity)
+                        .GetComponent<TargetingController>()
+                        .Initialize(
+                            PlayerManager.Instance.GetPlayer().status.damage * card.GetValue(AttributeType.amount, level),
+                            0, 3f, 0.625f, 5f, 0.5f,
+                            sender, Faction.Player, Vector3.one);
                 }
             }
         }
@@ -41,13 +46,13 @@ public class FlyingBulletController : BulletController
 
         Vector3 nowPosition = transform.position;
 
-        // 1. ¸ñÇ¥ ¹æÇâ °è»ê (Y Á¦°Å ¡æ ¼öÆò À¯µµ)
+        // 1. ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (Y ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         Vector3 targetDirection;
 
         if (nearest != null)
         {
             targetDirection = nearest.transform.position - nowPosition;
-            targetDirection.y = 0f;                 // ¡Ú YÃà Á¦°Å
+            targetDirection.y = 0f;                 // ï¿½ï¿½ Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             targetDirection.Normalize();
         }
         else
@@ -57,14 +62,14 @@ public class FlyingBulletController : BulletController
             targetDirection.Normalize();
         }
 
-        // 2. ÇöÀç Àü¹æ ¹æÇâµµ Y Á¦°Å
+        // 2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½âµµ Y ï¿½ï¿½ï¿½ï¿½
         Vector3 forward = transform.forward;
         forward.y = 0f;
         forward.Normalize();
 
         rotateSpeed += 0.2f;
 
-        // 3. ¼öÆò È¸Àü¸¸ ¼öÇà
+        // 3. ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector3 smoothDirection = Vector3.RotateTowards(
             forward,
             targetDirection,
@@ -72,10 +77,10 @@ public class FlyingBulletController : BulletController
             0f
         );
 
-        // 4. YÃà È¸Àü¸¸ Àû¿ë
+        // 4. Yï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         transform.rotation = Quaternion.LookRotation(smoothDirection);
 
-        // 5. ÀÌµ¿ (Y °íÁ¤)
+        // 5. ï¿½Ìµï¿½ (Y ï¿½ï¿½ï¿½ï¿½)
         Vector3 newPos = transform.position + smoothDirection * (moveSpeed * Time.fixedDeltaTime);
         newPos.y = 2f;
 
@@ -90,7 +95,7 @@ public class FlyingBulletController : BulletController
 
         Collider[] monsters = Physics.OverlapSphere(transform.position, 100, LayerMask.GetMask("Monster"), QueryTriggerInteraction.Ignore);
 
-        // ¿¹: ¸ğµç ¸ó½ºÅÍ¸¦ Àü¿ªÀûÀ¸·Î °ü¸®ÇÑ´Ù¸é
+        // ï¿½ï¿½: ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½
         foreach (var monster in monsters)
         {
             if (monster == null || monster.GetComponent<MonsterController>().isDead)
