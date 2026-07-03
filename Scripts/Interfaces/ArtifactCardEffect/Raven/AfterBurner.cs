@@ -60,10 +60,10 @@ public class AfterBurner : IArtifactCardEffect
             Vector3 dir = Quaternion.Euler(0f, angle, 0f) * baseDir;
             Quaternion rotation = Quaternion.LookRotation(dir);
 
-            // RavenAttackController 사용 — FlyingBullet, Targeting 자동 적용
+            // AfterBurnerBullet 프리팹 사용 — FlyingBullet, Targeting 자동 적용, 카운트 제외
             ObjectPoolManager.Instance
-                .Spawn("RavenAttack", spawnPos, rotation)
-                .GetComponent<RavenAttackController>()
+                .Spawn("AfterBurnerBullet", spawnPos, rotation)
+                .GetComponent<AfterBurnerController>()
                 .Initialize(damage, player.CheckCritical(), 100f, 1f, false, player, player.faction, Vector3.one);
         }
     }

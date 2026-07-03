@@ -12,9 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc4055a0907b5b40a8e4a9b00868d9f, type: 3}
   m_Name: AfterBurner
   m_EditorClassIdentifier: 
-  cardName: 
-  displayName: 
+  cardName: AfterBurner
+  displayName: After Burner
   displayDescription: 
   cardSprite: {fileID: 0}
-  effectName: 
-  attributes: []
+  effectName: AfterBurner
+  attributes:
+  - type: 4
+    levelUpType: 1
+    isPercentage: 0
+    isFixedValue: 0
+    baseValue: 10
+    perLevel: 0
+    valueByMaxLevel: 0
+  - type: 1
+    levelUpType: 0
+    isPercentage: 0
+    isFixedValue: 0
+    baseValue: 5
+    perLevel: 1
+    valueByMaxLevel: 0

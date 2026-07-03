@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc4055a0907b5b40a8e4a9b00868d9f, type: 3}
   m_Name: SharpEye
   m_EditorClassIdentifier: 
-  cardName: 
-  displayName: 
+  cardName: SharpEye
+  displayName: Sharp Eye
   displayDescription: 
   cardSprite: {fileID: 0}
-  effectName: 
-  attributes: []
+  effectName: SharpEye
+  attributes:
+  - type: 1
+    levelUpType: 0
+    isPercentage: 0
+    isFixedValue: 0
+    baseValue: 0.3
+    perLevel: 0.125
+    valueByMaxLevel: 0

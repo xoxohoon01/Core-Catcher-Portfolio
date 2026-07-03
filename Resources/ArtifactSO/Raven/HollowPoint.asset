@@ -12,9 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc4055a0907b5b40a8e4a9b00868d9f, type: 3}
   m_Name: HollowPoint
   m_EditorClassIdentifier: 
-  cardName: 
-  displayName: 
+  cardName: HollowPoint
+  displayName: Hollow Point
   displayDescription: 
   cardSprite: {fileID: 0}
-  effectName: 
-  attributes: []
+  effectName: HollowPoint
+  attributes:
+  - type: 1
+    levelUpType: 0
+    isPercentage: 0
+    isFixedValue: 0
+    baseValue: 30
+    perLevel: 17.5
+    valueByMaxLevel: 0
+  - type: 2
+    levelUpType: 0
+    isPercentage: 0
+    isFixedValue: 0
+    baseValue: 3
+    perLevel: 0.5
+    valueByMaxLevel: 0
