@@ -202,7 +202,7 @@ public class PlayerController : UnitController
         {
             if (!isDash && !isSkill && attackDelay <= 0)
             {
-                // ���� �޺��� �����̴� ���� Ŭ������ BasicAttack() �ȿ��� ���.
+                // 실제 콤보 처리는 여기가 아니라 캐릭터 클래스의 BasicAttack() 안에서 이뤄진다.
                 BasicAttack();
                 isAttack = true;
             }
@@ -532,7 +532,7 @@ public class PlayerController : UnitController
             Dash();
             Attack();
 
-            // ��Ÿ�� ���
+            // 스킬 쿨타임 감소
             for (int i = 0; i < characterData.skills.Length; i++)
             {
                 if (skillSpan[i] <= 0)

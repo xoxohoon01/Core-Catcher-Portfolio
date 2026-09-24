@@ -43,13 +43,13 @@ public class FlyingBulletController : BulletController
 
         Vector3 nowPosition = transform.position;
 
-        // 1. ��ǥ ���� ��� (Y ���� �� ���� ����)
+        // 1. 목표 방향 계산 (Y 값은 제외한 수평 방향)
         Vector3 targetDirection;
 
         if (nearest != null)
         {
             targetDirection = nearest.transform.position - nowPosition;
-            targetDirection.y = 0f;                 // �� Y�� ����
+            targetDirection.y = 0f;                 // Y축 제외
             targetDirection.Normalize();
         }
         else
@@ -59,14 +59,14 @@ public class FlyingBulletController : BulletController
             targetDirection.Normalize();
         }
 
-        // 2. ���� ���� ���⵵ Y ����
+        // 2. 현재 진행 방향도 Y 제외
         Vector3 forward = transform.forward;
         forward.y = 0f;
         forward.Normalize();
 
         rotateSpeed += 0.2f;
 
-        // 3. ���� ȸ���� ����
+        // 3. 부드럽게 회전할 방향 계산
         Vector3 smoothDirection = Vector3.RotateTowards(
             forward,
             targetDirection,
@@ -74,10 +74,10 @@ public class FlyingBulletController : BulletController
             0f
         );
 
-        // 4. Y�� ȸ���� ����
+        // 4. Y축 회전은 고정
         transform.rotation = Quaternion.LookRotation(smoothDirection);
 
-        // 5. �̵� (Y ����)
+        // 5. 이동 (Y 고정)
         Vector3 newPos = transform.position + smoothDirection * (moveSpeed * Time.fixedDeltaTime);
         newPos.y = 2f;
 
@@ -92,7 +92,7 @@ public class FlyingBulletController : BulletController
 
         Collider[] monsters = Physics.OverlapSphere(transform.position, 100, LayerMask.GetMask("Monster"), QueryTriggerInteraction.Ignore);
 
-        // ��: ��� ���͸� ���������� �����Ѵٸ�
+        // 모든 몬스터를 순회하며 가장 가까운 대상을 찾는다
         foreach (var monster in monsters)
         {
             if (monster == null || monster.GetComponent<MonsterController>().isDead)

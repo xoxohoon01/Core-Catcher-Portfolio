@@ -11,8 +11,8 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
         public int size;
     }
 
-    [Header("Pools ����")]
-    [Tooltip("���⿡ Ǯ�� ���� �����հ� �±�, �ʱ� ũ�⸦ �߰��ϼ���.")]
+    [Header("Pools 설정")]
+    [Tooltip("여기에 풀로 만들 프리팹과 태그, 초기 크기를 추가하세요.")]
     public List<Pool> pools;
 
     // 태그별 오브젝트 큐
