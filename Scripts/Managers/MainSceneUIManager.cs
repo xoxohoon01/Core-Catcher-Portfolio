@@ -8,9 +8,6 @@ public class MainSceneUIManager : MonoSingleton<MainSceneUIManager>
 {
     private PlayerController character;
 
-    public Image hpGauge;
-    public Image expGauge;
-
     public GameObject skill1;
     public GameObject skill2;
     public GameObject skill3;
@@ -42,7 +39,6 @@ public class MainSceneUIManager : MonoSingleton<MainSceneUIManager>
         if (character != null)
         {
             UpdateIcon();
-            UpdateGauge();
         }
     }
 
@@ -54,11 +50,5 @@ public class MainSceneUIManager : MonoSingleton<MainSceneUIManager>
         skill4.transform.GetChild(2).GetComponent<Image>().fillAmount = character.skillDelay[3] / (character.characterData.skills[3].baseCooldown * (1 - character.status.cooldownReduction));
 
         dash.transform.GetChild(2).GetComponent<Image>().fillAmount = character.dashDelay / character.characterData.dashCooldown;
-    }
-
-    public void UpdateGauge()
-    {
-        hpGauge.fillAmount = character.status.hp / character.status.maxHP;
-        expGauge.fillAmount = character.status.exp / character.status.maxExp;
     }
 }

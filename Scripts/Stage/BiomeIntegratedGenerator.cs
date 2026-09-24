@@ -106,6 +106,16 @@ public class BiomeIntegratedGenerator : MonoBehaviour
         data.SetAlphamaps(0, 0, alphamaps);
     }
 
+    [ContextMenu("Clear Detail Prototypes (전체 삭제)")]
+    public void ClearDetailPrototypes()
+    {
+        if (terrain == null || terrain.terrainData == null) return;
+        TerrainData data = terrain.terrainData;
+
+        data.detailPrototypes = new DetailPrototype[0];
+        data.RefreshPrototypes(); // 프로토타입 변경 후 내부 참조를 갱신해 "Can't assign prototype" 경고를 정리
+    }
+
     [ContextMenu("Apply Details Layout")]
     public void ApplyDetailsLayout()
     {
