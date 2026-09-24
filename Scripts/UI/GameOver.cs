@@ -21,8 +21,8 @@ public class GameOver : UIBase
             .SetDelay(1)
             .OnComplete(() =>
             {
-                // ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ¿Ï·áµÈ ÈÄ ½ÇÇàÇÒ ÄÚµå (¿¹: Debug.Log("µµÂø!"))
-                Debug.Log(gameObject.name + "ÀÌ(°¡) È­¸é Áß¾Ó¿¡ µµÂøÇß½À´Ï´Ù.");
+                // ì• ë‹ˆë©”ì´ì…˜ì´ ì™„ë£Œëœ í›„ ì‹¤í–‰í•  ì½”ë“œ (ì˜ˆ: Debug.Log("ë„ì°©!"))
+                Debug.Log(gameObject.name + "ì´(ê°€) í™”ë©´ ì¤‘ì•™ì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.");
             });
     }
 

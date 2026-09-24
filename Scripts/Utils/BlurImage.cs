@@ -9,13 +9,13 @@ public class MultiBlurImage : MonoBehaviour
     [System.Serializable]
     public class BlurTarget
     {
-        public RawImage rawImage;   // ºí·¯ Àû¿ëÇÒ RawImage
+        public RawImage rawImage;   // ë¸”ëŸ¬ ì ìš©í•  RawImage
         public RenderTexture rt;    // BlurCamera RenderTexture
-        [HideInInspector] public Material matInstance; // ÀÎ½ºÅÏ½º Material
+        [HideInInspector] public Material matInstance; // ì¸ìŠ¤í„´ìŠ¤ Material
     }
 
-    public Material blurMat;           // ¿øº» ºí·¯ ¸ÓÆ¼¸®¾ó
-    public List<BlurTarget> targets;   // ¿©·¯ RawImage Å¸°Ù
+    public Material blurMat;           // ì›ë³¸ ë¸”ëŸ¬ ë¨¸í‹°ë¦¬ì–¼
+    public List<BlurTarget> targets;   // ì—¬ëŸ¬ RawImage íƒ€ê²Ÿ
 
     private Canvas canvas;
 
@@ -29,15 +29,15 @@ public class MultiBlurImage : MonoBehaviour
             if (target.rawImage == null || target.rt == null)
                 continue;
 
-            // Canvas °¡Á®¿À±â
+            // Canvas ê°€ì ¸ì˜¤ê¸°
             if (canvas == null)
                 canvas = target.rawImage.canvas;
 
-            // Material ÀÎ½ºÅÏ½º »ı¼º (RawImage¸¶´Ù µ¶¸³)
+            // Material ì¸ìŠ¤í„´ìŠ¤ ìƒì„± (RawImageë§ˆë‹¤ ë…ë¦½)
             target.matInstance = new Material(blurMat);
             target.rawImage.material = target.matInstance;
 
-            // RenderTexture ¿¬°á
+            // RenderTexture ì—°ê²°
             target.rawImage.texture = target.rt;
         }
     }
@@ -52,7 +52,7 @@ public class MultiBlurImage : MonoBehaviour
             if (target.rawImage == null || target.matInstance == null)
                 continue;
 
-            // RectTransformÀÇ ¿ùµå ÄÚ³Ê °è»ê
+            // RectTransformì˜ ì›”ë“œ ì½”ë„ˆ ê³„ì‚°
             RectTransform rtUI = target.rawImage.rectTransform;
             Vector3[] corners = new Vector3[4];
             rtUI.GetWorldCorners(corners);
@@ -70,7 +70,7 @@ public class MultiBlurImage : MonoBehaviour
                 max.y / canvasRect.height
             );
 
-            // Material ÀÎ½ºÅÏ½º¿¡ UVRect Àü´Ş
+            // Material ì¸ìŠ¤í„´ìŠ¤ì— UVRect ì „ë‹¬
             target.matInstance.SetVector("_UVRect", uvRect);
         }
     }

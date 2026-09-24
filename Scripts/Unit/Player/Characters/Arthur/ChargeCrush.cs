@@ -11,7 +11,7 @@ public class ChargeCrush : SkillData
         Quaternion rotation = Quaternion.LookRotation(arthur.transform.forward);
         Vector3 spawnPos = arthur.transform.position + arthur.transform.forward + (Vector3.up * 2f);
 
-        // ÀÚ±â ÀÚ½ÅÀÇ baseSpan »ç¿ë (¹è¿­ ÂüÁ¶ Á¦°Å)
+        // ìê¸° ìì‹ ì˜ baseSpan ì‚¬ìš© (ë°°ì—´ ì°¸ì¡° ì œê±°)
         float totalTime =
             (baseSpan /
             (1f + ((arthur.status.attackSpeed / arthur.characterData.attackSpeed) * 0.1f)))
@@ -24,14 +24,14 @@ public class ChargeCrush : SkillData
 
         Vector3 size = new Vector3(range, height, range);
 
-        // ½ºÅ³ ¿ÀºêÁ§Æ® »ı¼º
+        // ìŠ¤í‚¬ ì˜¤ë¸Œì íŠ¸ ìƒì„±
         GameObject skillObj = ObjectPoolManager.Instance
             .Spawn("ArthurSkill3", spawnPos, rotation);
 
         ArthurSkill3Controller controller = skillObj.GetComponent<ArthurSkill3Controller>();
         if (controller == null)
         {
-            Debug.LogError("ArthurSkill3Controller ¾øÀ½");
+            Debug.LogError("ArthurSkill3Controller ì—†ìŒ");
             return;
         }
 
@@ -47,7 +47,7 @@ public class ChargeCrush : SkillData
             size
         );
 
-        // owner ÁöÁ¤ (Áß¿ä)
+        // owner ì§€ì • (ì¤‘ìš”)
         controller.SetOwner(arthur.transform);
 
         if (arthur.dashDelay <= 1f)

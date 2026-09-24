@@ -33,10 +33,10 @@ public class SkillTree : UIBase
             LoadSkillTree(Resources.Load<SkillTreeData>($"SkillTreeSO/{GameManager.Instance.characterName}"));
 
             RectTransform rect = GetComponent<RectTransform>();
-            // ½ÃÀÛ À§Ä¡ ¼³Á¤
+            // ì‹œì‘ ìœ„ì¹˜ ì„¤ì •
             rect.pivot = new Vector2(0, 1);
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 2000);
-            // ½½¶óÀÌµå ÀÎ ¿¬Ãâ
+            // ìŠ¬ë¼ì´ë“œ ì¸ ì—°ì¶œ
             GetComponent<RectTransform>().DOAnchorPosY(-75f, 0.5f, true).SetEase(Ease.OutSine);
 
 
@@ -54,9 +54,9 @@ public class SkillTree : UIBase
         {
             transform.SetAsLastSibling();
 
-            // ½ÃÀÛ À§Ä¡ ¼³Á¤
+            // ì‹œì‘ ìœ„ì¹˜ ì„¤ì •
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75);
-            // ½½¶óÀÌµå ÀÎ ¿¬Ãâ
+            // ìŠ¬ë¼ì´ë“œ ì¸ ì—°ì¶œ
             GetComponent<RectTransform>().DOAnchorPosY(2000f, 0.5f, true).SetEase(Ease.InSine);
 
             isOpened = false;
@@ -68,7 +68,7 @@ public class SkillTree : UIBase
         currentSkillTreeData = treeData;
         currentCharacter = treeData.characterName;
 
-        // ÃÊ±âÈ­
+        // ì´ˆê¸°í™”
         skillValueChanged = null;
         if (nodeParent.transform.childCount > 0)
         {
@@ -79,7 +79,7 @@ public class SkillTree : UIBase
         }
         Dictionary<int, GameObject> nodeMap = new();
 
-        // 1. ³ëµå »ı¼º
+        // 1. ë…¸ë“œ ìƒì„±
         Vector2 offset = new Vector3(0, -100);
         foreach (var nodeData in treeData.skillNodes)
         {
@@ -90,7 +90,7 @@ public class SkillTree : UIBase
             skillValueChanged += node.GetComponent<SkillNodeUI>().UpdateVisuals;
         }
 
-        // 2. ¼± ¿¬°á
+        // 2. ì„  ì—°ê²°
         foreach (var nodeData in treeData.skillNodes)
         {
             if (nodeData.needNodeId != -1)

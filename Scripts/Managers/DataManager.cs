@@ -8,13 +8,13 @@ using Unity.VisualScripting;
 
 public class DataManager : MonoSingleton<DataManager>
 {
-    // ÆÄÀÏ °æ·Î ±¸¼º
+    // íŒŒì¼ ê²½ë¡œ êµ¬ì„±
     private static string GetPath(string fileName)
     {
         return Path.Combine(Application.persistentDataPath, fileName + ".json");
     }
 
-    // ÀúÀå: Á¦³×¸¯ T Å¸ÀÔÀ» JsonÀ¸·Î Á÷·ÄÈ­ÇÏ¿© ÆÄÀÏ¿¡ ¾´´Ù.
+    // ì €ì¥: ì œë„¤ë¦­ T íƒ€ì…ì„ Jsonìœ¼ë¡œ ì§ë ¬í™”í•˜ì—¬ íŒŒì¼ì— ì“´ë‹¤.
     public static bool Save<T>(string fileName, T data, Formatting formatting = Formatting.Indented)
     {
         try
@@ -32,7 +32,7 @@ public class DataManager : MonoSingleton<DataManager>
         }
     }
 
-    // ºÒ·¯¿À±â: Á¸ÀçÇÏ¸é ¿ªÁ÷·ÄÈ­ÇÏ¿© ¹İÈ¯, ¾øÀ¸¸é default(T)
+    // ë¶ˆëŸ¬ì˜¤ê¸°: ì¡´ì¬í•˜ë©´ ì—­ì§ë ¬í™”í•˜ì—¬ ë°˜í™˜, ì—†ìœ¼ë©´ default(T)
     public static T Load<T>(string fileName)
     {
         try
@@ -55,13 +55,13 @@ public class DataManager : MonoSingleton<DataManager>
         }
     }
 
-    // Á¸Àç È®ÀÎ
+    // ì¡´ì¬ í™•ì¸
     public static bool Exists(string fileName)
     {
         return File.Exists(GetPath(fileName));
     }
 
-    // »èÁ¦
+    // ì‚­ì œ
     public static bool Delete(string fileName)
     {
         try

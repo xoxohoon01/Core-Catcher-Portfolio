@@ -7,20 +7,20 @@ public class SkillTreeLine : MonoBehaviour
     public RectTransform lineRect;
 
     /// <summary>
-    /// µÎ ³ëµå »çÀÌ¿¡ ¼±À» ±×¸³´Ï´Ù.
+    /// ë‘ ë…¸ë“œ ì‚¬ì´ì— ì„ ì„ ê·¸ë¦½ë‹ˆë‹¤.
     /// </summary>
     public void SetLine(Vector2 start, Vector2 end)
     {
         Vector2 direction = end - start;
         float length = direction.magnitude;
 
-        // ¼±ÀÇ Áß½É À§Ä¡·Î ÀÌµ¿
+        // ì„ ì˜ ì¤‘ì‹¬ ìœ„ì¹˜ë¡œ ì´ë™
         GetComponent<RectTransform>().anchoredPosition = (start + end) * 0.5f;
 
-        // ¼± ±æÀÌ ¼³Á¤
+        // ì„  ê¸¸ì´ ì„¤ì •
         lineRect.sizeDelta = new Vector2(length - 100, lineRect.sizeDelta.y);
 
-        // È¸Àü ¼³Á¤
+        // íšŒì „ ì„¤ì •
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }

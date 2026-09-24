@@ -1,9 +1,9 @@
 using UnityEngine;
 
-// 1. ¸ğµç »óÅÂÀÇ ±â¹İÀÌ µÇ´Â Á¦³×¸¯ Å¬·¡½º
+// 1. ëª¨ë“  ìƒíƒœì˜ ê¸°ë°˜ì´ ë˜ëŠ” ì œë„¤ë¦­ í´ë˜ìŠ¤
 public abstract class MonsterStateBase<T> : IMonsterState where T : MonsterController
 {
-    protected T monster; // ÀÚ½ÄµéÀÌ »ç¿ëÇÒ ¼ö ÀÖ°Ô protected·Î ¼±¾ğ
+    protected T monster; // ìì‹ë“¤ì´ ì‚¬ìš©í•  ìˆ˜ ìˆê²Œ protectedë¡œ ì„ ì–¸
 
     public MonsterStateBase(T monster)
     {
@@ -13,6 +13,6 @@ public abstract class MonsterStateBase<T> : IMonsterState where T : MonsterContr
     public virtual void OnEnter() { }
     public virtual void OnExit() { }
 
-    // OnUpdate¸¦ virtual·Î ¸¸µé¾î ÀÚ½ÄÀÌ override ÇÒ ¼ö ÀÖ°Ô ÇÔ
+    // OnUpdateë¥¼ virtualë¡œ ë§Œë“¤ì–´ ìì‹ì´ override í•  ìˆ˜ ìˆê²Œ í•¨
     public virtual void OnUpdate() { }
 }

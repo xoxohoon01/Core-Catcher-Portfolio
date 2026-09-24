@@ -6,7 +6,7 @@ public class DetailRandomizer : MonoBehaviour
     //public Terrain terrain;
     //public List<BiomeDetail> biomeDetails = new List<BiomeDetail>();
 
-    //[Header("Àü¿ª ¼³Á¤")]
+    //[Header("ì „ì—­ ì„¤ì •")]
     //public bool useRandomSeed = true;
     //public float seed = 0f;
 
@@ -51,13 +51,13 @@ public class DetailRandomizer : MonoBehaviour
 
     //    foreach (var detail in biomeDetails)
     //    {
-    //        // GUID°¡ ¾øÀ¸¸é »õ·Î »ı¼º (º¹»ç ºÙ¿©³Ö±â ½Ã Áßº¹ ¹æÁö)
+    //        // GUIDê°€ ì—†ìœ¼ë©´ ìƒˆë¡œ ìƒì„± (ë³µì‚¬ ë¶™ì—¬ë„£ê¸° ì‹œ ì¤‘ë³µ ë°©ì§€)
     //        if (string.IsNullOrEmpty(detail.guid)) detail.guid = System.Guid.NewGuid().ToString();
 
     //        int res = 128;
 
-    //        // ±âÁ¸ ÅØ½ºÃ³ ÀÎ½ºÅÏ½º°¡ ´Ù¸¥ ¹ÙÀÌ¿È°ú °øÀ¯µÇ°í ÀÖ´ÂÁö Ã¼Å©ÇÏ°í 
-    //        // µ¶¸³µÈ »õ ÀÎ½ºÅÏ½º¸¦ °­Á¦·Î ÇÒ´çÇÕ´Ï´Ù.
+    //        // ê¸°ì¡´ í…ìŠ¤ì²˜ ì¸ìŠ¤í„´ìŠ¤ê°€ ë‹¤ë¥¸ ë°”ì´ì˜´ê³¼ ê³µìœ ë˜ê³  ìˆëŠ”ì§€ ì²´í¬í•˜ê³  
+    //        // ë…ë¦½ëœ ìƒˆ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ê°•ì œë¡œ í• ë‹¹í•©ë‹ˆë‹¤.
     //        detail.previewTexture = new Texture2D(res, res);
     //        detail.previewTexture.name = "Texture_" + detail.guid;
     //        detail.previewTexture.hideFlags = HideFlags.DontSave;
@@ -76,7 +76,7 @@ public class DetailRandomizer : MonoBehaviour
     //                float v = Mathf.PerlinNoise(sampleX, sampleY);
     //                Color color = v > detail.threshold ? Color.white : Color.black;
 
-    //                // ¹İ½Ã°è 90µµ + ÁÂ¿ì¹İÀü
+    //                // ë°˜ì‹œê³„ 90ë„ + ì¢Œìš°ë°˜ì „
     //                int targetX = y;
     //                int targetY = x;
     //                pixels[targetY * res + targetX] = color;

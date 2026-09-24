@@ -20,7 +20,7 @@ public class CharacterSelect : UIBase
 
     private IEnumerator WaitForCharacterAndRefresh()
     {
-        // GameManager.Instance.characterNameÀÌ ÁØºñµÉ ¶§±îÁö ´ë±â
+        // GameManager.Instance.characterNameì´ ì¤€ë¹„ë  ë•Œê¹Œì§€ ëŒ€ê¸°
         while (string.IsNullOrEmpty(GameManager.Instance.characterName))
             yield return null;
 

@@ -14,7 +14,7 @@ public class ArtifactManager : MonoSingleton<ArtifactManager>
             return;
         }
 
-        // »õ·Î È¹µæÇÑ ¾ÆÆ¼ÆÑÆ®¶ó¸é »ı¼º
+        // ìƒˆë¡œ íšë“í•œ ì•„í‹°íŒ©íŠ¸ë¼ë©´ ìƒì„±
         CreateEffect(effectName);
     }
 

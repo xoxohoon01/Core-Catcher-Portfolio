@@ -51,15 +51,15 @@ public class LevelUpCard : MonoBehaviour, IPointerClickHandler
             string key = "{" + attr.type + "}";
             float value = card.GetNextValue(attr.type, level);
 
-            // ½Ã°£ÀÎÁö È®ÀÎ
+            // ì‹œê°„ì¸ì§€ í™•ì¸
             if (attr.type == AttributeType.period || attr.type == AttributeType.duration)
             {
                 if (LocalizationSettings.SelectedLocale.Identifier.Code == "ko")
-                    desc = desc.Replace(key, $"<color=#80D4FF>{value:0.##}ÃÊ</color>");
+                    desc = desc.Replace(key, $"<color=#80D4FF>{value:0.##}ì´ˆ</color>");
                 else
                     desc = desc.Replace(key, $"<color=#80D4FF>{value:0.##}s</color>");
             }
-            // ½Ã°£ÀÌ ¾Æ´Ñ °æ¿ì
+            // ì‹œê°„ì´ ì•„ë‹Œ ê²½ìš°
             else
             {
                 desc = desc.Replace(key, FormatValue(value, attr.isPercentage));

@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class TileSpawner : MonoBehaviour
 {
-    [Header("Å¸ÀÏ ¼³Á¤")]
+    [Header("íƒ€ì¼ ì„¤ì •")]
     public GameObject[] tilePrefabs;
     public int width = 10;
     public int height = 10;
     public float tileSize = 1f;
 
-    [Header("¿ÀºêÁ§Æ® ¼³Á¤")]
+    [Header("ì˜¤ë¸Œì íŠ¸ ì„¤ì •")]
     public GameObject[] objectPrefabs;
     public int objectCount = 20;
 
-    [Header("Áß¾Ó ºñ¿ì±â (Å¸ÀÏ ´ÜÀ§)")]
-    public int centerEmptySizeX = 2; // °¡·Î ¹İ°æ
-    public int centerEmptySizeZ = 2; // ¼¼·Î ¹İ°æ
+    [Header("ì¤‘ì•™ ë¹„ìš°ê¸° (íƒ€ì¼ ë‹¨ìœ„)")]
+    public int centerEmptySizeX = 2; // ê°€ë¡œ ë°˜ê²½
+    public int centerEmptySizeZ = 2; // ì„¸ë¡œ ë°˜ê²½
 
     private Vector3 centerOffset;
     private HashSet<Vector2Int> occupiedTiles = new HashSet<Vector2Int>();
@@ -73,14 +73,14 @@ public class TileSpawner : MonoBehaviour
 
             Vector2Int tilePos = new Vector2Int(x, z);
 
-            // Áß¾Ó ºñ¿ì±â ¿µ¿ª Ã¼Å©
+            // ì¤‘ì•™ ë¹„ìš°ê¸° ì˜ì—­ ì²´í¬
             if (IsInCenterEmptyArea(tilePos))
             {
                 i--;
                 continue;
             }
 
-            // ÀÌ¹Ì Á¡À¯µÈ Å¸ÀÏ Ã¼Å©
+            // ì´ë¯¸ ì ìœ ëœ íƒ€ì¼ ì²´í¬
             if (occupiedTiles.Contains(tilePos))
             {
                 i--;

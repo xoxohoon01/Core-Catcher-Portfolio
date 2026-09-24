@@ -29,7 +29,7 @@ public class SkillNodeUI : MonoBehaviour, IPointerClickHandler
 
     public void UpdateVisuals()
     {
-        // ¿¹: ÇØ±İ ¿©ºÎ¿¡ µû¶ó »ö»ó º¯°æ
+        // ì˜ˆ: í•´ê¸ˆ ì—¬ë¶€ì— ë”°ë¼ ìƒ‰ìƒ ë³€ê²½
         bool unlocked = CheckUnlock(nodeData.id);
         if (unlocked)
         {

@@ -11,7 +11,7 @@ public class BiomeRandomizer : MonoBehaviour
     [Range(0.01f, 0.5f)] public float blend = 0.1f;
 
     [Header("Layer Weights")]
-    [Tooltip("·¹ÀÌ¾î ¼ø¼­´ë·Î ±âÁØÁ¡À» Á¤ÇÏ¼¼¿ä. (¿¹: 0.2, 0.5, 0.8)")]
+    [Tooltip("ë ˆì´ì–´ ìˆœì„œëŒ€ë¡œ ê¸°ì¤€ì ì„ ì •í•˜ì„¸ìš”. (ì˜ˆ: 0.2, 0.5, 0.8)")]
     public List<BiomeSettings> layerWeights = new List<BiomeSettings>();
 
     [Header("Preview Settings")]
@@ -35,10 +35,10 @@ public class BiomeRandomizer : MonoBehaviour
         int mapHeight = terrainData.alphamapHeight;
         int layerCount = terrainData.alphamapLayers;
 
-        // ¼³Á¤µÈ °¡ÁßÄ¡ ¸®½ºÆ®°¡ ·¹ÀÌ¾î °³¼ö¿Í ¸ÂÁö ¾ÊÀ¸¸é ÃÖ¼ÒÇÑÀÇ ±âº»°ª »ı¼º
+        // ì„¤ì •ëœ ê°€ì¤‘ì¹˜ ë¦¬ìŠ¤íŠ¸ê°€ ë ˆì´ì–´ ê°œìˆ˜ì™€ ë§ì§€ ì•Šìœ¼ë©´ ìµœì†Œí•œì˜ ê¸°ë³¸ê°’ ìƒì„±
         if (layerWeights.Count != layerCount)
         {
-            Debug.LogWarning($"¼³Á¤µÈ °¡ÁßÄ¡ °³¼ö({layerWeights.Count})¿Í ÅÍ·¹ÀÎ ·¹ÀÌ¾î °³¼ö({layerCount})°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogWarning($"ì„¤ì •ëœ ê°€ì¤‘ì¹˜ ê°œìˆ˜({layerWeights.Count})ì™€ í„°ë ˆì¸ ë ˆì´ì–´ ê°œìˆ˜({layerCount})ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
         }
 
         float[,,] alphamaps = new float[mapHeight, mapWidth, layerCount];
@@ -52,22 +52,22 @@ public class BiomeRandomizer : MonoBehaviour
 
                 for (int i = 0; i < layerCount; i++)
                 {
-                    // ¼³Á¤µÈ threshold°¡ ¾øÀ¸¸é ±Õµî ºĞÇÒ·Î ´ëÃ¼
+                    // ì„¤ì •ëœ thresholdê°€ ì—†ìœ¼ë©´ ê· ë“± ë¶„í• ë¡œ ëŒ€ì²´
                     float targetThreshold = (i < layerWeights.Count)
                         ? layerWeights[i].threshold
                         : (float)i / layerCount;
 
-                    // ³ëÀÌÁî °ª°ú ¼³Á¤µÈ threshold »çÀÌÀÇ °Å¸® °è»ê
+                    // ë…¸ì´ì¦ˆ ê°’ê³¼ ì„¤ì •ëœ threshold ì‚¬ì´ì˜ ê±°ë¦¬ ê³„ì‚°
                     float dist = Mathf.Abs(noise - targetThreshold);
 
-                    // blend °ªÀ» ±âÁØÀ¸·Î °¡ÁßÄ¡ °è»ê (Gaussian-like curve)
+                    // blend ê°’ì„ ê¸°ì¤€ìœ¼ë¡œ ê°€ì¤‘ì¹˜ ê³„ì‚° (Gaussian-like curve)
                     float weight = Mathf.Exp(-Mathf.Pow(dist / blend, 2));
 
                     alphamaps[y, x, i] = weight;
                     totalWeight += weight;
                 }
 
-                // °¡ÁßÄ¡ Á¤±ÔÈ­
+                // ê°€ì¤‘ì¹˜ ì •ê·œí™”
                 for (int i = 0; i < layerCount; i++)
                 {
                     if (totalWeight > 0.001f)

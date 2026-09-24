@@ -3,12 +3,12 @@ using UnityEngine;
 public abstract class SkillData : ScriptableObject
 {
     [Header("Basic Info")]
-    public string skillID;          // ³»ºÎ ½Äº°¿ë (ex: "raven_peacemaker")
-    public string animationClipName;// Å¬¸³ ÀÌ¸§
+    public string skillID;          // ë‚´ë¶€ ì‹ë³„ìš© (ex: "raven_peacemaker")
+    public string animationClipName;// í´ë¦½ ì´ë¦„
 
     [Header("Text")]
-    public string displayName;      // UI Ç¥½Ã ÀÌ¸§
-    [TextArea] public string description;      // ¼³¸í
+    public string displayName;      // UI í‘œì‹œ ì´ë¦„
+    [TextArea] public string description;      // ì„¤ëª…
 
     [Header("Stats")]
     public float baseCooldown;

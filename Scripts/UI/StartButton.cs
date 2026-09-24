@@ -7,7 +7,7 @@ public class StartButton : MonoBehaviour
 {
     public void OnClick()
     {
-        Debug.Log("´©¸§");
+        Debug.Log("ëˆ„ë¦„");
         StageData[] stageData = UIManager.Instance.Get<StagePanel>().stages;
         int stageNumber = UIManager.Instance.Get<StagePanel>().stagePage;
         GameManager.Instance.characterObjects.Clear();
@@ -15,7 +15,7 @@ public class StartButton : MonoBehaviour
         SceneLoadManager.Instance.LoadScene(
             "MainLabScene",
             onStartScene: () => {
-                // ¾ÀÀÌ ¿ÏÀüÈ÷ ¹Ù²î°í È­¸éÀÌ ¹à¾ÆÁö±â Á÷Àü¿¡ ½ÇÇàµÊ
+                // ì”¬ì´ ì™„ì „íˆ ë°”ë€Œê³  í™”ë©´ì´ ë°ì•„ì§€ê¸° ì§ì „ì— ì‹¤í–‰ë¨
                 BattleManager.Instance.Initialize(stageData[stageNumber]);
                 GameManager.Instance.RefreshCharacter();
                 }

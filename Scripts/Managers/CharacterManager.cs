@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class CharacterData
 {
-    public List<string> unlockedCharacterIds = new List<string>(); // ÇØ±İµÈ Ä³¸¯ÅÍ ID ¸ñ·Ï
-    public string lastSelectedCharacterId = "Raven";        // ¸¶Áö¸· ¼±ÅÃ Ä³¸¯ÅÍ
+    public List<string> unlockedCharacterIds = new List<string>(); // í•´ê¸ˆëœ ìºë¦­í„° ID ëª©ë¡
+    public string lastSelectedCharacterId = "Raven";        // ë§ˆì§€ë§‰ ì„ íƒ ìºë¦­í„°
 }
 
 public class CharacterManager : MonoSingleton<CharacterManager>
@@ -28,7 +28,7 @@ public class CharacterManager : MonoSingleton<CharacterManager>
         }
         else
         {
-            characterData = new CharacterData(); // ±âº» µ¥ÀÌÅÍ »ı¼º
+            characterData = new CharacterData(); // ê¸°ë³¸ ë°ì´í„° ìƒì„±
             DataManager.Save("CharacterData", characterData);
         }
     }
@@ -43,7 +43,7 @@ public class CharacterManager : MonoSingleton<CharacterManager>
         if (!characterData.unlockedCharacterIds.Contains(id))
         {
             characterData.unlockedCharacterIds.Add(id);
-            Save(); // ÇØ±İ Áï½Ã ÀúÀå
+            Save(); // í•´ê¸ˆ ì¦‰ì‹œ ì €ì¥
         }
     }
 }

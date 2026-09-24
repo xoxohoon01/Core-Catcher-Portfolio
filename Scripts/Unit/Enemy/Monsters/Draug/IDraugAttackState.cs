@@ -27,7 +27,7 @@ public class IDraugAttackState : IMonsterState
 
         if (Vector3.Distance(monster.transform.position, target.transform.position) <= monster.attackRange)
         {
-            // È¸Àü
+            // íšŒì „
             Quaternion targetRot = Quaternion.LookRotation(target.transform.position - monster.transform.position);
             Vector3 euler = targetRot.eulerAngles;
             euler.x = 0;

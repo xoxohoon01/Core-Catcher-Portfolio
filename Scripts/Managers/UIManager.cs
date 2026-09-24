@@ -48,7 +48,7 @@ public class UIManager : MonoSingleton<UIManager>
 
             if (ui == null)
             {
-                Debug.LogError("¸®¼Ò½º¸¦ ºÒ·¯¿Ã ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogError("ë¦¬ì†ŒìŠ¤ë¥¼ ë¶ˆëŸ¬ì˜¬ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 return null;
             }
 

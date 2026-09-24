@@ -8,15 +8,15 @@ public class BiomeDetail
     public string detailName;
     public int detailLayerIndex;
 
-    [Header("±¸¿ª ¼³Á¤ (Noise)")]
+    [Header("êµ¬ì—­ ì„¤ì • (Noise)")]
     [Range(0f, 1f)] public float threshold = 0.5f;
     public float noiseScale = 5f;
 
-    [Header("¹Ðµµ ¼³Á¤ (Strength)")]
+    [Header("ë°€ë„ ì„¤ì • (Strength)")]
     public int minStrength = 3;
     public int maxStrength = 12;
 
-    [Header("Å©±â ¼³Á¤ (Size)")]
+    [Header("í¬ê¸° ì„¤ì • (Size)")]
     public float minWidth = 1f;
     public float maxWidth = 2f;
     public float minHeight = 1f;
@@ -132,11 +132,11 @@ public class BiomeIntegratedGenerator : MonoBehaviour
                         float normX = (float)x / (dW - 1);
                         float normY = (float)y / (dH - 1);
 
-                        // º¯¼ö¸í aX, aY·Î ÅëÀÏÇÏ¿© ¸ÅÄª
+                        // ë³€ìˆ˜ëª… aX, aYë¡œ í†µì¼í•˜ì—¬ ë§¤ì¹­
                         int aX = Mathf.Clamp(Mathf.FloorToInt(normX * (aW - 1)), 0, aW - 1);
                         int aY = Mathf.Clamp(Mathf.FloorToInt(normY * (aH - 1)), 0, aH - 1);
 
-                        // ¹ÙÀÌ¿È °­µµ Ã¼Å©
+                        // ë°”ì´ì˜´ ê°•ë„ ì²´í¬
                         if (currentAlphamaps[aY, aX, biome.terrainLayerIndex] > 0.5f)
                         {
                             float sX = (normX * detail.noiseScale) + detailSeed + (detail.detailLayerIndex * 100f);

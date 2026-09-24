@@ -38,7 +38,7 @@ public class IDraugChaseState : IMonsterState
                 monster.animator.SetBool("isMove", false);
             }
 
-            // NavMesh ∞Ê∑Œ ∞ËªÍ
+            // NavMesh Í≤ΩÎ°ú Í≥ÑÏÇ∞
             if (NavMesh.CalculatePath(
                 monster.transform.position,
                 target.transform.position,
@@ -50,7 +50,7 @@ public class IDraugChaseState : IMonsterState
             }
             else
             {
-                // NavMesh Ω«∆– Ω√ ¡˜º± πÊ«‚ fallback
+                // NavMesh Ïã§Ìå® Ïãú ÏßÅÏÑ† Î∞©Ìñ• fallback
                 dir = (target.transform.position - monster.transform.position).normalized;
             }
 

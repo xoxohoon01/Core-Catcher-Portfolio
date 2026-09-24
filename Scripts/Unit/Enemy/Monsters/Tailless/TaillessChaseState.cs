@@ -17,7 +17,7 @@ public class TaillessChaseState<T> : MonsterChaseState<TaillessController>
 
     public override void OnEnter()
     {
-        base.OnEnter(); // ºÎ¸ğÀÇ Enter ·ÎÁ÷ ½ÇÇà
+        base.OnEnter(); // ë¶€ëª¨ì˜ Enter ë¡œì§ ì‹¤í–‰
 
         hasDirection = false;
         monster.moveVector = Vector3.zero;
@@ -47,7 +47,7 @@ public class TaillessChaseState<T> : MonsterChaseState<TaillessController>
 
             if (monster.isMoving)
             {
-                // Á¡ÇÁ ½ÃÀÛ ÇÁ·¹ÀÓ
+                // ì í”„ ì‹œì‘ í”„ë ˆì„
                 if (!hasDirection)
                 {
                     totalMoveTime = monster.animator
@@ -57,7 +57,7 @@ public class TaillessChaseState<T> : MonsterChaseState<TaillessController>
 
                     moveStartTime = Time.time;
 
-                    // NavMesh °æ·Î °è»ê
+                    // NavMesh ê²½ë¡œ ê³„ì‚°
                     if (NavMesh.CalculatePath(
                         monster.transform.position,
                         target.transform.position,
@@ -69,11 +69,11 @@ public class TaillessChaseState<T> : MonsterChaseState<TaillessController>
                     }
                     else
                     {
-                        // NavMesh ½ÇÆĞ ½Ã Á÷¼± ¹æÇâ fallback
+                        // NavMesh ì‹¤íŒ¨ ì‹œ ì§ì„  ë°©í–¥ fallback
                         dir = (target.transform.position - monster.transform.position).normalized;
                     }
 
-                    // È¸Àü (YÃà¸¸)
+                    // íšŒì „ (Yì¶•ë§Œ)
                     Quaternion targetRot = Quaternion.LookRotation(dir);
                     Vector3 euler = targetRot.eulerAngles;
                     euler.x = 0f;
@@ -84,7 +84,7 @@ public class TaillessChaseState<T> : MonsterChaseState<TaillessController>
                     hasDirection = true;
                 }
 
-                // Á¡ÇÁ ÀÌµ¿ Ã³¸®
+                // ì í”„ ì´ë™ ì²˜ë¦¬
                 float t = (Time.time - moveStartTime) / totalMoveTime;
                 t = Mathf.Clamp01(t);
 
@@ -105,7 +105,7 @@ public class TaillessChaseState<T> : MonsterChaseState<TaillessController>
             }
             else
             {
-                // Á¡ÇÁ Á¾·á
+                // ì í”„ ì¢…ë£Œ
                 monster.moveVector = Vector3.zero;
                 hasDirection = false;
                 monster.transform.rotation = lastRotation;

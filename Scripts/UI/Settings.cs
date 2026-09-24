@@ -28,19 +28,19 @@ public class Settings : UIBase
             isOpened = true;
         }
 
-        // ΩΩ∂Û¿Ã¥ı √ ±‚»≠ Ω√ ¿Ã∫•∆Æ ¿·Ω√ ¡¶∞≈
+        // Ïä¨ÎùºÏù¥Îçî Ï¥àÍ∏∞Ìôî Ïãú Ïù¥Î≤§Ìä∏ Ïû†Ïãú Ï†úÍ±∞
         musicVolumeSlider.onValueChanged.RemoveAllListeners();
         sfxVolumeSlider.onValueChanged.RemoveAllListeners();
 
-        // ∞™ ºº∆√
+        // Í∞í ÏÑ∏ÌåÖ
         musicVolumeSlider.value = SettingManager.Instance.settingData.musicVolume;
         sfxVolumeSlider.value = SettingManager.Instance.settingData.sfxVolume;
 
-        // ¿‘∑¬ « µÂµµ ºº∆√
+        // ÏûÖÎ†• ÌïÑÎìúÎèÑ ÏÑ∏ÌåÖ
         musicInputField.text = musicVolumeSlider.value.ToString("0.##");
         sfxInputField.text = sfxVolumeSlider.value.ToString("0.##");
 
-        // ¿Ã∫•∆Æ ¥ŸΩ√ ø¨∞·
+        // Ïù¥Î≤§Ìä∏ Îã§Ïãú Ïó∞Í≤∞
         musicVolumeSlider.onValueChanged.AddListener(_ => UpdateMusicVolumeBySlider());
         sfxVolumeSlider.onValueChanged.AddListener(_ => UpdateSFXVolumeBySlider());
     }
@@ -72,7 +72,7 @@ public class Settings : UIBase
     {
         if (float.TryParse(musicInputField.text, out float value))
         {
-            // ¿Ã∫•∆Æ ¿·Ω√ ¡¶∞≈
+            // Ïù¥Î≤§Ìä∏ Ïû†Ïãú Ï†úÍ±∞
             musicVolumeSlider.onValueChanged.RemoveAllListeners();
             musicVolumeSlider.value = value;
             SettingManager.Instance.SetMusicVolume(value);
@@ -84,7 +84,7 @@ public class Settings : UIBase
     {
         if (float.TryParse(sfxInputField.text, out float value))
         {
-            // ¿Ã∫•∆Æ ¿·Ω√ ¡¶∞≈
+            // Ïù¥Î≤§Ìä∏ Ïû†Ïãú Ï†úÍ±∞
             sfxVolumeSlider.onValueChanged.RemoveAllListeners();
             sfxVolumeSlider.value = value;
             SettingManager.Instance.SetSFXVolume(value);

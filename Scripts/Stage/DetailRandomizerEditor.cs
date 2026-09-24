@@ -9,14 +9,14 @@ public class DetailRandomizerEditor : Editor
     //{
     //    DetailRandomizer script = (DetailRandomizer)target;
 
-    //    // ±âº» ÀÎ½ºÆåÅÍ ±×¸®±â
+    //    // ê¸°ë³¸ ì¸ìŠ¤í™í„° ê·¸ë¦¬ê¸°
     //    DrawDefaultInspector();
 
     //    GUILayout.Space(15);
-    //    if (GUILayout.Button("1. ¸ğµç ÇÁ¸®ºä ¾÷µ¥ÀÌÆ®", GUILayout.Height(30)))
+    //    if (GUILayout.Button("1. ëª¨ë“  í”„ë¦¬ë·° ì—…ë°ì´íŠ¸", GUILayout.Height(30)))
     //    {
     //        script.UpdatePreviews();
-    //        // ¿¡µğÅÍ À©µµ¿ì °­Á¦ ¸®ÇÁ·¹½Ã
+    //        // ì—ë””í„° ìœˆë„ìš° ê°•ì œ ë¦¬í”„ë ˆì‹œ
     //        EditorUtility.SetDirty(script);
     //        AssetDatabase.Refresh();
     //    }
@@ -28,17 +28,17 @@ public class DetailRandomizerEditor : Editor
     //        var detail = script.biomeDetails[i];
 
     //        EditorGUILayout.BeginVertical("helpbox");
-    //        EditorGUILayout.LabelField($"¹ÙÀÌ¿È {i}: {detail.name}", EditorStyles.boldLabel);
+    //        EditorGUILayout.LabelField($"ë°”ì´ì˜´ {i}: {detail.name}", EditorStyles.boldLabel);
 
     //        if (detail.previewTexture != null)
     //        {
-    //            // GUI ±×¸®±â ¿µ¿ª È®º¸ ¹× ¸íÈ®ÇÑ ÀÎ½ºÅÏ½º Ãâ·Â
+    //            // GUI ê·¸ë¦¬ê¸° ì˜ì—­ í™•ë³´ ë° ëª…í™•í•œ ì¸ìŠ¤í„´ìŠ¤ ì¶œë ¥
     //            Rect rect = GUILayoutUtility.GetRect(128, 128);
     //            GUI.DrawTexture(rect, detail.previewTexture, ScaleMode.ScaleToFit);
     //        }
     //        else
     //        {
-    //            EditorGUILayout.HelpBox("ÅØ½ºÃ³°¡ ¾ø½À´Ï´Ù. ¾÷µ¥ÀÌÆ® ¹öÆ°À» ´©¸£¼¼¿ä.", MessageType.None);
+    //            EditorGUILayout.HelpBox("í…ìŠ¤ì²˜ê°€ ì—†ìŠµë‹ˆë‹¤. ì—…ë°ì´íŠ¸ ë²„íŠ¼ì„ ëˆ„ë¥´ì„¸ìš”.", MessageType.None);
     //        }
     //        EditorGUILayout.EndVertical();
     //        GUILayout.Space(5);
@@ -46,13 +46,13 @@ public class DetailRandomizerEditor : Editor
 
     //    GUILayout.Space(15);
     //    GUI.color = Color.cyan;
-    //    if (GUILayout.Button("2. ÅÍ·¹ÀÎ¿¡ ½ÇÁ¦ »ı¼º (Generate)", GUILayout.Height(40)))
+    //    if (GUILayout.Button("2. í„°ë ˆì¸ì— ì‹¤ì œ ìƒì„± (Generate)", GUILayout.Height(40)))
     //    {
     //        script.Generate();
     //    }
 
     //    GUI.color = Color.white;
-    //    if (GUILayout.Button("ÀüÃ¼ »èÁ¦ (Clear)"))
+    //    if (GUILayout.Button("ì „ì²´ ì‚­ì œ (Clear)"))
     //    {
     //        script.ClearAll();
     //    }

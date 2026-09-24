@@ -8,7 +8,7 @@ using TMPro;
 
 public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 {
-    [Header("·Îµù UI ÇÁ¸®ÆÕ")]
+    [Header("ë¡œë”© UI í”„ë¦¬íŒ¹")]
     public GameObject loadingPrefab;
 
     private GameObject currentLoadingPanel;
@@ -17,13 +17,13 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
     private TextMeshProUGUI loadingText;
     private TextMeshProUGUI tipText;
 
-    [Header("·£´ı ÆÁ ¸ñ·Ï")]
+    [Header("ëœë¤ íŒ ëª©ë¡")]
     public string[] tips;
 
-    [Header("ÆäÀÌµå ¼³Á¤")]
+    [Header("í˜ì´ë“œ ì„¤ì •")]
     public float fadeDuration = 0.5f;
 
-    // ¿ÜºÎ¿¡¼­ ÄÚ·çÆ¾À» Á÷Á¢ ºÎ¸£Áö ¾Ê°í ÀÌ ÇÔ¼ö¸¦ ÅëÇØ ÆíÇÏ°Ô ºÎ¸¦ ¼ö ÀÖ½À´Ï´Ù.
+    // ì™¸ë¶€ì—ì„œ ì½”ë£¨í‹´ì„ ì§ì ‘ ë¶€ë¥´ì§€ ì•Šê³  ì´ í•¨ìˆ˜ë¥¼ í†µí•´ í¸í•˜ê²Œ ë¶€ë¥¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
     public void LoadScene(string sceneName, Action onLoading = null, Action onComplete = null, Action onStartScene = null)
     {
         StartCoroutine(LoadSceneWithCallback(sceneName, onLoading, onComplete, onStartScene));
@@ -52,7 +52,7 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
     {
         if (currentLoadingPanel == null) SetupUI();
 
-        // 1. UI ÃÊ±âÈ­ ¹× ÆÁ ¼³Á¤
+        // 1. UI ì´ˆê¸°í™” ë° íŒ ì„¤ì •
         if (progressBar != null) progressBar.value = 0f;
         if (loadingText != null) loadingText.text = "0%";
         if (tipText != null && tips.Length > 0)
@@ -60,20 +60,20 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
             tipText.text = $"TIP: {tips[UnityEngine.Random.Range(0, tips.Length)]}";
         }
 
-        // 2. ÆäÀÌµå ¾Æ¿ô ¹× ÆĞ³Î È°¼ºÈ­
+        // 2. í˜ì´ë“œ ì•„ì›ƒ ë° íŒ¨ë„ í™œì„±í™”
         if (fadeGroup != null)
         {
             currentLoadingPanel.SetActive(true);
             yield return StartCoroutine(Fade(1f));
         }
 
-        // 3. ºñµ¿±â ·Îµå ½ÃÀÛ
+        // 3. ë¹„ë™ê¸° ë¡œë“œ ì‹œì‘
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
         onLoading?.Invoke();
 
-        // 4. ·Îµù ÁøÇà·ü ¿¬Ãâ (0.9±îÁö)
+        // 4. ë¡œë”© ì§„í–‰ë¥  ì—°ì¶œ (0.9ê¹Œì§€)
         float timer = 0f;
         while (asyncLoad.progress < 0.9f)
         {
@@ -89,7 +89,7 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
             yield return null;
         }
 
-        // 5. ½Ã°¢Àû 100% ¸¶¹«¸®
+        // 5. ì‹œê°ì  100% ë§ˆë¬´ë¦¬
         while (progressBar != null && progressBar.value < 1.0f)
         {
             progressBar.value = Mathf.MoveTowards(progressBar.value, 1.0f, Time.unscaledDeltaTime * 2f);
@@ -100,16 +100,16 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
         onComplete?.Invoke();
 
-        // Àá½Ã ´ë±â ÈÄ ¾À ÀüÈ¯ (³Ê¹« ºü¸£¸é ·Îµù È­¸éÀ» ¸ø º¸´Ï±î¿ä)
+        // ì ì‹œ ëŒ€ê¸° í›„ ì”¬ ì „í™˜ (ë„ˆë¬´ ë¹ ë¥´ë©´ ë¡œë”© í™”ë©´ì„ ëª» ë³´ë‹ˆê¹Œìš”)
         yield return new WaitForSecondsRealtime(0.2f);
         asyncLoad.allowSceneActivation = true;
 
         while (!asyncLoad.isDone) yield return null;
 
-        // 6. ¾À ·Îµå ¿Ï·á ÈÄ Äİ¹é ½ÇÇà (BattleManager µî ÃÊ±âÈ­)
+        // 6. ì”¬ ë¡œë“œ ì™„ë£Œ í›„ ì½œë°± ì‹¤í–‰ (BattleManager ë“± ì´ˆê¸°í™”)
         onStartScene?.Invoke();
 
-        // 7. ÆäÀÌµå ÀÎ (È­¸éÀÌ ¹à¾ÆÁü)
+        // 7. í˜ì´ë“œ ì¸ (í™”ë©´ì´ ë°ì•„ì§)
         if (fadeGroup != null)
         {
             yield return StartCoroutine(Fade(0f));

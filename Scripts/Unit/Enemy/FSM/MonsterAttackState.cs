@@ -6,7 +6,7 @@ public class MonsterAttackState<T> : MonsterStateBase<T> where T : MonsterContro
 
     public override void OnUpdate()
     {
-        if (monster.isAttack) return; // ÀÌ¹Ì °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı ÁßÀÌ¸é ¸®ÅÏ
+        if (monster.isAttack) return; // ì´ë¯¸ ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒ ì¤‘ì´ë©´ ë¦¬í„´
 
         PlayerController target = PlayerManager.Instance.GetPlayer();
         if (target == null || target.isDead) return;
@@ -16,13 +16,13 @@ public class MonsterAttackState<T> : MonsterStateBase<T> where T : MonsterContro
 
         if (distance <= monster.attackRange)
         {
-            // Å¸°Ù ¹Ù¶óº¸±â
+            // íƒ€ê²Ÿ ë°”ë¼ë³´ê¸°
             Vector3 lookDir = (target.transform.position - monster.transform.position).normalized;
             monster.transform.rotation = Quaternion.LookRotation(new Vector3(lookDir.x, 0, lookDir.z));
 
             if (monster.attackDelay <= 0)
             {
-                // ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌ¸§Àº °¢ ÄÁÆ®·Ñ·¯ÀÇ ÇÁ·ÎÆÛÆ¼¿¡¼­ °¡Á®¿È
+                // ì• ë‹ˆë©”ì´ì…˜ ì´ë¦„ì€ ê° ì»¨íŠ¸ë¡¤ëŸ¬ì˜ í”„ë¡œí¼í‹°ì—ì„œ ê°€ì ¸ì˜´
                 monster.animator.Play(monster.AttackAnimationName, 0, 0);
                 monster.isAttack = true;
                 monster.attackDelay = (1 / monster.status.attackSpeed);
@@ -30,7 +30,7 @@ public class MonsterAttackState<T> : MonsterStateBase<T> where T : MonsterContro
         }
         else
         {
-            // »ç°Å¸®¸¦ ¹ş¾î³ª¸é ´Ù½Ã Ãß°İ
+            // ì‚¬ê±°ë¦¬ë¥¼ ë²—ì–´ë‚˜ë©´ ë‹¤ì‹œ ì¶”ê²©
             monster.StateMachine.ChangeState(monster.ChaseState);
         }
     }

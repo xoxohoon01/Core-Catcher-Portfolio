@@ -17,7 +17,7 @@ public abstract class MonsterController : UnitController
     public bool isBoss;
 
     [Header("FSM")]
-    [HideInInspector] public Transform Target; // ÃßÀû ´ë»ó (Player)
+    [HideInInspector] public Transform Target; // ì¶”ì  ëŒ€ìƒ (Player)
     [HideInInspector] public MonsterStateMachine StateMachine;
     [HideInInspector] public IMonsterState ChaseState;
     [HideInInspector] public IMonsterState AttackState;
@@ -46,17 +46,17 @@ public abstract class MonsterController : UnitController
 
     public void Initialize(int level)
     {
-        // NavMesh Agent ¼³Á¤
+        // NavMesh Agent ì„¤ì •
         agent.enabled = true;
 
-        // »ı¼º ÆÄÆ¼Å¬
+        // ìƒì„± íŒŒí‹°í´
         MonsterAppearance appearance = ObjectPoolManager.Instance.Spawn("MonsterAppearance", transform.position, Quaternion.identity).GetComponent<MonsterAppearance>();
         appearance.Initialize(3f);
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
         collider.enabled = true;
         appearance.transform.localScale = new Vector3(collider.bounds.size.x, collider.bounds.size.y, collider.bounds.size.z);
 
-        // µğ½ºÆù È¿°ú
+        // ë””ìŠ¤í° íš¨ê³¼
         materials.Clear();
         foreach (GameObject modelObject in modelObjects)
         {
@@ -71,12 +71,12 @@ public abstract class MonsterController : UnitController
             material.SetFloat("_Dissolve", dissapearAmount);
         }
 
-        // ´É·ÂÄ¡ ¼³Á¤
+        // ëŠ¥ë ¥ì¹˜ ì„¤ì •
         isDirty = true;
         RecalculateStats();
         SetupStatus(level);
 
-        // »óÅÂ ¼³Á¤
+        // ìƒíƒœ ì„¤ì •
         isAttack = false;
 
         InitializeStateMachine();

@@ -5,16 +5,16 @@ using UnityEngine;
 public class ExpGem : MonoBehaviour
 {
     public float exp;
-    public float startSpeed = 15f;     // ½ÃÀÛ ¼Óµµ
-    public float acceleration = 10f;  // ÃÊ´ç Áõ°¡ÇÒ ¼Óµµ (°¡¼Óµµ)
-    public float maxSpeed = 100f;      // Á¦ÇÑÇÒ ÃÖ´ë ¼Óµµ
+    public float startSpeed = 15f;     // ì‹œì‘ ì†ë„
+    public float acceleration = 10f;  // ì´ˆë‹¹ ì¦ê°€í•  ì†ë„ (ê°€ì†ë„)
+    public float maxSpeed = 100f;      // ì œí•œí•  ìµœëŒ€ ì†ë„
 
-    private bool isTracing = false; // ÇöÀç ÃßÀû ÁßÀÎÁö ¿©ºÎ
-    private float currentSpeed = 15f; // ½ÃÀÛ ÀÌµ¿ ¼Óµµ
+    private bool isTracing = false; // í˜„ì¬ ì¶”ì  ì¤‘ì¸ì§€ ì—¬ë¶€
+    private float currentSpeed = 15f; // ì‹œì‘ ì´ë™ ì†ë„
 
     private void OnEnable()
     {
-        // ¿ÀºêÁ§Æ® Ç®¿¡¼­ ´Ù½Ã ²¨³»Áú ¶§ »óÅÂ ÃÊ±âÈ­
+        // ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ ë‹¤ì‹œ êº¼ë‚´ì§ˆ ë•Œ ìƒíƒœ ì´ˆê¸°í™”
         isTracing = false;
         currentSpeed = 15f;
     }
@@ -28,7 +28,7 @@ public class ExpGem : MonoBehaviour
             PlayerController player = PlayerManager.Instance.GetPlayer();
             Transform playerTransform = PlayerManager.Instance.GetPlayer().transform;
 
-            // ÃßÀû ½ÃÀÛ ÆÇÁ¤ (ÇÑ ¹ø ½ÃÀÛÇÏ¸é ¸Ö¾îÁ®µµ À¯Áö)
+            // ì¶”ì  ì‹œì‘ íŒì • (í•œ ë²ˆ ì‹œì‘í•˜ë©´ ë©€ì–´ì ¸ë„ ìœ ì§€)
             if (!isTracing)
             {
                 float distance = Vector3.Distance(transform.position, playerTransform.position);
@@ -38,17 +38,17 @@ public class ExpGem : MonoBehaviour
                 }
             }
 
-            // ÃßÀû ·ÎÁ÷: ½Ã°£¿¡ µû¶ó °¡¼Ó
+            // ì¶”ì  ë¡œì§: ì‹œê°„ì— ë”°ë¼ ê°€ì†
             if (isTracing)
             {
-                // ½Ã°£¿¡ µû¶ó ¼Óµµ¸¦ °è¼Ó ´õÇÔ (v = v0 + at)
+                // ì‹œê°„ì— ë”°ë¼ ì†ë„ë¥¼ ê³„ì† ë”í•¨ (v = v0 + at)
                 currentSpeed += acceleration * Time.deltaTime;
 
-                // ÃÖ´ë ¼Óµµ Á¦ÇÑ
+                // ìµœëŒ€ ì†ë„ ì œí•œ
                 if (currentSpeed > maxSpeed)
                     currentSpeed = maxSpeed;
 
-                // ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ÀÌµ¿
+                // í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ì´ë™
                 transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, currentSpeed * Time.deltaTime);
             }
         }

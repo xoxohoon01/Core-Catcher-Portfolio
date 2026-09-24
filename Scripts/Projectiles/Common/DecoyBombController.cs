@@ -17,12 +17,12 @@ public class DecoyBombController : HitController
 
         var emission = particle.emission;
 
-        // Ã¹ ¹øÂ° Burst °¡Á®¿À±â
+        // ì²« ë²ˆì§¸ Burst ê°€ì ¸ì˜¤ê¸°
         Burst burst = emission.GetBurst(0);
 
-        // radius¿¡ µû¶ó Count °ªÀ» µ¿ÀûÀ¸·Î º¯°æ
-        float minCount = size.x * 10f;     // ¿¹½Ã: ¹İÁö¸§ * 5
-        float maxCount = size.x * 12f;    // ¿¹½Ã: ¹İÁö¸§ * 10
+        // radiusì— ë”°ë¼ Count ê°’ì„ ë™ì ìœ¼ë¡œ ë³€ê²½
+        float minCount = size.x * 10f;     // ì˜ˆì‹œ: ë°˜ì§€ë¦„ * 5
+        float maxCount = size.x * 12f;    // ì˜ˆì‹œ: ë°˜ì§€ë¦„ * 10
         burst.count = new MinMaxCurve(minCount, maxCount);
 
         emission.SetBurst(0, burst);

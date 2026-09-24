@@ -24,9 +24,9 @@ public class StagePanel : UIBase
     {
         if (!isOpened)
         {
-            // ½ÃÀÛ À§Ä¡ ¼³Á¤
+            // ì‹œì‘ ìœ„ì¹˜ ì„¤ì •
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 2000);
-            // ½½¶óÀÌµå ÀÎ ¿¬Ãâ
+            // ìŠ¬ë¼ì´ë“œ ì¸ ì—°ì¶œ
             GetComponent<RectTransform>().DOAnchorPosY(-75f, 0.5f, true).SetEase(Ease.OutSine);
 
             isOpened = true;
@@ -39,9 +39,9 @@ public class StagePanel : UIBase
         {
             transform.SetAsLastSibling();
 
-            // ½ÃÀÛ À§Ä¡ ¼³Á¤
+            // ì‹œì‘ ìœ„ì¹˜ ì„¤ì •
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75f);
-            // ½½¶óÀÌµå ÀÎ ¿¬Ãâ
+            // ìŠ¬ë¼ì´ë“œ ì¸ ì—°ì¶œ
             GetComponent<RectTransform>().DOAnchorPosY(2000f, 0.5f, true).SetEase(Ease.InSine);
 
             isOpened = false;

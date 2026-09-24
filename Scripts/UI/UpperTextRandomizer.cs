@@ -58,7 +58,7 @@ public class UpperTextRandomizer : MonoBehaviour
         }
 
         int newIndex = lastIndex;
-        // ÀÌÀü ÀÎµ¦½º¿Í ´Ù¸¥ ÀÎµ¦½º°¡ ³ª¿Ã ¶§±îÁö ¹İº¹
+        // ì´ì „ ì¸ë±ìŠ¤ì™€ ë‹¤ë¥¸ ì¸ë±ìŠ¤ê°€ ë‚˜ì˜¬ ë•Œê¹Œì§€ ë°˜ë³µ
         while (newIndex == lastIndex)
         {
             newIndex = Random.Range(0, list.Count);

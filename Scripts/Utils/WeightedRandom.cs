@@ -18,7 +18,7 @@ public static class WeightedRandom
         int roll = Random.Range(0, totalWeight);
         int current = 0;
 
-        // exclude Á¦°Å
+        // exclude ì œê±°
         if (excludeItems != null)
         {
             foreach (var i in items)
