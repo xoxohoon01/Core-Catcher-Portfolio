@@ -188,7 +188,7 @@ public class UnitController : MonoBehaviour
         if (isDead)
         {
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-            rigidbody.velocity = Vector3.zero;
+            rigidbody.linearVelocity = Vector3.zero;
             return;
         }
 
@@ -238,7 +238,7 @@ public class UnitController : MonoBehaviour
                     isAirborne = false;
                     airborneVector = Vector3.zero;
 
-                    // ∂•ø° ¥Í¥¬ º¯∞£ ≥ÀπÈ æ‡»≠
+                    // ÎïÖÏóê ÎãøÎäî ÏàúÍ∞Ñ ÎÑâÎ∞± ÏïΩÌôî
                     knockbackVector *= 0.3f;
                 }
             }
@@ -250,16 +250,16 @@ public class UnitController : MonoBehaviour
     {
         if (BattleManager.Instance.isStop)
         {
-            rigidbody.velocity = Vector3.zero;
+            rigidbody.linearVelocity = Vector3.zero;
             animator.speed = 0;
         }
         else if (!isDead)
         {
             if (animator.speed != 0) lastAnimSpeed = animator.speed;
-            if (rigidbody.velocity.magnitude != 0) lastVelocity = rigidbody.velocity;
+            if (rigidbody.linearVelocity.magnitude != 0) lastVelocity = rigidbody.linearVelocity;
 
             animator.speed = lastAnimSpeed;
-            rigidbody.velocity =
+            rigidbody.linearVelocity =
                 new Vector3(isKnockback? knockbackVector.x : moveVector.x,
                 isAirborne ? airborneVector.y : lastVelocity.y,
                 isKnockback ? knockbackVector.z : moveVector.z);
