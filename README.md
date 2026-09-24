@@ -6,11 +6,12 @@
 
 ## 목차
 
-(항목이 쌓이면 여기에 링크를 추가합니다)
+- [Unity 6 마이그레이션 중 발견한 "GUID 자동 삭제" 문제와 복구](entries/unity6-migration-guid-recovery.md)
+- [3D 모델 파일을 직접 고쳐서 저장하면 안 되는 이유 — 캐릭터 한 명을 통째로 잃고 배운 것](entries/raven-character-rebuild.md)
 
 ## 코드 히스토리
 
-`Assets/Scripts` 전체와 아티팩트/스킬/스킬트리 ScriptableObject 데이터(`Assets/Resources/{ArtifactSO,CharacterSkillSO,SkillTreeSO}`)의 커밋 이력(132개 커밋)을 [`code-history`](../../tree/code-history) 브랜치에 그대로 보존해 두었습니다. 원래 커밋 메시지·날짜를 유지한 채로, `Scripts/`·`Resources/`로 정리했습니다. SO 데이터를 포함한 이유는 밸런스·아티팩트 설계를 코드만으로는 보여주기 어렵기 때문입니다.
+`Assets/Scripts` 전체와 아티팩트/스킬/스킬트리 ScriptableObject 데이터(`Assets/Resources/{ArtifactSO,CharacterSkillSO,SkillTreeSO}`)의 커밋 이력(137개 커밋)을 [`code-history`](../../tree/code-history) 브랜치에 그대로 보존해 두었습니다. 원래 커밋 메시지·날짜를 유지한 채로, `Scripts/`·`Resources/`로 정리했습니다. SO 데이터를 포함한 이유는 밸런스·아티팩트 설계를 코드만으로는 보여주기 어렵기 때문입니다.
 
 구매 에셋·이미지·사운드 등은 라이선스상 포함하지 않습니다.
 
