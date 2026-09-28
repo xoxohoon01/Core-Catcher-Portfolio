@@ -8,6 +8,7 @@
 
 - [Unity 6 마이그레이션 중 발견한 "GUID 자동 삭제" 문제와 복구](entries/unity6-migration-guid-recovery.md)
 - [3D 모델 파일을 직접 고쳐서 저장하면 안 되는 이유 — 캐릭터 한 명을 통째로 잃고 배운 것](entries/raven-character-rebuild.md)
+- [리소스 경로를 의심했는데, 범인은 자식 오브젝트 순서였다](entries/character-select-child-index-nullref.md)
 
 ## 코드 히스토리
 
