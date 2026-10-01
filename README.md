@@ -8,7 +8,16 @@
 
 - [Unity 6 마이그레이션 중 발견한 "GUID 자동 삭제" 문제와 복구](entries/unity6-migration-guid-recovery.md)
 - [3D 모델 파일을 직접 고쳐서 저장하면 안 되는 이유 — 캐릭터 한 명을 통째로 잃고 배운 것](entries/raven-character-rebuild.md)
+- [보스가 하늘로 계속 떠오르던 버그 — 상태는 끝났다는데 왜 계속 움직였을까](entries/boss-airborne-velocity-feedback-loop.md)
+- [성장이 보이는 재미를 다른 방식으로 풀어낸 아티팩트 진화 시스템](entries/artifact-evolution-system.md)
+- [이동속도용 변수 하나가 스킬 지속시간까지 바꿔버린 이유](entries/attack-move-speed-animator-speed-bug.md)
+- [위치가 이상하다 한 마디 뒤에 겹겹이 숨어있던 네 가지 원인](entries/lobby-ui-static-placement-layered-bugs.md)
 - [리소스 경로를 의심했는데, 범인은 자식 오브젝트 순서였다](entries/character-select-child-index-nullref.md)
+- [축복 배너가 누를수록 삐뚤어지던 버그 — 애니메이션에게 지금 위치를 물어보면 안 되는 이유](entries/blessing-ribbon-position-drift.md)
+- [아웃라인이라는 이름의 함정 — 그리고 몬스터 여러 마리가 재질 하나를 나눠 쓰면 생기는 일](entries/monster-outline-shared-material-bug.md)
+- [몬스터가 밀려요 — 물리 버그를 한참 파다가, 사실은 전혀 다른 곳에 있었다](entries/lingering-attack-indicator-mistaken-for-push.md)
+- [밸런스 조정용으로 만든 도구가, 만들자마자 진짜 버그를 하나 잡아냈다](entries/artifact-balance-tool-maxlevel-bug.md)
+- [이름 하나 바꾸려다 실행 구조 전체를 다시 짠 이야기](entries/passive-artifact-unification.md)
 
 ## 코드 히스토리
 
