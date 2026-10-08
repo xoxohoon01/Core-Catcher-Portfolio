@@ -18,6 +18,7 @@
 - [몬스터가 밀려요 — 물리 버그를 한참 파다가, 사실은 전혀 다른 곳에 있었다](entries/lingering-attack-indicator-mistaken-for-push.md)
 - [밸런스 조정용으로 만든 도구가, 만들자마자 진짜 버그를 하나 잡아냈다](entries/artifact-balance-tool-maxlevel-bug.md)
 - [이름 하나 바꾸려다 실행 구조 전체를 다시 짠 이야기](entries/passive-artifact-unification.md)
+- [몬스터 이름 하나 넣으려고 로컬라이제이션 테이블을 손으로 역설계한 이야기](entries/monster-codex-localization-table-by-hand.md)
 
 ## 코드 히스토리
 
