@@ -39,7 +39,7 @@
 
 ![Hit 그룹의 Compressor 인스펙터 — Threshold -10dB, Attack 10ms, Release 80ms](images/hit-sound-voice-stealing-and-mixer-ducking/02-hit-compressor-inspector.png)
 
-세 번째는 처음엔 "일단 됐으니 안 건드려도 되지 않나" 싶었는데, Real Voice Count를 128까지 올리고 보니 합쳐진 신호가 0dB를 넘어 소리가 찢어질 위험이 생겼다는 걸 알게 되어 Master 버스에 리미터를 더하는 것도 검토했다 — 이건 아직 실제로 적용하지 않은 다음 과제다.
+세 번째는 처음엔 "일단 됐으니 안 건드려도 되지 않나" 싶었는데, Real Voice Count를 128까지 올리고 보니 합쳐진 신호가 0dB를 넘어 소리가 찢어질 위험이 생겼다는 걸 알게 되어 Master 버스에 리미터를 더하는 것도 검토했다. 다만 실제로 올려서 들어보니 체감될 정도의 클리핑은 없어서, 안전장치를 더 쌓기보다 지금 상태를 유지하기로 했다 — 모든 위험을 미리 막기보다, 실제로 들어보고 필요할 때만 손대는 쪽을 택한 셈이다.
 
 ## 결과 / 배운 점
 
