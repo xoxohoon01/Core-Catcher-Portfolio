@@ -28,10 +28,18 @@
 그래서 세 가지를 동시에 손봤다.
 
 1. 타격음·몬스터 공격음에 명시적인 우선순위를 줘서, 적어도 서로 다른 카테고리끼리는 밀리지 않게 정리
-2. `Real Voice Count`를 32에서 48로 올려서, 여러 마리를 한 번에 때릴 때 필요한 보이스 자체를 늘림
+2. `Real Voice Count`를 32에서 올려서, 여러 마리를 한 번에 때릴 때 필요한 보이스 자체를 늘림 — 48부터 시작해 실제 플레이로 간을 보면서 결국 128까지 올렸다
 3. 믹서의 `SFX` 버스 Compressor를 없애고, 그 압축을 각 하위 그룹 안으로 내려서 서로 다른 카테고리가 교차로 누르지 않게 격리
 
-세 번째는 처음엔 "일단 됐으니 안 건드려도 되지 않나" 싶었는데, 테스트해보니 합쳐진 신호가 0dB를 넘어 소리가 찢어질 수 있다는 걸 알게 되어 Master 버스에 리미터를 더하는 것도 함께 검토했다.
+![Project Settings의 Audio 패널, Real Voice Count가 128로 설정된 모습](images/hit-sound-voice-stealing-and-mixer-ducking/03-real-voice-count.png)
+
+세 번째를 적용한 뒤의 믹서 구조는 이렇다 — `SFX` 버스에는 Attenuation만 남기고, `Weapon`/`MonsterWeapon`/`Hit` 각 그룹에 개별 Compressor를 걸었다.
+
+![Audio Mixer 창. SFX 버스엔 이펙트가 Attenuation 하나뿐이고, 그 아래 Weapon/MonsterWeapon/Hit 각 그룹에 Compressor가 개별로 걸려있다](images/hit-sound-voice-stealing-and-mixer-ducking/01-mixer-tree.png)
+
+![Hit 그룹의 Compressor 인스펙터 — Threshold -10dB, Attack 10ms, Release 80ms](images/hit-sound-voice-stealing-and-mixer-ducking/02-hit-compressor-inspector.png)
+
+세 번째는 처음엔 "일단 됐으니 안 건드려도 되지 않나" 싶었는데, Real Voice Count를 128까지 올리고 보니 합쳐진 신호가 0dB를 넘어 소리가 찢어질 위험이 생겼다는 걸 알게 되어 Master 버스에 리미터를 더하는 것도 검토했다 — 이건 아직 실제로 적용하지 않은 다음 과제다.
 
 ## 결과 / 배운 점
 
