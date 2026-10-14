@@ -20,6 +20,7 @@
 - [이름 하나 바꾸려다 실행 구조 전체를 다시 짠 이야기](entries/passive-artifact-unification.md)
 - [몬스터 이름 하나 넣으려고 로컬라이제이션 테이블을 손으로 역설계한 이야기](entries/monster-codex-localization-table-by-hand.md)
 - ["맞았는데 소리가 안 나요" — 범인은 하나가 아니라 둘이었다](entries/hit-sound-voice-stealing-and-mixer-ducking.md)
+- [카드가 두 겹으로 떴다 — 서로의 존재를 몰랐던 두 개의 리워드 UI](entries/levelup-blessing-card-overlap.md)
 
 ## 코드 히스토리
 
