@@ -21,6 +21,7 @@
 - [몬스터 이름 하나 넣으려고 로컬라이제이션 테이블을 손으로 역설계한 이야기](entries/monster-codex-localization-table-by-hand.md)
 - ["맞았는데 소리가 안 나요" — 범인은 하나가 아니라 둘이었다](entries/hit-sound-voice-stealing-and-mixer-ducking.md)
 - [카드가 두 겹으로 떴다 — 서로의 존재를 몰랐던 두 개의 리워드 UI](entries/levelup-blessing-card-overlap.md)
+- [애니메이션 옵션 하나 그리는 커스텀 에디터가, 상속 트리 전체의 필드를 가리고 있었다](entries/uibase-custom-editor-hid-subclass-fields.md)
 
 ## 코드 히스토리
 
