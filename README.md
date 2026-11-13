@@ -24,6 +24,7 @@
 - [애니메이션 옵션 하나 그리는 커스텀 에디터가, 상속 트리 전체의 필드를 가리고 있었다](entries/uibase-custom-editor-hid-subclass-fields.md)
 - [분명히 막아뒀는데 왜 계속 끊길까 — 호버 애니메이션과 슬라이드 애니메이션의 자리싸움](entries/levelup-card-hover-slide-conflict.md)
 - [보스를 때리는 타이밍에 따라 영원히 멈춰버리는 버그](entries/draug-attack-animation-event-timing.md)
+- [몬스터 버그를 막으려고 복제한 재질이, 최적화할 때 발목을 잡았다](entries/monster-material-sharing-optimization.md)
 
 ## 코드 히스토리
 
